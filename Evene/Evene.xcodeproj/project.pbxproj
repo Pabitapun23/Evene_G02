@@ -11,6 +11,15 @@
 		50EB86D22B9C2A1C00BC48B6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EB86D12B9C2A1C00BC48B6 /* ContentView.swift */; };
 		50EB86D42B9C2A1E00BC48B6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 50EB86D32B9C2A1E00BC48B6 /* Assets.xcassets */; };
 		50EB86D72B9C2A1E00BC48B6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 50EB86D62B9C2A1E00BC48B6 /* Preview Assets.xcassets */; };
+		50EB86E12B9C306800BC48B6 /* HomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EB86E02B9C306800BC48B6 /* HomeScreen.swift */; };
+		50EB86E32B9C309400BC48B6 /* EventDetailsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EB86E22B9C309400BC48B6 /* EventDetailsScreen.swift */; };
+		50EB86E52B9C30B700BC48B6 /* LoginScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EB86E42B9C30B700BC48B6 /* LoginScreen.swift */; };
+		50EB86E72B9C30C800BC48B6 /* SignUpScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EB86E62B9C30C800BC48B6 /* SignUpScreen.swift */; };
+		50EB86E92B9C310200BC48B6 /* UserProfileScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EB86E82B9C310200BC48B6 /* UserProfileScreen.swift */; };
+		50EB86EF2B9C334100BC48B6 /* OtherUserProfileScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EB86EE2B9C334100BC48B6 /* OtherUserProfileScreen.swift */; };
+		50EB86F12B9C335200BC48B6 /* MyFriendListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EB86F02B9C335200BC48B6 /* MyFriendListScreen.swift */; };
+		50EB86F32B9C335F00BC48B6 /* MyEventsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EB86F22B9C335F00BC48B6 /* MyEventsScreen.swift */; };
+		50EB86F52B9C38EE00BC48B6 /* AddFriendScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EB86F42B9C38EE00BC48B6 /* AddFriendScreen.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +28,15 @@
 		50EB86D12B9C2A1C00BC48B6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		50EB86D32B9C2A1E00BC48B6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		50EB86D62B9C2A1E00BC48B6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		50EB86E02B9C306800BC48B6 /* HomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreen.swift; sourceTree = "<group>"; };
+		50EB86E22B9C309400BC48B6 /* EventDetailsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailsScreen.swift; sourceTree = "<group>"; };
+		50EB86E42B9C30B700BC48B6 /* LoginScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginScreen.swift; sourceTree = "<group>"; };
+		50EB86E62B9C30C800BC48B6 /* SignUpScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpScreen.swift; sourceTree = "<group>"; };
+		50EB86E82B9C310200BC48B6 /* UserProfileScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileScreen.swift; sourceTree = "<group>"; };
+		50EB86EE2B9C334100BC48B6 /* OtherUserProfileScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherUserProfileScreen.swift; sourceTree = "<group>"; };
+		50EB86F02B9C335200BC48B6 /* MyFriendListScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFriendListScreen.swift; sourceTree = "<group>"; };
+		50EB86F22B9C335F00BC48B6 /* MyEventsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyEventsScreen.swift; sourceTree = "<group>"; };
+		50EB86F42B9C38EE00BC48B6 /* AddFriendScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFriendScreen.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +69,9 @@
 		50EB86CE2B9C2A1C00BC48B6 /* Evene */ = {
 			isa = PBXGroup;
 			children = (
+				50EB86DF2B9C2BBD00BC48B6 /* Controllers */,
+				50EB86DE2B9C2BB600BC48B6 /* Models */,
+				50EB86DD2B9C2BAF00BC48B6 /* Views */,
 				50EB86CF2B9C2A1C00BC48B6 /* EveneApp.swift */,
 				50EB86D12B9C2A1C00BC48B6 /* ContentView.swift */,
 				50EB86D32B9C2A1E00BC48B6 /* Assets.xcassets */,
@@ -65,6 +86,36 @@
 				50EB86D62B9C2A1E00BC48B6 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		50EB86DD2B9C2BAF00BC48B6 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				50EB86E02B9C306800BC48B6 /* HomeScreen.swift */,
+				50EB86E22B9C309400BC48B6 /* EventDetailsScreen.swift */,
+				50EB86E42B9C30B700BC48B6 /* LoginScreen.swift */,
+				50EB86E62B9C30C800BC48B6 /* SignUpScreen.swift */,
+				50EB86E82B9C310200BC48B6 /* UserProfileScreen.swift */,
+				50EB86EE2B9C334100BC48B6 /* OtherUserProfileScreen.swift */,
+				50EB86F02B9C335200BC48B6 /* MyFriendListScreen.swift */,
+				50EB86F22B9C335F00BC48B6 /* MyEventsScreen.swift */,
+				50EB86F42B9C38EE00BC48B6 /* AddFriendScreen.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		50EB86DE2B9C2BB600BC48B6 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		50EB86DF2B9C2BBD00BC48B6 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -137,8 +188,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50EB86F32B9C335F00BC48B6 /* MyEventsScreen.swift in Sources */,
+				50EB86E92B9C310200BC48B6 /* UserProfileScreen.swift in Sources */,
+				50EB86EF2B9C334100BC48B6 /* OtherUserProfileScreen.swift in Sources */,
 				50EB86D22B9C2A1C00BC48B6 /* ContentView.swift in Sources */,
 				50EB86D02B9C2A1C00BC48B6 /* EveneApp.swift in Sources */,
+				50EB86F12B9C335200BC48B6 /* MyFriendListScreen.swift in Sources */,
+				50EB86F52B9C38EE00BC48B6 /* AddFriendScreen.swift in Sources */,
+				50EB86E12B9C306800BC48B6 /* HomeScreen.swift in Sources */,
+				50EB86E32B9C309400BC48B6 /* EventDetailsScreen.swift in Sources */,
+				50EB86E52B9C30B700BC48B6 /* LoginScreen.swift in Sources */,
+				50EB86E72B9C30C800BC48B6 /* SignUpScreen.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
