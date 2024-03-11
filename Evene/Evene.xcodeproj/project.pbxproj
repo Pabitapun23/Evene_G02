@@ -48,6 +48,7 @@
 		50EB87352B9C3D8000BC48B6 /* FirebaseRemoteConfigSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 50EB87342B9C3D8000BC48B6 /* FirebaseRemoteConfigSwift */; };
 		50EB87372B9C3D8000BC48B6 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 50EB87362B9C3D8000BC48B6 /* FirebaseStorage */; };
 		50EB87392B9C3D8000BC48B6 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 50EB87382B9C3D8000BC48B6 /* FirebaseStorageCombine-Community */; };
+		50EB873B2B9EA61F00BC48B6 /* BookmarkedEventsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EB873A2B9EA61F00BC48B6 /* BookmarkedEventsScreen.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -66,6 +67,7 @@
 		50EB86F22B9C335F00BC48B6 /* MyEventsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyEventsScreen.swift; sourceTree = "<group>"; };
 		50EB86F42B9C38EE00BC48B6 /* AddFriendScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFriendScreen.swift; sourceTree = "<group>"; };
 		50EB86F62B9C3BD600BC48B6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		50EB873A2B9EA61F00BC48B6 /* BookmarkedEventsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkedEventsScreen.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,6 +159,7 @@
 				50EB86F02B9C335200BC48B6 /* MyFriendListScreen.swift */,
 				50EB86F22B9C335F00BC48B6 /* MyEventsScreen.swift */,
 				50EB86F42B9C38EE00BC48B6 /* AddFriendScreen.swift */,
+				50EB873A2B9EA61F00BC48B6 /* BookmarkedEventsScreen.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -281,6 +284,7 @@
 				50EB86F32B9C335F00BC48B6 /* MyEventsScreen.swift in Sources */,
 				50EB86E92B9C310200BC48B6 /* UserProfileScreen.swift in Sources */,
 				50EB86EF2B9C334100BC48B6 /* OtherUserProfileScreen.swift in Sources */,
+				50EB873B2B9EA61F00BC48B6 /* BookmarkedEventsScreen.swift in Sources */,
 				50EB86D22B9C2A1C00BC48B6 /* ContentView.swift in Sources */,
 				50EB86D02B9C2A1C00BC48B6 /* EveneApp.swift in Sources */,
 				50EB86F12B9C335200BC48B6 /* MyFriendListScreen.swift in Sources */,

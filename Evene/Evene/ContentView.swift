@@ -28,12 +28,21 @@ struct ContentView: View {
                 Text("My Events")
             }
             
+            
             NavigationView {
                 AddFriendScreen()
             }
             .tabItem {
                 Image(systemName: "person.fill.badge.plus")
                 Text("Add Friends")
+            }
+            
+            NavigationView {
+                MyEventsScreen()
+            }
+            .tabItem {
+                Image(systemName: "bookmark.circle")
+                Text("Bookmarks")
             }
             
             NavigationView {
