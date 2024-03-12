@@ -8,6 +8,10 @@
 import SwiftUI
 
 struct UserProfileScreen: View {
+    @EnvironmentObject var fireDBHelper : FireDBHelper
+    @EnvironmentObject var fireAuthHelper : FireAuthHelper
+    @Binding var rootScreen : RootView
+    
     var body: some View {
         NavigationStack {
             
@@ -18,6 +22,12 @@ struct UserProfileScreen: View {
                     Text("My Friend List")
                 } // NavigationLink
                 
+                Button(action: {
+                    self.fireAuthHelper.signOut()
+                    self.rootScreen = .Login
+                }) {
+                    Text("Sign Out")
+                }
                 
                 Spacer()
             } // VStack
@@ -30,5 +40,5 @@ struct UserProfileScreen: View {
 }
 
 #Preview {
-    UserProfileScreen()
+    UserProfileScreen(rootScreen: .constant(.Home))
 }

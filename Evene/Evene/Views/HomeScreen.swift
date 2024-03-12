@@ -22,15 +22,6 @@ struct HomeScreen: View {
                     Text("EventDetailsScreen")
                 } // NavigationLink
                 
-                // LoginScreen - Just for demo
-                NavigationLink(destination: LoginScreen()) {
-                    Text("Login Screen")
-                } // NavigationLink
-                
-                // SignUpScreen - Just for demo
-                NavigationLink(destination: SignUpScreen()) {
-                    Text("Sign Up Screen")
-                } // NavigationLink
                 
                 Spacer()
             } // VStack
@@ -45,3 +36,7 @@ struct HomeScreen: View {
 #Preview {
     HomeScreen()
 }
+
+
+
+
