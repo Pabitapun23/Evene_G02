@@ -6,8 +6,16 @@
 //
 
 import SwiftUI
+import FirebaseFirestore
 
 struct LoginScreen: View {
+    
+//    @EnvironmentObject var fireAuthHelper: FireAuthHelper
+//    @EnvironmentObject var fireDBHelper: FireDBHelper
+    
+    var fireAuthHelper: FireAuthHelper
+    var fireDBHelper: FireDBHelper
+    @Binding var rootScreen : RootView
     
     @State private var emailFromUI : String = ""
     @State private var passwordFromUI : String = ""
@@ -41,7 +49,7 @@ struct LoginScreen: View {
                 .padding(.horizontal)
             
             Button {
-//                login()
+                doLogin()
             } label: {
                 Text("Login")
             }
@@ -51,16 +59,47 @@ struct LoginScreen: View {
             .foregroundColor(/*@START_MENU_TOKEN@*/.white/*@END_MENU_TOKEN@*/)
             .cornerRadius(/*@START_MENU_TOKEN@*/8.0/*@END_MENU_TOKEN@*/)
             
+            HStack {
+                Text("Don't have an account?")
+                
+                NavigationLink(destination: SignUpScreen(fireAuthHelper: self.fireAuthHelper, fireDBHelper: self.fireDBHelper, rootScreen: self.$rootScreen)) {
+                    Text("SignUp")
+                        .foregroundStyle(.green)
+                } // NavigationLink
+            } // HStack
+            
             Spacer()
         } // VStack
         .padding()
+        .navigationBarTitleDisplayMode(.inline)
+        .onAppear{
+//            self.emailFromUI = UserDefaults.standard.string(forKey: "KEY_EMAIL") ?? ""
+//            self.passwordFromUI = UserDefaults.standard.string(forKey: "KEY_PASSWORD") ?? ""
+        }
         
     } // body
+    
+    func doLogin() {
+        //validate the data
+        if (!self.emailFromUI.isEmpty && !self.passwordFromUI.isEmpty){
+            
+            //validate credentials
+            self.fireAuthHelper.signIn(email: self.emailFromUI, password: self.passwordFromUI)
+            
+            //navigate to home screen
+            self.rootScreen = .Home
+            
+            
+        } else {
+            //trigger alert displaying errors
+            print(#function, "email and password cannot be empty")
+        }
+    }
 }
 
 #Preview {
     // Pass a binding to isLoggedIn
 //    LoginScreen(isLoggedIn: .constant(false))
     
-    LoginScreen()
+    LoginScreen(fireAuthHelper: FireAuthHelper(), fireDBHelper: FireDBHelper(db: Firestore.firestore()), rootScreen: .constant(.Login))
 }
