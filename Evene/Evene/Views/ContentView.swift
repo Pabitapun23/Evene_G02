@@ -16,22 +16,27 @@ struct ContentView: View {
     var body: some View {
         NavigationStack{
             
-            switch (root) {
+            switch root {
             case .Login:
-//                LoginScreen(rootScreen: self.$root)
-//                    .environmentObject(fireAuthHelper)
-//                    .environmentObject(self.fireDBHelper)
-                LoginScreen(fireAuthHelper: fireAuthHelper, fireDBHelper: fireDBHelper, rootScreen: self.$root)
-            case .SignUp:
-//                SignUpScreen(rootScreen: self.$root)
-//                    .environmentObject(fireAuthHelper)
-//                    .environmentObject(self.fireDBHelper)
-                SignUpScreen(fireAuthHelper: fireAuthHelper, fireDBHelper: fireDBHelper, rootScreen: self.$root)
+                LoginScreen(rootScreen: self.$root)
+                    .environmentObject(self.fireAuthHelper)
+                    .environmentObject(self.fireDBHelper)
 
+            case .SignUp:
+                SignUpScreen(rootScreen: self.$root)
+                    .environmentObject(self.fireAuthHelper)
+                    .environmentObject(self.fireDBHelper)
+                
+            case .UserAddress:
+                UserAddressScreen(rootScreen: self.$root)
+                    .environmentObject(self.fireAuthHelper)
+                    .environmentObject(self.fireDBHelper)
+                
             case .Home:
                 MainView(rootScreen: self.$root)
-                    .environmentObject(self.fireDBHelper)
                     .environmentObject(self.fireAuthHelper)
+                    .environmentObject(self.fireDBHelper)
+                    
             
             }
          
@@ -44,4 +49,3 @@ struct ContentView: View {
     ContentView()
 }
 
-                

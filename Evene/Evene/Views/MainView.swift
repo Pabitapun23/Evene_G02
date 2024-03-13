@@ -20,7 +20,7 @@ struct MainView: View {
         TabView {
             NavigationView {
                 HomeScreen()
-            }
+            } //NavigationView
             .tabItem {
                 Image(systemName: "house.fill")
                 Text("Home")
@@ -36,7 +36,7 @@ struct MainView: View {
             
             
             NavigationView {
-                AddFriendScreen()
+                AddFriendScreen(rootScreen: $rootScreen)
             }
             .tabItem {
                 Image(systemName: "person.fill.badge.plus")
@@ -58,11 +58,10 @@ struct MainView: View {
                 Image(systemName: "person.fill")
                 Text("Profile")
             }
-            
-        }
-    }
+        } // TabView
+    } // body
 }
 
-#Preview {
-    MainView(rootScreen: .constant(.Home))
-}
+//#Preview {
+//    MainView(rootScreen: .constant(.Home))
+//}

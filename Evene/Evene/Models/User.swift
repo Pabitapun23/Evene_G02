@@ -13,6 +13,7 @@ struct User : Identifiable, Codable {
     var email: String
     var password: String
     var phoneNumber: String
+//    var address: UserAddress?
     var address: String
     var profilePic: URL?
     

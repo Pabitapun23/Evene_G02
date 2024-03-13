@@ -10,8 +10,8 @@ import FirebaseFirestore
 
 struct SignUpScreen: View {
     
-    var fireAuthHelper : FireAuthHelper
-    var fireDBHelper : FireDBHelper
+    @EnvironmentObject var fireAuthHelper : FireAuthHelper
+    @EnvironmentObject var fireDBHelper : FireDBHelper
     @Binding var rootScreen : RootView
     
     @State private var firstName: String = ""
@@ -22,6 +22,8 @@ struct SignUpScreen: View {
     @State private var phoneNumber: String = ""
     @State private var address: String = ""
     @State private var errorMsg: String = ""
+    
+    @State private var isAccountCreated: Bool = false
     
     var body: some View {
         
@@ -81,6 +83,7 @@ struct SignUpScreen: View {
             HStack {
                 Button {
                     self.createAccount()
+                    
                 } label: {
                     Text("Sign Up")
                 }
@@ -95,7 +98,7 @@ struct SignUpScreen: View {
             HStack {
                 Text("Already have an account?")
                 
-                NavigationLink(destination: LoginScreen( fireAuthHelper: self.fireAuthHelper, fireDBHelper: self.fireDBHelper, rootScreen: self.$rootScreen)) {
+                NavigationLink(destination: LoginScreen(rootScreen: self.$rootScreen)) {
                     Text("Login")
                         .foregroundStyle(.green)
                 } // NavigationLink
@@ -112,8 +115,13 @@ struct SignUpScreen: View {
         errorMsg = ""
                 
         // Form validation
-        guard !firstName.isEmpty || !lastName.isEmpty else {
-            errorMsg = "Name cannot be empty"
+        guard !firstName.isEmpty else {
+            errorMsg = "First Name cannot be empty"
+            return
+        }
+        
+        guard !lastName.isEmpty else {
+            errorMsg = "Last Name cannot be empty"
             return
         }
         
@@ -122,8 +130,18 @@ struct SignUpScreen: View {
             return
         }
         
-        guard !password.isEmpty || !confirmPassword.isEmpty else {
+        guard !password.isEmpty else {
             errorMsg = "Password cannot be empty"
+            return
+        }
+        
+        guard !confirmPassword.isEmpty else {
+            errorMsg = "Password cannot be empty"
+            return
+        }
+        
+        guard password == confirmPassword else {
+            errorMsg = "Passwords do not match"
             return
         }
         
@@ -137,40 +155,51 @@ struct SignUpScreen: View {
             return
         }
         
-        guard password == confirmPassword else {
-            errorMsg = "Passwords do not match"
-            return
-        }
-        
+        //if all the data is validated, create account on FirebaseAuth
         if !firstName.isEmpty && !lastName.isEmpty && !email.isEmpty && !password.isEmpty && !confirmPassword.isEmpty && !phoneNumber.isEmpty && !address.isEmpty {
             // Perform sign up
-            fireAuthHelper.signUp(fullName: "\(firstName) \(lastName)", email: email, password: password, phoneNumber: phoneNumber, address: address)
+            self.fireAuthHelper.signUp(fullName: "\(firstName) \(lastName)", email: email, password: password, phoneNumber: phoneNumber)
             
             print("testing \(fireAuthHelper)")
             
+            self.rootScreen = .UserAddress
+            
+            print("success")
             // add user to db
             // user fullname
             let name = "\(self.firstName) \(self.lastName)"
             let newUser = User(name: name, email: self.email, password: self.password, phoneNumber: self.phoneNumber, address: self.address)
             self.fireDBHelper.addUserToDB(newUser: newUser)
             
-            //move to login screen
-            self.rootScreen = .Home
+            print("new user : \(newUser)")
+            
+            print(self.fireDBHelper.addUserToDB(newUser: newUser))
+            
+            print("yesssssss")
+            
+//            isAccountCreated = true
+            
+            
+            
+            print("checking")
+            
+            // reset fields
         } else {
             print(#function, "Unable to create an account")
+            return
         }
         
+//        if isAccountCreated {
+//            //move to login screen
+//            self.rootScreen = .UserAddress
+//            print(#function, "Account created successfully")
+//        } else {
+//            print(#function, "sorry Unable to create an account")
+//        }
         
-    }
+    } // func
 }
 
 #Preview {
-//    SignUpScreen(fireAuthHelper: FireAuthHelper(), fireDBHelper: FireDBHelper(db: Firestore), rootScreen: .constant(.Home))
-    SignUpScreen(fireAuthHelper: FireAuthHelper(), fireDBHelper: FireDBHelper(db: Firestore.firestore()), rootScreen: .constant(RootView.SignUp))
+    SignUpScreen(rootScreen: .constant(RootView.SignUp))
 }
-
-
-
-//        self.fireAuthHelper.signUp(fullName: "\(self.firstName) \(self.lastName)", email: self.email, password: self.password, phoneNumber: self.phoneNumber, address: self.address)
-//
-//fireAuthHelper.signUp(fullName: "\(firstName) \(lastName)", email: email, password: password, phoneNumber: phoneNumber, address: address)
