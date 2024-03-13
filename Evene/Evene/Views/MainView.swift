@@ -36,7 +36,7 @@ struct MainView: View {
             
             
             NavigationView {
-                AddFriendScreen(rootScreen: $rootScreen)
+                AddFriendScreen()
             }
             .tabItem {
                 Image(systemName: "person.fill.badge.plus")
