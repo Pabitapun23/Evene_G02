@@ -54,11 +54,17 @@
 		50EB87452B9F836400BC48B6 /* FireDBHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EB87442B9F836400BC48B6 /* FireDBHelper.swift */; };
 		50EB87472B9F8B7E00BC48B6 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EB87462B9F8B7E00BC48B6 /* RootView.swift */; };
 		50EB87492B9F8BF500BC48B6 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EB87482B9F8BF500BC48B6 /* MainView.swift */; };
+
 		50EB874B2BA0A47400BC48B6 /* FriendListTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EB874A2BA0A47400BC48B6 /* FriendListTile.swift */; };
 		50EB878B2BA1600F00BC48B6 /* LocationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EB878A2BA1600F00BC48B6 /* LocationHelper.swift */; };
 		50EB878D2BA160B700BC48B6 /* UserAddressScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EB878C2BA160B700BC48B6 /* UserAddressScreen.swift */; };
 		50EB878F2BA1626500BC48B6 /* UserAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EB878E2BA1626500BC48B6 /* UserAddress.swift */; };
 		50EB87912BA1673400BC48B6 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EB87902BA1673400BC48B6 /* MapView.swift */; };
+		5A0388172B9E69C400894D86 /* EventListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A0388162B9E69C400894D86 /* EventListScreen.swift */; };
+		5A03881D2B9EA1FF00894D86 /* EventAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A03881C2B9EA1FF00894D86 /* EventAPIManager.swift */; };
+		5A03881F2B9EA3B600894D86 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A03881E2B9EA3B600894D86 /* Event.swift */; };
+
+
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -83,11 +89,18 @@
 		50EB87442B9F836400BC48B6 /* FireDBHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireDBHelper.swift; sourceTree = "<group>"; };
 		50EB87462B9F8B7E00BC48B6 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		50EB87482B9F8BF500BC48B6 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+
 		50EB874A2BA0A47400BC48B6 /* FriendListTile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendListTile.swift; sourceTree = "<group>"; };
 		50EB878A2BA1600F00BC48B6 /* LocationHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationHelper.swift; sourceTree = "<group>"; };
 		50EB878C2BA160B700BC48B6 /* UserAddressScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAddressScreen.swift; sourceTree = "<group>"; };
 		50EB878E2BA1626500BC48B6 /* UserAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAddress.swift; sourceTree = "<group>"; };
 		50EB87902BA1673400BC48B6 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+
+		5A0388162B9E69C400894D86 /* EventListScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventListScreen.swift; sourceTree = "<group>"; };
+		5A03881C2B9EA1FF00894D86 /* EventAPIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EventAPIManager.swift; path = Evene/Views/EventAPIManager.swift; sourceTree = SOURCE_ROOT; };
+		5A03881E2B9EA3B600894D86 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Event.swift; path = Evene/Views/Event.swift; sourceTree = SOURCE_ROOT; };
+
+
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -182,9 +195,13 @@
 				50EB873A2B9EA61F00BC48B6 /* BookmarkedEventsScreen.swift */,
 				50EB87462B9F8B7E00BC48B6 /* RootView.swift */,
 				50EB87482B9F8BF500BC48B6 /* MainView.swift */,
+
 				50EB874A2BA0A47400BC48B6 /* FriendListTile.swift */,
 				50EB878C2BA160B700BC48B6 /* UserAddressScreen.swift */,
 				50EB87902BA1673400BC48B6 /* MapView.swift */,
+
+				5A0388162B9E69C400894D86 /* EventListScreen.swift */,
+
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -193,7 +210,11 @@
 			isa = PBXGroup;
 			children = (
 				50EB873C2B9F7B9C00BC48B6 /* User.swift */,
+
 				50EB878E2BA1626500BC48B6 /* UserAddress.swift */,
+
+				5A03881E2B9EA3B600894D86 /* Event.swift */,
+
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -203,7 +224,10 @@
 			children = (
 				50EB87422B9F835900BC48B6 /* FireAuthHelper.swift */,
 				50EB87442B9F836400BC48B6 /* FireDBHelper.swift */,
+
 				50EB878A2BA1600F00BC48B6 /* LocationHelper.swift */,
+				5A03881C2B9EA1FF00894D86 /* EventAPIManager.swift */,
+
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -325,6 +349,11 @@
 				50EB87472B9F8B7E00BC48B6 /* RootView.swift in Sources */,
 				50EB878D2BA160B700BC48B6 /* UserAddressScreen.swift in Sources */,
 				50EB87452B9F836400BC48B6 /* FireDBHelper.swift in Sources */,
+				5A03881F2B9EA3B600894D86 /* Event.swift in Sources */,
+				50EB86D22B9C2A1C00BC48B6 /* ContentView.swift in Sources */,
+				50EB86D02B9C2A1C00BC48B6 /* EveneApp.swift in Sources */,
+				50EB86F12B9C335200BC48B6 /* MyFriendListScreen.swift in Sources */,
+				5A03881D2B9EA1FF00894D86 /* EventAPIManager.swift in Sources */,
 				50EB86F52B9C38EE00BC48B6 /* AddFriendScreen.swift in Sources */,
 				50EB87492B9F8BF500BC48B6 /* MainView.swift in Sources */,
 				50EB878F2BA1626500BC48B6 /* UserAddress.swift in Sources */,
@@ -333,6 +362,7 @@
 				50EB86E32B9C309400BC48B6 /* EventDetailsScreen.swift in Sources */,
 				50EB86E52B9C30B700BC48B6 /* LoginScreen.swift in Sources */,
 				50EB86E72B9C30C800BC48B6 /* SignUpScreen.swift in Sources */,
+				5A0388172B9E69C400894D86 /* EventListScreen.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
