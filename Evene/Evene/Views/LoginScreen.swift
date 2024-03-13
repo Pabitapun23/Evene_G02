@@ -85,15 +85,15 @@ struct LoginScreen: View {
         .padding()
         .navigationBarTitleDisplayMode(.inline)
         .onAppear{
-//            self.emailFromUI = UserDefaults.standard.string(forKey: "KEY_EMAIL") ?? ""
-//            self.passwordFromUI = UserDefaults.standard.string(forKey: "KEY_PASSWORD") ?? ""
+            self.emailFromUI = UserDefaults.standard.string(forKey: "KEY_EMAIL") ?? ""
+            self.passwordFromUI = UserDefaults.standard.string(forKey: "KEY_PASSWORD") ?? ""
             
             // Retrieve rememberMe status from UserDefaults
 //            rememberMe = UserDefaults.standard.bool(forKey: "RememberMeStatus")
 //            // If rememberMe is true, retrieve the previously logged-in user's email and password
 //            if rememberMe {
-//                if let savedEmail = UserDefaults.standard.string(forKey: "LoggedInUserEmail"),
-//                   let savedPassword = UserDefaults.standard.string(forKey: "LoggedInUserPassword") {
+//                if let savedEmail = UserDefaults.standard.string(forKey: "KEY_EMAIL"),
+//                   let savedPassword = UserDefaults.standard.string(forKey: "KEY_PASSWORD") {
 //                    emailFromUI = savedEmail
 //                    passwordFromUI = savedPassword
 ////                    loggedInUserEmail = savedEmail // Set loggedInUserEmail
@@ -108,7 +108,18 @@ struct LoginScreen: View {
     
     func doLogin() {
         //validate the data
+        if self.emailFromUI.isEmpty {
+            errorMessage = "Email cannot be empty"
+            return
+        }
+        if self.passwordFromUI.isEmpty {
+            errorMessage = "Password cannot be empty"
+            return
+        }
+        
         if (!self.emailFromUI.isEmpty && !self.passwordFromUI.isEmpty){
+            
+            errorMessage = ""
             
             //validate credentials
             self.fireAuthHelper.signIn(email: self.emailFromUI, password: self.passwordFromUI)
@@ -121,6 +132,7 @@ struct LoginScreen: View {
             //trigger alert displaying errors
             print(#function, "email and password cannot be empty")
         }
+        
     }
 }
 

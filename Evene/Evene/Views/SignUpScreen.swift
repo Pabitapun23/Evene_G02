@@ -158,7 +158,7 @@ struct SignUpScreen: View {
         //if all the data is validated, create account on FirebaseAuth
         if !firstName.isEmpty && !lastName.isEmpty && !email.isEmpty && !password.isEmpty && !confirmPassword.isEmpty && !phoneNumber.isEmpty && !address.isEmpty {
             // Perform sign up
-            self.fireAuthHelper.signUp(fullName: "\(firstName) \(lastName)", email: email, password: password, phoneNumber: phoneNumber)
+            self.fireAuthHelper.signUp(firstName: firstName, lastName: lastName, fullName: "\(firstName) \(lastName)", email: email, password: password, phoneNumber: phoneNumber, address: address)
             
             print("testing \(fireAuthHelper)")
             
@@ -168,7 +168,7 @@ struct SignUpScreen: View {
             // add user to db
             // user fullname
             let name = "\(self.firstName) \(self.lastName)"
-            let newUser = User(name: name, email: self.email, password: self.password, phoneNumber: self.phoneNumber, address: self.address)
+            let newUser = User(firstName: self.firstName, lastName: self.lastName, fullName: name, email: self.email, password: self.password, phoneNumber: self.phoneNumber, address: self.address, friendList: nil)
             self.fireDBHelper.addUserToDB(newUser: newUser)
             
             print("new user : \(newUser)")

@@ -23,17 +23,17 @@ class FireAuthHelper : ObservableObject {
             
             if let user = user {
 //                let userInfo = User(name: "", email: user.email ?? "", password: "", phoneNumber: "" , address: UserAddress(address: "", lat: 0.0, lng: 0.0), profilePic: nil)
-                let userInfo = User(name: "", email: user.email ?? "", password: "", phoneNumber: "" , address: "", profilePic: nil)
+                let userInfo = User(firstName: "", lastName: "", fullName: "", email: user.email ?? "", password: "", phoneNumber: "" , address: "", profilePic: nil, friendList: nil)
                 self.user = userInfo
             } else {
                 self.user = nil
             }
         }
             
-    }
+    } // func
     
 //    func signUp(fullName: String, email: String, password: String, phoneNumber: String, address: String) {
-    func signUp(fullName: String, email: String, password: String, phoneNumber: String) {
+    func signUp(firstName: String, lastName: String ,fullName: String, email: String, password: String, phoneNumber: String, address: String) {
         Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
             if let error = error {
                 print("Error creating user:", error.localizedDescription)
@@ -55,7 +55,7 @@ class FireAuthHelper : ObservableObject {
             
         }
             
-    }
+    } // func
         
     func signIn(email: String, password: String) {
         Auth.auth().signIn(withEmail: email, password: password) { [self] authResult, error in
@@ -74,9 +74,9 @@ class FireAuthHelper : ObservableObject {
 //                    self.user = authResult?.user
                 
 //                let userInfo = User(name: "", email: user?.email ?? "", password: "", phoneNumber: "" , address: UserAddress(address: "", lat: 0.0, lng: 0.0), profilePic: nil)
-                let userInfo = User(name: "", email: user?.email ?? "", password: "", phoneNumber: "" , address: "", profilePic: nil)
+                let userInfo = User(firstName: "", lastName: "", fullName: "", email: user?.email ?? "", password: "", phoneNumber: "" , address: "", profilePic: nil, friendList: nil)
                 self.user = userInfo
-                print(#function, "Logged in user : \(self.user?.name ?? "NA" )")
+                print(#function, "Logged in user : \(self.user?.fullName ?? "NA" )")
                 
                 UserDefaults.standard.set(email, forKey: "KEY_EMAIL")
                 UserDefaults.standard.set(password, forKey: "KEY_PASSWORD")
