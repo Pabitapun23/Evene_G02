@@ -48,9 +48,16 @@
 		50EB87352B9C3D8000BC48B6 /* FirebaseRemoteConfigSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 50EB87342B9C3D8000BC48B6 /* FirebaseRemoteConfigSwift */; };
 		50EB87372B9C3D8000BC48B6 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 50EB87362B9C3D8000BC48B6 /* FirebaseStorage */; };
 		50EB87392B9C3D8000BC48B6 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 50EB87382B9C3D8000BC48B6 /* FirebaseStorageCombine-Community */; };
+		50EB873B2B9EA61F00BC48B6 /* BookmarkedEventsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EB873A2B9EA61F00BC48B6 /* BookmarkedEventsScreen.swift */; };
+		50EB873D2B9F7B9C00BC48B6 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EB873C2B9F7B9C00BC48B6 /* User.swift */; };
+		50EB87432B9F835900BC48B6 /* FireAuthHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EB87422B9F835900BC48B6 /* FireAuthHelper.swift */; };
+		50EB87452B9F836400BC48B6 /* FireDBHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EB87442B9F836400BC48B6 /* FireDBHelper.swift */; };
+		50EB87472B9F8B7E00BC48B6 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EB87462B9F8B7E00BC48B6 /* RootView.swift */; };
+		50EB87492B9F8BF500BC48B6 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EB87482B9F8BF500BC48B6 /* MainView.swift */; };
 		5A0388172B9E69C400894D86 /* EventListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A0388162B9E69C400894D86 /* EventListScreen.swift */; };
 		5A03881D2B9EA1FF00894D86 /* EventAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A03881C2B9EA1FF00894D86 /* EventAPIManager.swift */; };
 		5A03881F2B9EA3B600894D86 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A03881E2B9EA3B600894D86 /* Event.swift */; };
+
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -69,9 +76,16 @@
 		50EB86F22B9C335F00BC48B6 /* MyEventsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyEventsScreen.swift; sourceTree = "<group>"; };
 		50EB86F42B9C38EE00BC48B6 /* AddFriendScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFriendScreen.swift; sourceTree = "<group>"; };
 		50EB86F62B9C3BD600BC48B6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		50EB873A2B9EA61F00BC48B6 /* BookmarkedEventsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkedEventsScreen.swift; sourceTree = "<group>"; };
+		50EB873C2B9F7B9C00BC48B6 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		50EB87422B9F835900BC48B6 /* FireAuthHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireAuthHelper.swift; sourceTree = "<group>"; };
+		50EB87442B9F836400BC48B6 /* FireDBHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireDBHelper.swift; sourceTree = "<group>"; };
+		50EB87462B9F8B7E00BC48B6 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		50EB87482B9F8BF500BC48B6 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		5A0388162B9E69C400894D86 /* EventListScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventListScreen.swift; sourceTree = "<group>"; };
 		5A03881C2B9EA1FF00894D86 /* EventAPIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EventAPIManager.swift; path = Evene/Views/EventAPIManager.swift; sourceTree = SOURCE_ROOT; };
 		5A03881E2B9EA3B600894D86 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Event.swift; path = Evene/Views/Event.swift; sourceTree = SOURCE_ROOT; };
+
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,7 +150,6 @@
 				50EB86DE2B9C2BB600BC48B6 /* Models */,
 				50EB86DD2B9C2BAF00BC48B6 /* Views */,
 				50EB86CF2B9C2A1C00BC48B6 /* EveneApp.swift */,
-				50EB86D12B9C2A1C00BC48B6 /* ContentView.swift */,
 				50EB86D32B9C2A1E00BC48B6 /* Assets.xcassets */,
 				50EB86D52B9C2A1E00BC48B6 /* Preview Content */,
 			);
@@ -154,6 +167,7 @@
 		50EB86DD2B9C2BAF00BC48B6 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				50EB86D12B9C2A1C00BC48B6 /* ContentView.swift */,
 				50EB86E02B9C306800BC48B6 /* HomeScreen.swift */,
 				50EB86E22B9C309400BC48B6 /* EventDetailsScreen.swift */,
 				50EB86E42B9C30B700BC48B6 /* LoginScreen.swift */,
@@ -163,6 +177,9 @@
 				50EB86F02B9C335200BC48B6 /* MyFriendListScreen.swift */,
 				50EB86F22B9C335F00BC48B6 /* MyEventsScreen.swift */,
 				50EB86F42B9C38EE00BC48B6 /* AddFriendScreen.swift */,
+				50EB873A2B9EA61F00BC48B6 /* BookmarkedEventsScreen.swift */,
+				50EB87462B9F8B7E00BC48B6 /* RootView.swift */,
+				50EB87482B9F8BF500BC48B6 /* MainView.swift */,
 				5A0388162B9E69C400894D86 /* EventListScreen.swift */,
 			);
 			path = Views;
@@ -171,6 +188,7 @@
 		50EB86DE2B9C2BB600BC48B6 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				50EB873C2B9F7B9C00BC48B6 /* User.swift */,
 				5A03881E2B9EA3B600894D86 /* Event.swift */,
 			);
 			path = Models;
@@ -179,6 +197,8 @@
 		50EB86DF2B9C2BBD00BC48B6 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				50EB87422B9F835900BC48B6 /* FireAuthHelper.swift */,
+				50EB87442B9F836400BC48B6 /* FireDBHelper.swift */,
 				5A03881C2B9EA1FF00894D86 /* EventAPIManager.swift */,
 			);
 			path = Controllers;
@@ -287,16 +307,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50EB873D2B9F7B9C00BC48B6 /* User.swift in Sources */,
 				50EB86F32B9C335F00BC48B6 /* MyEventsScreen.swift in Sources */,
 				50EB86E92B9C310200BC48B6 /* UserProfileScreen.swift in Sources */,
 				50EB86EF2B9C334100BC48B6 /* OtherUserProfileScreen.swift in Sources */,
+				50EB873B2B9EA61F00BC48B6 /* BookmarkedEventsScreen.swift in Sources */,
+				50EB86D22B9C2A1C00BC48B6 /* ContentView.swift in Sources */,
+				50EB86D02B9C2A1C00BC48B6 /* EveneApp.swift in Sources */,
+				50EB86F12B9C335200BC48B6 /* MyFriendListScreen.swift in Sources */,
+				50EB87472B9F8B7E00BC48B6 /* RootView.swift in Sources */,
+				50EB87452B9F836400BC48B6 /* FireDBHelper.swift in Sources */,
 				5A03881F2B9EA3B600894D86 /* Event.swift in Sources */,
 				50EB86D22B9C2A1C00BC48B6 /* ContentView.swift in Sources */,
 				50EB86D02B9C2A1C00BC48B6 /* EveneApp.swift in Sources */,
 				50EB86F12B9C335200BC48B6 /* MyFriendListScreen.swift in Sources */,
 				5A03881D2B9EA1FF00894D86 /* EventAPIManager.swift in Sources */,
 				50EB86F52B9C38EE00BC48B6 /* AddFriendScreen.swift in Sources */,
+				50EB87492B9F8BF500BC48B6 /* MainView.swift in Sources */,
 				50EB86E12B9C306800BC48B6 /* HomeScreen.swift in Sources */,
+				50EB87432B9F835900BC48B6 /* FireAuthHelper.swift in Sources */,
 				50EB86E32B9C309400BC48B6 /* EventDetailsScreen.swift in Sources */,
 				50EB86E52B9C30B700BC48B6 /* LoginScreen.swift in Sources */,
 				50EB86E72B9C30C800BC48B6 /* SignUpScreen.swift in Sources */,
@@ -447,7 +476,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.gbc.Evene;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gbc.evene;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -476,7 +505,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.gbc.Evene;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gbc.evene;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

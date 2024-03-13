@@ -1,16 +1,22 @@
 //
-//  ContentView.swift
+//  MainView.swift
 //  Evene
 //
-//  Created by Pabita Pun on 2024-03-09.
+//  Created by Pabita Pun on 2024-03-11.
 //
 
 import SwiftUI
 
-struct ContentView: View {
+struct MainView: View {
+    @EnvironmentObject var fireDBHelper : FireDBHelper
+    @EnvironmentObject var fireAuthHelper : FireAuthHelper
+    @Binding var rootScreen : RootView
+    
     var body: some View {
         
-        // For now, we have login screen, sign up screen and tabview -> for home screeen, profile screen, history screen
+        // This shows all the views after authentication
+        
+        // For now, we have tabview -> for home screeen, profile screen, history screen
         TabView {
             NavigationView {
                 HomeScreen()
@@ -28,6 +34,7 @@ struct ContentView: View {
                 Text("My Events")
             }
             
+            
             NavigationView {
                 AddFriendScreen()
             }
@@ -37,7 +44,15 @@ struct ContentView: View {
             }
             
             NavigationView {
-                UserProfileScreen()
+                BookmarkedEventsScreen()
+            }
+            .tabItem {
+                Image(systemName: "bookmark.circle")
+                Text("Bookmarks")
+            }
+            
+            NavigationView {
+                UserProfileScreen(rootScreen: self.$rootScreen)
             }
             .tabItem {
                 Image(systemName: "person.fill")
@@ -49,5 +64,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    MainView(rootScreen: .constant(.Home))
 }
