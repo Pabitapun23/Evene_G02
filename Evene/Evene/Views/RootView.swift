@@ -8,6 +8,6 @@
 import Foundation
 
 enum RootView {
-    case Login, SignUp, Home
+    case Login, SignUp, UserAddress, Home
 }
 

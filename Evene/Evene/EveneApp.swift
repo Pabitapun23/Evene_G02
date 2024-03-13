@@ -10,9 +10,15 @@ import Firebase
 import FirebaseAuth
 import FirebaseCore
 import FirebaseFirestore
+import MapKit
 
 @main
 struct EveneApp: App {
+    // Initialize FireAuthHelper as an environment object
+    @StateObject var fireAuthHelper = FireAuthHelper()
+    // Initialize FireDBHelper as an environment object
+    @StateObject var fireDBHelper = FireDBHelper.getInstance()
+    let locationHelper = LocationHelper()
     
     init() {
         FirebaseApp.configure()
@@ -21,6 +27,9 @@ struct EveneApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(fireAuthHelper)
+                .environmentObject(fireDBHelper)
+                .environmentObject(locationHelper)
         }
     }
 }

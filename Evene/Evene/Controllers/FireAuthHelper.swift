@@ -22,6 +22,7 @@ class FireAuthHelper : ObservableObject {
             guard let self = self else { return }
             
             if let user = user {
+//                let userInfo = User(name: "", email: user.email ?? "", password: "", phoneNumber: "" , address: UserAddress(address: "", lat: 0.0, lng: 0.0), profilePic: nil)
                 let userInfo = User(name: "", email: user.email ?? "", password: "", phoneNumber: "" , address: "", profilePic: nil)
                 self.user = userInfo
             } else {
@@ -31,7 +32,8 @@ class FireAuthHelper : ObservableObject {
             
     }
     
-    func signUp(fullName: String, email: String, password: String, phoneNumber: String, address: String) {
+//    func signUp(fullName: String, email: String, password: String, phoneNumber: String, address: String) {
+    func signUp(fullName: String, email: String, password: String, phoneNumber: String) {
         Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
             if let error = error {
                 print("Error creating user:", error.localizedDescription)
@@ -49,6 +51,8 @@ class FireAuthHelper : ObservableObject {
             print("User signed up successfully:", user.uid)
             
             // Update user info in database or perform other actions
+            
+            
         }
             
     }
@@ -69,6 +73,7 @@ class FireAuthHelper : ObservableObject {
                 print(#function, "Login Successful")
 //                    self.user = authResult?.user
                 
+//                let userInfo = User(name: "", email: user?.email ?? "", password: "", phoneNumber: "" , address: UserAddress(address: "", lat: 0.0, lng: 0.0), profilePic: nil)
                 let userInfo = User(name: "", email: user?.email ?? "", password: "", phoneNumber: "" , address: "", profilePic: nil)
                 self.user = userInfo
                 print(#function, "Logged in user : \(self.user?.name ?? "NA" )")
@@ -76,7 +81,6 @@ class FireAuthHelper : ObservableObject {
                 UserDefaults.standard.set(email, forKey: "KEY_EMAIL")
                 UserDefaults.standard.set(password, forKey: "KEY_PASSWORD")
             }
-            
             
         }
     }
