@@ -48,60 +48,97 @@ class FireDBHelper : ObservableObject {
     } // func
     
     func getAllUsersFromDB() {
-        
-//        let loggedInUserEmail = UserDefaults.standard.string(forKey: "KEY_EMAIL") ?? ""
-//        
-//        if (loggedInUserEmail.isEmpty) {
-//            print(#function, "Logged in user information not available. Can't add the book")
-//        } else {
-            
-            self.db.collection(COLLECTION_USER)
-//                .document(loggedInUserEmail)
-//                .collection(COLLECTION_Events)
-                .addSnapshotListener({ (querySnapshot, error) in
+        self.db.collection(COLLECTION_USER)
+            .addSnapshotListener({ (querySnapshot, error) in
+                
+                guard let snapshot = querySnapshot else {
+                    print(#function, "Unable to retrieve data from firestore : \(error)")
+                    return
+                }
+                
+                snapshot.documentChanges.forEach{ (docChange) in
                     
-                    guard let snapshot = querySnapshot else {
-                        print(#function, "Unable to retrieve data from firestore : \(error)")
-                        return
+                    do {
+                        
+                        var user : User = try docChange.document.data(as: User.self)
+                        user.id = docChange.document.documentID
+                        
+                        let matchedIndex = self.userList.firstIndex(where: {($0.id?.elementsEqual(docChange.document.documentID))!})
+                        
+                        switch(docChange.type) {
+                        case .added:
+                            print(#function, "Document added : \(docChange.document.documentID)")
+                            self.userList.append(user)
+                        case .modified:
+                            // replace existing object with updated one
+                            print(#function, "Document updated : \(docChange.document.documentID)")
+                            if (matchedIndex != nil) {
+                                self.userList[matchedIndex!] = user
+                            }
+                            
+                        case .removed:
+                            // remove object from index in bookList
+                            print(#function, "Document removed : \(docChange.document.documentID)")
+                            if (matchedIndex != nil) {
+                                self.userList.remove(at: matchedIndex!)
+                            }
+                        }
+                        
+                    } catch let err as NSError {
+                        print(#function, "Unable to convert document into swift object : \(err)")
                     }
                     
-                    snapshot.documentChanges.forEach{ (docChange) in
-                        
-                        do {
-                            
-                            var user : User = try docChange.document.data(as: User.self)
-                            user.id = docChange.document.documentID
-                            
-                            let matchedIndex = self.userList.firstIndex(where: {($0.id?.elementsEqual(docChange.document.documentID))!})
-                            
-                            switch(docChange.type) {
+                } // ForEach
+            }) // addSnapshotListener
+    } // func
+
+    
+    // func to get all the users from db except the currently logged in user
+    func getAllOtherUsersFromDB(exceptLoggedInUser userEmail: String) {
+        self.db.collection(COLLECTION_USER)
+            .addSnapshotListener { (querySnapshot, error) in
+                guard let snapshot = querySnapshot else {
+                    print(#function, "Unable to retrieve data from firestore : \(error)")
+                    return
+                } // guard
+                
+                // Clear the userList before appending new users
+                self.userList.removeAll()
+                
+                snapshot.documentChanges.forEach { (docChange) in
+                    do {
+                        var user: User = try docChange.document.data(as: User.self)
+                        user.id = docChange.document.documentID
+
+                        // Check if the user's email is not equal to the current logged-in user's email
+                        if user.email != userEmail {
+                            let matchedIndex = self.userList.firstIndex(where: { $0.id == docChange.document.documentID })
+
+                            switch docChange.type {
                             case .added:
                                 print(#function, "Document added : \(docChange.document.documentID)")
                                 self.userList.append(user)
                             case .modified:
                                 // replace existing object with updated one
                                 print(#function, "Document updated : \(docChange.document.documentID)")
-                                if (matchedIndex != nil) {
-                                    self.userList[matchedIndex!] = user
+                                if let index = matchedIndex {
+                                    self.userList[index] = user
                                 }
-                                
+
                             case .removed:
-                                // remove object from index in bookList
+                                // remove object from index in userList
                                 print(#function, "Document removed : \(docChange.document.documentID)")
-                                if (matchedIndex != nil) {
-                                    self.userList.remove(at: matchedIndex!)
+                                if let index = matchedIndex {
+                                    self.userList.remove(at: index)
                                 }
                             }
-                            
-                        } catch let err as NSError {
-                            print(#function, "Unable to convert document into swift object : \(err)")
                         }
-                        
-                    } // ForEach
-                }) // addSnapshotListener
-//        } // if-else
-
-        
+                    } catch let err as NSError {
+                        print(#function, "Unable to convert document into swift object : \(err)")
+                    } // do-catch
+                } // snapshot
+            } // .addSnapshotListener
     } // func
+
     
 }

@@ -60,10 +60,17 @@ struct AddFriendScreen: View {
             } // VStack
             .navigationTitle("Add Friend")
             .onAppear() {
-                self.fireDBHelper.getAllUsersFromDB()
+                if let loggedInUserEmail = UserDefaults.standard.string(forKey: "KEY_EMAIL") {
+                    self.fireDBHelper.getAllOtherUsersFromDB(exceptLoggedInUser: loggedInUserEmail)
+                } else {
+                    print("Logged in user information not available.")
+                }
+                        
+            
             } // .onAppear
             
         } // NavigationStack
+        
     } // body
     
     
