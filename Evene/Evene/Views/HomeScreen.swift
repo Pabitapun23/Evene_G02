@@ -16,6 +16,11 @@ struct HomeScreen: View {
                 Text("List of Events")
                     .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
                 
+                // For EventListScreen
+                NavigationLink(destination: EventListScreen()) {
+                    Text("EventListScreen")
+                } // NavigationLink
+                
                 // For EventDetailsScreen
                 NavigationLink(destination: EventDetailsScreen()) {
                     // Here, there should be eventListTile
