@@ -47,9 +47,7 @@ struct AddFriendScreen: View {
                     } else {
                         ForEach(filteredUsers, id: \.self) { currentFriend in
                             NavigationLink(destination: FriendProfileScreen(selectedUser: currentFriend).environmentObject(self.fireDBHelper)) {
-                                VStack(alignment: .leading){
-                                    FriendListTile(currentFriend: currentFriend)
-                                } // VStack
+                                FriendListTile(currentFriend: currentFriend)
                             } // NavigationLink
                         } // ForEach
                         
