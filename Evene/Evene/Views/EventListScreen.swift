@@ -14,19 +14,19 @@ struct EventListScreen: View {
     // TODO: use mapview or listview for filter event?
     //    @State private var selectedCity = "Toronto"
     //    let cities = ["Toronto", "Vancouver"]
-    
+
     var body: some View {
 
         NavigationStack {
             VStack(spacing: 10) {
-                
+
 //                TODO: Update Data?
 //                Button {
 //                    loadDataFromAPI()
 //                } label: {
 //                    Text("Get Data!")
 //                }
-                
+
                 // TODO: Search by city
                 RoundedRectangle(cornerRadius: 25)
                     .fill(Color(.systemGray6))
@@ -48,17 +48,18 @@ struct EventListScreen: View {
 
                 // list to display data
                 List {
-                    ForEach(self.eventApiManager.eventsList, id:\.id) {
-                        currentEvent in
-                        EventRowView(currentEvent: currentEvent)
+                    ForEach(self.eventApiManager.eventsList, id:\.id) { currentEvent in
+                        NavigationLink(destination: EventDetailsScreen(selectedEvent: currentEvent)) {
+                            EventRowView(currentEvent: currentEvent)
+                        }
                     }
                     
                 } // List
             } // VStack
-            
+
             Spacer()
         }
-        
+
         .listStyle(.inset)
         .navigationTitle("List of Events")
         .padding()
@@ -95,26 +96,21 @@ struct EventRowView: View {
                             EmptyView()
                         }
                     }
-                    
+
                     // text
                     VStack(alignment: .leading, spacing: 4) {
                         Text(currentEvent.eventName)
                             .font(.headline)
                         Text(currentEvent.date)
                             .font(.subheadline)
+                        Text(currentEvent.type)
+                            .font(.subheadline)
                         Text("\(currentEvent.venue.name), \(currentEvent.venue.city)")
                             .font(.subheadline)
-                        Text(currentEvent.venue.address)
-                            .font(.subheadline)
                     }
-                    
+
                     Spacer()
                 }
                 .padding(.vertical, 8)
     }
 }
-
-//
-//#Preview {
-//    EventListScreen()
-//}
