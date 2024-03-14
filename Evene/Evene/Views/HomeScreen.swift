@@ -12,7 +12,6 @@ struct HomeScreen: View {
     var body: some View {
         EventListScreen()
     }
-
 }
 
 #Preview {

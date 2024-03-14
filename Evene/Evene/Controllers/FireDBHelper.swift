@@ -10,7 +10,7 @@ import FirebaseFirestore
 import FirebaseStorage
 
 class FireDBHelper : ObservableObject {
-//    @Published var eventsList = [Event]()
+    @Published var eventsList = [Event]()
     @Published var userList = [User]()
 //    @Published var friendList = [User]()
     @Published var searchedUserList = [User]()
@@ -41,6 +41,72 @@ class FireDBHelper : ObservableObject {
             shared = FireDBHelper(db: Firestore.firestore())
         }
         return shared!
+    }
+    
+    func insertEvent(newEvent: Event) {
+        let db = Firestore.firestore()
+        let loggedInUserEmail = UserDefaults.standard.string(forKey: "KEY_EMAIL") ?? ""
+        let usersCollectionRef = db.collection(self.COLLECTION_USER)
+        
+        // Query the user based on email
+        usersCollectionRef.whereField("email", isEqualTo: loggedInUserEmail).getDocuments { (querySnapshot, error) in
+            if let error = error {
+                print("Error getting user documents: \(error)")
+                return
+            }
+            
+            guard let userDocument = querySnapshot?.documents.first else {
+                print("User not found")
+                return
+            }
+            
+            let userID = userDocument.documentID
+            
+            do {
+                try usersCollectionRef.document(userID).collection(self.COLLECTION_Events).addDocument(from: newEvent)
+            } catch let error {
+                print("Unable to add document to firestore: \(error)")
+            }
+        }
+    }
+
+    
+    func fetchEvents(forUser userEmail: String, completion: @escaping ([Event]?, Error?) -> Void) {
+        let db = Firestore.firestore()
+        let usersCollectionRef = db.collection("users")
+
+        // Query the user based on email
+        usersCollectionRef.whereField("email", isEqualTo: userEmail).getDocuments { (querySnapshot, error) in
+            if let error = error {
+                print("Error getting user documents: \(error)")
+                completion(nil, error)
+                return
+            }
+            
+            // Assuming there is only one user with this email
+            guard let userDocument = querySnapshot?.documents.first else {
+                print("User not found")
+                completion(nil, NSError(domain: "App", code: 404, userInfo: [NSLocalizedDescriptionKey: "User not found"]))
+                return
+            }
+            
+            let userID = userDocument.documentID
+            
+            // Fetch events from the user's event subcollection
+            let eventsRef = usersCollectionRef.document(userID).collection(self.COLLECTION_Events)
+            eventsRef.getDocuments { (eventSnapshot, error) in
+                if let error = error {
+                    print("Error fetching events: \(error)")
+                    completion(nil, error)
+                    return
+                }
+                
+                let events = eventSnapshot?.documents.compactMap { document -> Event? in
+                    try? document.data(as: Event.self)
+                }
+                completion(events, nil)
+            }
+        }
     }
     
     // func to add user to database
@@ -91,24 +157,45 @@ class FireDBHelper : ObservableObject {
                     // Create the user object
                     var user = User(firstName: firstName, lastName: lastName, fullName: fullName, email: email, password: password, phoneNumber: phoneNumber, address: address, profilePic: profilePic, friendList: [], eventList: [])
                     
+                    
+                    
                     // Parse friendList
-                    if let friendListData = data["friendList"] as? [[String: Any]] {
+                    if var friendListData = data["friendList"] as? [[String: Any]] {
                         var friendList: [User] = []
                         for friendData in friendListData {
+                            
+                            let profilePicString = friendData["profilePic"] as? String
+                            let profilePic: URL?
+                            if let profilePicString = profilePicString, let url = URL(string: profilePicString) {
+                                profilePic = url
+                            } else {
+                                profilePic = nil
+                            }
+                            
+//                            var friendPassword = friendData["password"] as! String
+//                            friendPassword.removeAll()
+                            
+//                            print("____________ \(friendPassword)")
                             // Decode each friend's data
                             let friend = User(firstName: friendData["firstName"] as! String,
                                               lastName: friendData["lastName"] as! String,
                                               fullName: friendData["fullName"] as! String,
                                               email: friendData["email"] as! String,
-                                              password: friendData["password"] as! String,
+//                                              password: friendData["password"] as! String,
+                                              password: "",
                                               phoneNumber: friendData["phoneNumber"] as! String,
                                               address: friendData["address"] as! String,
-                                              profilePic: friendData["profilePic"] as? URL,
+                                              profilePic: profilePic,
                                               friendList: nil, // Since friend list of a friend is not required here
-                                              eventList: nil) // Similarly, event list is not required for a friend
+                                              eventList: []) // Similarly, event list is not required for a friend
                             friendList.append(friend)
                         } // for
+                        
+                        
                         user.friendList = friendList
+                        
+                        print("++++++++++++++++++++++++++++++")
+                        print(user.friendList)
                     }
                     
                     // Call completion handler with the user object
