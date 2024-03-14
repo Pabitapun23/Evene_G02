@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import MapKit
 
 struct EventDetailsScreen: View {
     
@@ -14,6 +15,8 @@ struct EventDetailsScreen: View {
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.openURL) private var openURL
     
+    @State private var coordinates: CLLocationCoordinate2D?
+    @EnvironmentObject var locationHelper: LocationHelper
 
     var body: some View {
         ScrollView {
@@ -28,18 +31,19 @@ struct EventDetailsScreen: View {
                     .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                 
                 Text("Name: \(selectedEvent.eventName)")
-                
+                Text("Type: \(selectedEvent.type)")
                     
                 Divider()
                     .frame(height: 1)
                     .overlay(Color(hue: 1.0, saturation: 0.0, brightness: 0.781))
                 
                 // TODO: Event Host
-                Text("Event Host")
+                Text("Description")
                     .font(.title2)
                     .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
 
-                Text("Name: \(selectedEvent.venue.name)")
+                Text("Host By: \(selectedEvent.venue.name)")
+                Text("Date: \(selectedEvent.date)")
                 Text("Location: \(selectedEvent.venue.address), \(selectedEvent.venue.city)")
                         
 //                        // TODO: Call Telephone
@@ -52,32 +56,23 @@ struct EventDetailsScreen: View {
 //                        }
 
                 
-                // TODO: MapView
-//                    MapView()
-                
-                Divider()
-                    .frame(height: 1)
-                    .overlay(Color(hue: 1.0, saturation: 0.0, brightness: 0.781))
-                
-                
-                // TODO: Event description
-                Text("Event Description")
-                    .font(.title2)
-                    .fontWeight(.bold)
-                
-                Text("Type: \(selectedEvent.type)")
-//                Text(selectedEvent.description)
-//                Text("Date And Time: \(selectedEvent.date)")
+                // Done: MapView
+                if let coordinates = coordinates {
+                    MyMap(coordinates: coordinates)
+                        .frame(height: 300)
+                } else {
+                    Text("Loading map...")
+                }
                 
                 Divider()
                     .frame(height: 1)
                     .overlay(Color(hue: 1.0, saturation: 0.0, brightness: 0.781))
                 
                 // TODO: Performer Name And Photo
-                Text("Performer Name")
+                Text("Performer")
                     .font(.title2)
                     .fontWeight(.bold)
-                Text(selectedEvent.performers[0].name).font(.body)
+                Text("Name: \(selectedEvent.performers[0].name)").font(.body)
                 
                 
                 Divider()
@@ -174,8 +169,14 @@ struct EventDetailsScreen: View {
                         .foregroundColor(.white)
                         .clipShape(Circle())
                         .shadow(color: .gray, radius: 2, x: 0, y: 2)
-                })
+                }) // Button
                 
+            } // ToolbarItemGroup
+            
+        }
+        .onAppear {
+            locationHelper.convertAddressToCoordinates(address: selectedEvent.venue.address) { coordinates in
+                self.coordinates = coordinates
             }
         }
         
@@ -212,5 +213,27 @@ struct HeaderPhotoView: View {
             }
         }
         .scrollTargetBehavior(.paging)
+    }
+}
+
+struct MyMap: UIViewRepresentable {
+    typealias UIViewType = MKMapView
+    
+    let coordinates: CLLocationCoordinate2D
+    
+    func makeUIView(context: Context) -> MKMapView {
+        let mapView = MKMapView()
+        mapView.showsUserLocation = true
+        return mapView
+    }
+    
+    func updateUIView(_ uiView: MKMapView, context: Context) {
+        let region = MKCoordinateRegion(center: coordinates, latitudinalMeters: 1000, longitudinalMeters: 1000)
+        uiView.setRegion(region, animated: true)
+        
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = coordinates
+        annotation.title = "Event Location"
+        uiView.addAnnotation(annotation)
     }
 }
