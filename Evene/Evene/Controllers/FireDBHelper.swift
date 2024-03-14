@@ -276,56 +276,67 @@ class FireDBHelper : ObservableObject {
     // func to remove friend from user's friendList
     func removeFriend(from userEmail: String, friendEmail: String, completion: @escaping (Bool) -> Void) {
             let db = Firestore.firestore()
-        let userRef = db.collection(self.COLLECTION_USER).document(userEmail)
+        let userRef = db.collection(self.COLLECTION_USER).whereField("email", isEqualTo: userEmail)
         print("User reference \(userRef), \(userEmail), \(friendEmail)")
             
-            userRef.getDocument { (document, error) in
+        userRef.getDocuments { (querySnapshot, error) in
+            if let error = error {
+                print("test2")
+                print("Error getting user document: \(error)")
+                completion(false)
+                return
+            } else {
                 print("test1")
-                if let error = error {
-                    print("test2")
-                    print("Error getting user document: \(error)")
-                    completion(false)
-                    return
-                }
-                 print("_______________")
                 
-                guard let document = document else {
+                
+                
+                 print("_______________")
+                guard let documents = querySnapshot?.documents else {
                     print("test3")
                     print("User document does not exist")
                     completion(false)
                     return
                 }
-                
-                print("_______________")
-                var updatedFriendList = document.data()?["friendList"] as? [[String: Any]] ?? []
-                
-                print("Before removal:")
-                print(updatedFriendList)
-
-                updatedFriendList.removeAll { friendData in
-                    if let email = friendData["email"] as? String {
-                        print("Comparing \(email) with \(friendEmail)")
-                        return email == friendEmail
-                    } else {
-                        return false
-                    }
-                }
-
-                print("After removal:")
-                print(updatedFriendList)
-                
-                userRef.updateData(["friendList": updatedFriendList]) { error in
+                for document in documents {
+                    print(document)
+                    print("+++++++++")
+                    print(document.data())
+                    
                     print("_______________")
+                    let data = document.data()
+                    var updatedFriendList = data["friendList"] as? [[String: Any]] ?? []
+                    
+                    print("Before removal:")
                     print(updatedFriendList)
-                    if let error = error {
-                        print("Error updating friend list: \(error)")
-                        completion(false)
-                    } else {
-                        print("Friend removed successfully")
-                        completion(true)
+
+                    updatedFriendList.removeAll { friendData in
+                        if let email = friendData["email"] as? String {
+                            print("Comparing \(email) with \(friendEmail)")
+                            return email == friendEmail
+                        } else {
+                            return false
+                        }
+                    }
+
+                    print("After removal:")
+                    print(updatedFriendList)
+                    
+                    document.reference.updateData(["friendList": updatedFriendList]) { error in
+                        print("_______________")
+                        print(updatedFriendList)
+                        if let error = error {
+                            print("Error updating friend list: \(error)")
+                            completion(false)
+                        } else {
+                            print("Friend removed successfully")
+                            completion(true)
+                        }
                     }
                 }
             }
+            }
         }
+    
+    
     
 }
