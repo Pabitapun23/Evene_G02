@@ -7,6 +7,7 @@
 
 import Foundation
 import FirebaseFirestore
+import FirebaseStorage
 
 class FireDBHelper : ObservableObject {
 //    @Published var eventsList = [Event]()
@@ -337,6 +338,46 @@ class FireDBHelper : ObservableObject {
             }
         }
     
+    func uploadImage(_ image: UIImage, completion: @escaping (Result<URL, Error>) -> Void) {
+        guard let imageData = image.jpegData(compressionQuality: 0.75) else {
+            completion(.failure(URLError(.badURL)))
+            return
+        }
+        
+        let storageRef = Storage.storage().reference().child("profilePictures/\(UUID().uuidString).jpg")
+        storageRef.putData(imageData, metadata: nil) { metadata, error in
+            guard metadata != nil else {
+                completion(.failure(error ?? URLError(.cannotCreateFile)))
+                return
+            }
+            
+            storageRef.downloadURL { url, error in
+                if let url = url {
+                    completion(.success(url))
+                } else {
+                    completion(.failure(error ?? URLError(.cannotOpenFile)))
+                }
+            }
+        }
+    }
     
-    
+    func saveProfilePictureURL(_ url: URL, forUser userEmail: String) {
+        let db = Firestore.firestore()
+        // Assuming you find the user by their email. Adjust according to your actual user identification logic.
+        db.collection(COLLECTION_USER).whereField("email", isEqualTo: userEmail).getDocuments { (querySnapshot, error) in
+            guard let document = querySnapshot?.documents.first else {
+                print("User document not found.")
+                return
+            }
+            let userID = document.documentID
+            let userRef = db.collection(self.COLLECTION_USER).document(userID)
+            userRef.updateData(["profilePic": url.absoluteString]) { error in // Convert URL to String
+                if let error = error {
+                    print("Error updating document: \(error)")
+                } else {
+                    print("Profile picture URL successfully updated.")
+                }
+            }
+        }
+    }
 }
