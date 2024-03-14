@@ -109,6 +109,58 @@ class FireDBHelper : ObservableObject {
         }
     }
     
+    func fetchUpcomingEvent(forUser userEmail: String, completion: @escaping (Event?, Error?) -> Void) {
+        let db = Firestore.firestore()
+        let usersCollectionRef = db.collection("users")
+        print("------")
+        print(userEmail)
+
+        // Query the user based on email
+        usersCollectionRef.whereField("email", isEqualTo: userEmail).getDocuments { (querySnapshot, error) in
+            if let error = error {
+                print("Error getting user documents: \(error)")
+                completion(nil, error)
+                return
+            }
+            
+            // Assuming there is only one user with this email
+            guard let userDocument = querySnapshot?.documents.first else {
+                print("User not found")
+                completion(nil, NSError(domain: "App", code: 404, userInfo: [NSLocalizedDescriptionKey: "User not found"]))
+                return
+            }
+            
+            let userID = userDocument.documentID
+            
+            // Fetch upcoming event from the user's event subcollection
+            let eventsRef = usersCollectionRef.document(userID).collection(self.COLLECTION_Events)
+            let now = Timestamp(date: Date())
+            print("######")
+            print(now)
+            eventsRef.whereField("datetime_local", isGreaterThanOrEqualTo: now).order(by: "datetime_local").limit(to: 1).getDocuments { (eventSnapshot, error) in
+                if let error = error {
+                    print("Error fetching upcoming event: \(error)")
+                    completion(nil, error)
+                    return
+                }
+                
+                guard let document = eventSnapshot?.documents.first else {
+                    // No upcoming events found
+                    completion(nil, nil)
+                    return
+                }
+                
+                if let event = try? document.data(as: Event.self) {
+                    completion(event, nil)
+                } else {
+                    print("Failed to parse event data")
+                    completion(nil, NSError(domain: "App", code: 500, userInfo: [NSLocalizedDescriptionKey: "Failed to parse event data"]))
+                }
+            }
+        }
+    }
+
+    
     // func to add user to database
     func addUserToDB(newUser : User) {
         do {
@@ -193,9 +245,6 @@ class FireDBHelper : ObservableObject {
                         
                         
                         user.friendList = friendList
-                        
-                        print("++++++++++++++++++++++++++++++")
-                        print(user.friendList)
                     }
                     
                     // Call completion handler with the user object

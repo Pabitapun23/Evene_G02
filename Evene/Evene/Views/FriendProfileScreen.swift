@@ -11,6 +11,9 @@ struct FriendProfileScreen: View {
     //    let selectedUserIndex : Int
     let selectedUser : User
     
+    @State private var eventsList : [Event] = []
+//    @State private var upcomingEvent : Event
+    
     @EnvironmentObject var fireDBHelper : FireDBHelper
     @State private var loggedInUserEmail: String? // Define state for loggedInUserEmail
     
@@ -52,6 +55,10 @@ struct FriendProfileScreen: View {
                         .fontWeight(.bold)
                     
                     Text("I am attending 10 events!")
+                    
+//                    self.fireDBHelper.fetchEvents(forUser: selectedUser) {
+//                        
+//                    }
                     
                     if isUserFriend {
                         Button {
@@ -107,6 +114,37 @@ struct FriendProfileScreen: View {
                         }
                     }
                 }
+                
+//                fireDBHelper.fetchEvents(forUser: selectedUser.email) { (events, error) in
+//                    if let error = error {
+//                        // Handle error
+//                        print("Error fetching events: \(error)")
+//                    } else if let events = events {
+//                        // Events successfully fetched, handle events array
+//                        for event in events {// Do whatever you need with each event
+//                            upcomingEvent = event
+//                            print("*****")
+//                            print(upcomingEvent)
+//                        }
+//                    } else {
+//                        // This block shouldn't be executed, as either events or error should have a value
+//                        print("Unexpected result: both events and error are nil")
+//                    }
+//                }
+                
+//                fireDBHelper.fetchUpcomingEvent(forUser: selectedUser.email) { (event, error) in
+//                    if let error = error {
+//                        // Handle error
+//                        print("Error fetching events: \(error)")
+//                    } else if let event = event {
+//                        // Events successfully fetched, handle events array
+//                        print("*********")
+//                        print(event)
+//                    } else {
+//                        // This block shouldn't be executed, as either events or error should have a value
+//                        print("Unexpected result: both events and error are nil")
+//                    }
+//                }
             } else {
                 print("Logged-in user email is nil.")
             }
@@ -228,8 +266,10 @@ struct FriendProfileScreen: View {
         }
     }
     
+    
+    
 }
-
-#Preview {
-    FriendProfileScreen(selectedUser: User( firstName: "NA", lastName: "NA", fullName: "NA", email: "", password: "", phoneNumber: "", address: "", profilePic: nil, friendList: nil, eventList: nil))
-}
+//
+//#Preview {
+//    FriendProfileScreen(selectedUser: User( firstName: "NA", lastName: "NA", fullName: "NA", email: "", password: "", phoneNumber: "", address: "", profilePic: nil, friendList: nil, eventList: nil))
+//}
