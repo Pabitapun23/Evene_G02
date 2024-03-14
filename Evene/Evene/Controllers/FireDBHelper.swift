@@ -43,6 +43,72 @@ class FireDBHelper : ObservableObject {
         return shared!
     }
     
+    func insertEvent(newEvent: Event) {
+        let db = Firestore.firestore()
+        let loggedInUserEmail = UserDefaults.standard.string(forKey: "KEY_EMAIL") ?? ""
+        let usersCollectionRef = db.collection(self.COLLECTION_USER)
+        
+        // Query the user based on email
+        usersCollectionRef.whereField("email", isEqualTo: loggedInUserEmail).getDocuments { (querySnapshot, error) in
+            if let error = error {
+                print("Error getting user documents: \(error)")
+                return
+            }
+            
+            guard let userDocument = querySnapshot?.documents.first else {
+                print("User not found")
+                return
+            }
+            
+            let userID = userDocument.documentID
+            
+            do {
+                try usersCollectionRef.document(userID).collection(self.COLLECTION_Events).addDocument(from: newEvent)
+            } catch let error {
+                print("Unable to add document to firestore: \(error)")
+            }
+        }
+    }
+
+    
+    func fetchEvents(forUser userEmail: String, completion: @escaping ([Event]?, Error?) -> Void) {
+        let db = Firestore.firestore()
+        let usersCollectionRef = db.collection("users")
+
+        // Query the user based on email
+        usersCollectionRef.whereField("email", isEqualTo: userEmail).getDocuments { (querySnapshot, error) in
+            if let error = error {
+                print("Error getting user documents: \(error)")
+                completion(nil, error)
+                return
+            }
+            
+            // Assuming there is only one user with this email
+            guard let userDocument = querySnapshot?.documents.first else {
+                print("User not found")
+                completion(nil, NSError(domain: "App", code: 404, userInfo: [NSLocalizedDescriptionKey: "User not found"]))
+                return
+            }
+            
+            let userID = userDocument.documentID
+            
+            // Fetch events from the user's event subcollection
+            let eventsRef = usersCollectionRef.document(userID).collection(self.COLLECTION_Events)
+            eventsRef.getDocuments { (eventSnapshot, error) in
+                if let error = error {
+                    print("Error fetching events: \(error)")
+                    completion(nil, error)
+                    return
+                }
+                
+                let events = eventSnapshot?.documents.compactMap { document -> Event? in
+                    try? document.data(as: Event.self)
+                }
+                completion(events, nil)
+            }
+        }
+    }
+    
     // func to add user to database
     func addUserToDB(newUser : User) {
         do {
