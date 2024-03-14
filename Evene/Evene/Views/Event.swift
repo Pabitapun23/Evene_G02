@@ -14,12 +14,20 @@ struct Event: Codable{
     let venue: Venue
     let performers: [Performers]
     
+    let description: String?
+    let url: String?
+    let type: String
+    
     enum CodingKeys:String, CodingKey {
         case id
+        case type
         case eventName = "title"
         case venue
         case performers
-        case date = "datetime_utc"
+        case date = "datetime_local"
+        
+        case description
+        case url
     }
 }
 
@@ -28,20 +36,49 @@ struct Venue: Codable {
     let city: String
     let name: String
     
+    let country: String
+    
     enum CodingKeys: String, CodingKey {
         case address
         case city
         case name
+
+        case country
     }
 }
 
 struct Performers: Codable {
+    let id: Int
+    let name: String
     let image: String
+    let url: String?
     
     enum CodingKeys: String, CodingKey {
+        case id
+        case name
         case image
+        case url
     }
 }
+
+struct Stats: Codable {
+    let listingCount: Int
+    let averagePrice: Double
+    let lowestPrice: Double
+    let highestPrice: Double
+    let visibleListingCount: Int
+    let ticketCount: Int
+
+    enum CodingKeys: String, CodingKey {
+        case listingCount = "listing_count"
+        case averagePrice = "average_price"
+        case lowestPrice = "lowest_price"
+        case highestPrice = "highest_price"
+        case visibleListingCount = "visible_listing_count"
+        case ticketCount = "ticker_count"
+    }
+}
+
 
 struct EventsResponseObject:Decodable {
     var events:[Event]
@@ -54,8 +91,8 @@ extension Event {
         dictionary["id"] = self.id
         dictionary["eventName"] = self.eventName
         dictionary["date"] = self.date
-        dictionary["venue"] = try self.venue.toDictionary()
-        dictionary["performers"] = try self.performers.map { try $0.toDictionary() }
+        dictionary["venue"] = self.venue.toDictionary()
+        dictionary["performers"] = self.performers.map { $0.toDictionary() }
 
         return dictionary
     }
