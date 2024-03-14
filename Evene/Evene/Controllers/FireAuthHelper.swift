@@ -62,8 +62,8 @@ class FireAuthHelper : ObservableObject {
             } else {
                 completion(nil)
                 
-                UserDefaults.standard.set(self.user?.email, forKey: "KEY_EMAIL")
-                UserDefaults.standard.set(password, forKey: "KEY_PASSWORD")
+//                UserDefaults.standard.set(self.user?.email, forKey: "KEY_EMAIL")
+//                UserDefaults.standard.set(password, forKey: "KEY_PASSWORD")
             }
         }
         
