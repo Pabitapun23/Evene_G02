@@ -23,7 +23,7 @@ class FireAuthHelper : ObservableObject {
             
             if let user = user {
 //                let userInfo = User(name: "", email: user.email ?? "", password: "", phoneNumber: "" , address: UserAddress(address: "", lat: 0.0, lng: 0.0), profilePic: nil)
-                let userInfo = User(firstName: "", lastName: "", fullName: "", email: user.email ?? "", password: "", phoneNumber: "" , address: "", profilePic: nil, friendList: nil)
+                let userInfo = User(firstName: "", lastName: "", fullName: "", email: user.email ?? "", password: "", phoneNumber: "" , address: "", profilePic: URL(string:"https://static.vecteezy.com/system/resources/previews/009/007/039/original/funny-cartoon-woman-face-cute-avatar-or-portrait-girl-with-orange-curly-hair-young-character-for-web-in-flat-style-print-for-sticker-emoji-icon-minimalistic-face-illustration-vector.jpg"), friendList: [], eventList: [])
                 self.user = userInfo
             } else {
                 self.user = nil
@@ -74,7 +74,7 @@ class FireAuthHelper : ObservableObject {
 //                    self.user = authResult?.user
                 
 //                let userInfo = User(name: "", email: user?.email ?? "", password: "", phoneNumber: "" , address: UserAddress(address: "", lat: 0.0, lng: 0.0), profilePic: nil)
-                let userInfo = User(firstName: "", lastName: "", fullName: "", email: user?.email ?? "", password: "", phoneNumber: "" , address: "", profilePic: nil, friendList: nil)
+                let userInfo = User(firstName: "", lastName: "", fullName: "", email: user?.email ?? "", password: "", phoneNumber: "" , address: "", profilePic: URL(string:"https://static.vecteezy.com/system/resources/previews/009/007/039/original/funny-cartoon-woman-face-cute-avatar-or-portrait-girl-with-orange-curly-hair-young-character-for-web-in-flat-style-print-for-sticker-emoji-icon-minimalistic-face-illustration-vector.jpg"), friendList: [], eventList: [])
                 self.user = userInfo
                 print(#function, "Logged in user : \(self.user?.fullName ?? "NA" )")
                 

@@ -51,5 +51,5 @@ struct FriendListTile: View {
 }
 
 #Preview {
-    FriendListTile(currentUser: User(firstName: "", lastName: "", fullName: "", email: "", password: "", phoneNumber: "", address: "", friendList: nil))
+    FriendListTile(currentUser: User( firstName: "", lastName: "", fullName: "", email: "", password: "", phoneNumber: "", address: "", friendList: nil, eventList: nil))
 }

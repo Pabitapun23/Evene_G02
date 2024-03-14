@@ -10,6 +10,7 @@ import Firebase
 import FirebaseAuth
 import FirebaseCore
 import FirebaseFirestore
+import FirebaseFirestoreSwift
 import MapKit
 
 @main
