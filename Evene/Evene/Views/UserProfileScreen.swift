@@ -163,27 +163,25 @@ struct UserProfileScreen: View {
         }
         
     private func updateUserProfile() {
-        // Prepare the dictionary to update user profile
         let userDictToUpdate: [String: Any] = [
             "firstName": firstName,
             "lastName": lastName,
             "phoneNumber": phoneNumber,
             "address": address,
-            "profilePic": imageURL?.absoluteString ?? "" // Use the string representation
+            "profilePic": imageURL?.absoluteString ?? ""
         ]
         
-        // Call the function to update user in Firestore
-               fireDBHelper.updateUserInDB(userDictToUpdate: userDictToUpdate) { error in
-                   if let error = error {
-                       print("Error updating user: \(error.localizedDescription)")
-                       alertMessage = "Failed to update user info: \(error.localizedDescription)"
-                       showAlert = true
-                   } else {
-                       print("User updated successfully")
-                       alertMessage = "User info updated successfully!"
-                       showAlert = true
-                   }
-               }
+       fireDBHelper.updateUserInDB(userDictToUpdate: userDictToUpdate) { error in
+           if let error = error {
+               print("Error updating user: \(error.localizedDescription)")
+               alertMessage = "Failed to update user info: \(error.localizedDescription)"
+               showAlert = true
+           } else {
+               print("User updated successfully")
+               alertMessage = "User info updated successfully!"
+               showAlert = true
+           }
+       }
     }
 
 }

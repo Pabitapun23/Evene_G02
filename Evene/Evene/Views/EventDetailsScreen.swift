@@ -125,9 +125,9 @@ struct EventDetailsScreen: View {
                     addNewEvent()
                 }) {
                     Text("Add to My Events!")
-                        .buttonStyle(.borderedProminent)
-                        .padding()
                 }
+                .buttonStyle(.borderedProminent)
+                .padding()
                 
                 
             }
