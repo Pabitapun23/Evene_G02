@@ -162,18 +162,25 @@ struct SignUpScreen: View {
             
             print("testing \(fireAuthHelper)")
             
-            self.rootScreen = .UserAddress
+            self.rootScreen = .Home
             
             print("success")
             // add user to db
             // user fullname
             let name = "\(self.firstName) \(self.lastName)"
-            let newUser = User(firstName: self.firstName, lastName: self.lastName, fullName: name, email: self.email, password: self.password, phoneNumber: self.phoneNumber, address: self.address, friendList: nil)
+            let newUser = User(firstName: self.firstName,
+                               lastName: self.lastName,
+                               fullName: name,
+                               email: self.email,
+                               password: self.password,
+                               phoneNumber: self.phoneNumber,
+                               address: self.address,
+                               profilePic: URL(string:"https://static.vecteezy.com/system/resources/previews/009/007/039/original/funny-cartoon-woman-face-cute-avatar-or-portrait-girl-with-orange-curly-hair-young-character-for-web-in-flat-style-print-for-sticker-emoji-icon-minimalistic-face-illustration-vector.jpg"),
+                               friendList: [],
+                               eventList: [])
             self.fireDBHelper.addUserToDB(newUser: newUser)
             
             print("new user : \(newUser)")
-            
-            print(self.fireDBHelper.addUserToDB(newUser: newUser))
             
             print("yesssssss")
             

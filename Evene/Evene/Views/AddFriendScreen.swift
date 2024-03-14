@@ -10,6 +10,7 @@ import SwiftUI
 struct AddFriendScreen: View {
     @EnvironmentObject var fireDBHelper : FireDBHelper
     @State private var searchText: String = ""
+    @State var userList = [User]()
     
     var filteredUsers: [User] {
         if searchText.isEmpty {
@@ -17,7 +18,7 @@ struct AddFriendScreen: View {
             return []
         } else {
             // Filter the userList based on searchText containing either username or address
-            return fireDBHelper.userList.filter { user in
+            return fireDBHelper.searchedUserList.filter { user in
                 return user.fullName.localizedCaseInsensitiveContains(searchText) ||
                        user.address.localizedCaseInsensitiveContains(searchText)
             }
@@ -45,7 +46,7 @@ struct AddFriendScreen: View {
                         Text("No user or city found")
                     } else {
                         ForEach(filteredUsers, id: \.self) { currentUser in
-                            NavigationLink(destination: OtherUserProfileScreen(selectedUser: currentUser).environmentObject(self.fireDBHelper)) {
+                            NavigationLink(destination: FriendProfileScreen(selectedUser: currentUser).environmentObject(self.fireDBHelper)) {
                                 VStack(alignment: .leading){
                                     FriendListTile(currentUser: currentUser)
                                 } // VStack
@@ -61,7 +62,7 @@ struct AddFriendScreen: View {
             .navigationTitle("Add Friend")
             .onAppear() {
                 if let loggedInUserEmail = UserDefaults.standard.string(forKey: "KEY_EMAIL") {
-                    self.fireDBHelper.getAllOtherUsersFromDB(exceptLoggedInUser: loggedInUserEmail)
+                    self.fireDBHelper.getAllFriendsFromDB(exceptLoggedInUser: loggedInUserEmail)
                 } else {
                     print("Logged in user information not available.")
                 }

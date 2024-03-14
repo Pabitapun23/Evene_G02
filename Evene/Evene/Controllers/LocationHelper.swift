@@ -99,7 +99,7 @@ class LocationHelper: NSObject, ObservableObject, CLLocationManagerDelegate{
             self.currentLocation = locations.last!
         }else{
             //oldest known location
-            print(#function, "last known location : \(locations.first)")
+            print(#function, "last known location : \(String(describing: locations.first))")
             
             self.currentLocation = locations.first
         }
@@ -124,7 +124,7 @@ class LocationHelper: NSObject, ObservableObject, CLLocationManagerDelegate{
             (placemarks, error) in
             
             if(error != nil){
-                print(#function, "Unable to obtain street address for the given coordinates \(error)")
+                print(#function, "Unable to obtain street address for the given coordinates \(String(describing: error))")
                 
                 completionHandler(nil, error as NSError?)
             }else{
