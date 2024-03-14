@@ -107,37 +107,60 @@ struct LoginScreen: View {
     
     func doLogin() {
         
-        self.fireAuthHelper.signIn(email: emailFromUI, password: passwordFromUI) { error in
-            if let error = error {
-                // Handle login error
-                print("Error logging in:", error.localizedDescription)
-                print(#function, "Cannot logged into the account")
-            } else {
-                // Login successful show success msg
-                print("Login successful!")
-                
-                // navigate to next screen by changing the state
-                self.isLoggedIn = true
-                self.isLoginActive = false
-                self.isSignUpActive = false
-                
-                // For remember me
-                if self.rememberMe {
-                    // Save rememberMe status to UserDefaults
-                    UserDefaults.standard.set(self.rememberMe, forKey: "RememberMeStatus")
+        //validate the data
+        if self.emailFromUI.isEmpty {
+            errorMessage = "Email cannot be empty"
+            return
+        }
+        if self.passwordFromUI.isEmpty {
+            errorMessage = "Password cannot be empty"
+            return
+        }
+
+        if (!self.emailFromUI.isEmpty && !self.passwordFromUI.isEmpty){
+            
+            errorMessage = ""
+            
+            //validate credentials
+            self.fireAuthHelper.signIn(email: emailFromUI, password: passwordFromUI) { error in
+                if let error = error {
+                    // Handle login error
+                    print("Error logging in:", error.localizedDescription)
+                    print(#function, "Cannot logged into the account")
                     
-                    // Save logged-in user's email and password to UserDefaults
-                    UserDefaults.standard.set(self.emailFromUI, forKey: "KEY_EMAIL")
-                    UserDefaults.standard.set(self.passwordFromUI, forKey: "KEY_PASSWORD")
+                    errorMessage = "The supplied auth credential is not matched"
                 } else {
-                    // If rememberMe is false, clear the saved user's email and password from UserDefaults
-                    UserDefaults.standard.removeObject(forKey: "KEY_EMAIL")
-                    UserDefaults.standard.removeObject(forKey: "KEY_PASSWORD")
+                    // Login successful show success msg
+                    print("Login successful!")
+                    
+                    // reset error message
+                    errorMessage = ""
+                    
+                    // navigate to next screen by changing the state
+                    self.isLoggedIn = true
+                    self.isLoginActive = false
+                    self.isSignUpActive = false
+                    
+                    // For remember me
+                    if self.rememberMe {
+                        // Save rememberMe status to UserDefaults
+                        UserDefaults.standard.set(self.rememberMe, forKey: "RememberMeStatus")
+                        
+                        // Save logged-in user's email and password to UserDefaults
+                        UserDefaults.standard.set(self.emailFromUI, forKey: "KEY_EMAIL")
+                        UserDefaults.standard.set(self.passwordFromUI, forKey: "KEY_PASSWORD")
+                    } else {
+                        // If rememberMe is false, clear the saved user's email and password from UserDefaults
+                        UserDefaults.standard.removeObject(forKey: "KEY_EMAIL")
+                        UserDefaults.standard.removeObject(forKey: "KEY_PASSWORD")
+                    }
+                                      
                 }
-                                  
-            }
-                
-        } // fireAuthHelper.signIn()
+                    
+            } // fireAuthHelper.signIn()
+            
+            
+        }
     } // func
 }
 
