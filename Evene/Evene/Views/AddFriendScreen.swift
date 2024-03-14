@@ -45,10 +45,10 @@ struct AddFriendScreen: View {
                         // Show message when no user or city found
                         Text("No user or city found")
                     } else {
-                        ForEach(filteredUsers, id: \.self) { currentUser in
-                            NavigationLink(destination: FriendProfileScreen(selectedUser: currentUser).environmentObject(self.fireDBHelper)) {
+                        ForEach(filteredUsers, id: \.self) { currentFriend in
+                            NavigationLink(destination: FriendProfileScreen(selectedUser: currentFriend).environmentObject(self.fireDBHelper)) {
                                 VStack(alignment: .leading){
-                                    FriendListTile(currentUser: currentUser)
+                                    FriendListTile(currentFriend: currentFriend)
                                 } // VStack
                             } // NavigationLink
                         } // ForEach

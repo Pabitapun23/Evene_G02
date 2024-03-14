@@ -10,7 +10,6 @@ import SwiftUI
 struct UserProfileScreen: View {
     @EnvironmentObject var fireDBHelper : FireDBHelper
     @EnvironmentObject var fireAuthHelper : FireAuthHelper
-//    @Binding var rootScreen : RootView
     
     @Binding var isLoggedIn: Bool
     

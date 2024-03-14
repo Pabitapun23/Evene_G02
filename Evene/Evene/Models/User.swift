@@ -55,7 +55,7 @@ extension User {
     func toDictionary() throws -> [String: Any] {
         var dictionary: [String: Any] = [:]
 
-//        dictionary["id"] = self.id
+        dictionary["id"] = self.id
         dictionary["firstName"] = self.firstName
         dictionary["lastName"] = self.lastName
         dictionary["fullName"] = self.fullName
