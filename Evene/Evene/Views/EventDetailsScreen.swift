@@ -22,28 +22,27 @@ struct EventDetailsScreen: View {
             
             VStack(alignment: .leading, spacing: 25) {
                 
-                // TODO: Event Name
+                // DONE: Event Name
                 Text("Event")
                     .font(.title)
                     .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                 
                 Text("Name: \(selectedEvent.eventName)")
                 
+                    
                 Divider()
                     .frame(height: 1)
                     .overlay(Color(hue: 1.0, saturation: 0.0, brightness: 0.781))
                 
                 // TODO: Event Host
-                HStack {
-                    VStack(alignment: .leading, spacing: 5) {
-                        Text("Event Host")
-                            .font(.title2)
-                            .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                Text("Event Host")
+                    .font(.title2)
+                    .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
 
-                        Text("Name: \(selectedEvent.venue.name)")
-                        Text("Location: \(selectedEvent.venue.address), \(selectedEvent.venue.city)")
+                Text("Name: \(selectedEvent.venue.name)")
+                Text("Location: \(selectedEvent.venue.address), \(selectedEvent.venue.city)")
                         
-                        // TODO: Call Telephone
+//                        // TODO: Call Telephone
 //                        Button {
 //                            if let url = URL(string: "tel://\(selectedEvent.tel)") {
 //                                openURL(url)
@@ -51,17 +50,10 @@ struct EventDetailsScreen: View {
 //                        } label: {
 //                            Label("\(selectedEvent.tel)", systemImage: "phone.circle")
 //                        }
-                    }
-                    
-                    
-                    Spacer()
-                    
-                }
+
                 
                 // TODO: MapView
 //                    MapView()
-                
-                Spacer()
                 
                 Divider()
                     .frame(height: 1)
@@ -72,8 +64,9 @@ struct EventDetailsScreen: View {
                 Text("Event Description")
                     .font(.title2)
                     .fontWeight(.bold)
-//                Text(selectedEvent.description)
+                
                 Text("Type: \(selectedEvent.type)")
+//                Text(selectedEvent.description)
 //                Text("Date And Time: \(selectedEvent.date)")
                 
                 Divider()
@@ -84,8 +77,7 @@ struct EventDetailsScreen: View {
                 Text("Performer Name")
                     .font(.title2)
                     .fontWeight(.bold)
-//                Text(selectedEvent.performers.name)
-//                    .font(.body)
+                Text(selectedEvent.performers[0].name).font(.body)
                 
                 
                 Divider()
@@ -98,24 +90,33 @@ struct EventDetailsScreen: View {
                         Text("Price")
                             .font(.title2)
                             .fontWeight(.bold)
-//                        Text("Average Price: $\(selectedEvent.stats.average_price)")
-//                        Text("Lowest Price: $\(selectedEvent.stats.lowest_price)")
-//                        Text("Highest Price: $\(selectedEvent.stats.highest_price)")
-                        Text("Average Price: $100")
-                        Text("Lowest Price: $200")
-                        Text("Highest Price: $300")
+                        Text("Average Price: $647")
+                        Text("Lowest Price: $429")
+                        Text("Highest Price: $1488")
+                        Text("Ticket Count: 32")
+                        
+//                        Text("Average Price: $\(selectedEvent.stats.averagePrice)")
+//                        Text("Lowest Price: $\(selectedEvent.stats.lowestPrice)")
+//                        Text("Highest Price: $\(selectedEvent.stats.highestPrice)")
+//                        Text("Visible Listing Count: $\(selectedEvent.stats.visibleListingCount)")
+//                        Text("Ticket Count: $\(selectedEvent.stats.ticketCount)")
                     }
-                }
+                } // HStack
                 
 
                 // TODO: Purchase Ticket
                 Button(action: {
-                    // TODO: Go To Website
+                    if let purchaseURL = URL(string: selectedEvent.venue.externalPurchaseLink) {
+                        UIApplication.shared.open(purchaseURL)
+                    }
                 }) {
                     Text("Purchase Ticket!")
-                        .foregroundColor(.blue)
-                        .underline()
+                        .foregroundColor(.white)
+                        .padding()
+                        .background(Color.blue)
+                        .cornerRadius(10)
                 }
+
                 
             }
             .padding(.horizontal, 30)
