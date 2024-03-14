@@ -10,7 +10,7 @@ import FirebaseFirestore
 import FirebaseStorage
 
 class FireDBHelper : ObservableObject {
-//    @Published var eventsList = [Event]()
+    @Published var eventsList = [Event]()
     @Published var userList = [User]()
 //    @Published var friendList = [User]()
     @Published var searchedUserList = [User]()
@@ -94,7 +94,7 @@ class FireDBHelper : ObservableObject {
                     
                     
                     // Parse friendList
-                    if let friendListData = data["friendList"] as? [[String: Any]] {
+                    if var friendListData = data["friendList"] as? [[String: Any]] {
                         var friendList: [User] = []
                         for friendData in friendListData {
                             
@@ -105,6 +105,11 @@ class FireDBHelper : ObservableObject {
                             } else {
                                 profilePic = nil
                             }
+                            
+//                            var friendPassword = friendData["password"] as! String
+//                            friendPassword.removeAll()
+                            
+//                            print("____________ \(friendPassword)")
                             // Decode each friend's data
                             let friend = User(firstName: friendData["firstName"] as! String,
                                               lastName: friendData["lastName"] as! String,

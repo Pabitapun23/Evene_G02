@@ -156,7 +156,7 @@ struct FriendProfileScreen: View {
         
     } // func
     
-    func removeFriend() {
+    private func removeFriend() {
         print("Removing friend...")
         print("================")
         print(isUserFriend)
