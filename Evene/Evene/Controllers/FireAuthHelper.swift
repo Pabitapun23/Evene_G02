@@ -44,12 +44,15 @@ class FireAuthHelper : ObservableObject {
                 do {
                     let userDict = try user.toDictionary()
                     try db.collection("users").document(authResult.user.uid).setData(userDict)
+                    
                     completion(nil)
                 } catch {
                     completion(error)
                 }
             }
         }
+        
+        
     } // signUp
         
     func signIn(email: String, password: String, completion: @escaping (Error?) -> Void) {
@@ -58,8 +61,14 @@ class FireAuthHelper : ObservableObject {
                 completion(error)
             } else {
                 completion(nil)
+                
+                UserDefaults.standard.set(self.user?.email, forKey: "KEY_EMAIL")
+                UserDefaults.standard.set(password, forKey: "KEY_PASSWORD")
             }
         }
+        
+        
+
     } // signIn
     
     
