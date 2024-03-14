@@ -17,7 +17,6 @@ struct User : Codable {
     var email: String
     var password: String
     var phoneNumber: String
-//    var address: UserAddress?
     var address: String
     var profilePic: URL?
     var friendList: [User]?
@@ -38,18 +37,6 @@ struct User : Codable {
         self.eventList = eventList
     }
     
-    init(firstName: String, lastName: String, email: String, friendList: [User]?, eventList: [Event]?) {
-        self.firstName = firstName
-        self.lastName = lastName
-        self.fullName = ""
-        self.email = email
-        self.password = ""
-        self.phoneNumber = ""
-        self.address = ""
-        self.profilePic = URL(string: "")
-        self.friendList = friendList
-        self.eventList = eventList
-    }
 }
 
 extension User: Equatable {
@@ -63,22 +50,12 @@ extension User: Hashable {
         hasher.combine(id)
     }
 }
-//extension User {
-//    func toDictionary() throws -> [String: Any] {
-//        let encoder = JSONEncoder()
-//        let data = try encoder.encode(self)
-//        guard let dictionary = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] else {
-//            throw NSError(domain: "Serialization Error", code: 0, userInfo: nil)
-//        }
-//        return dictionary
-//    }
-//}
 
 extension User {
     func toDictionary() throws -> [String: Any] {
         var dictionary: [String: Any] = [:]
 
-        dictionary["id"] = self.id
+//        dictionary["id"] = self.id
         dictionary["firstName"] = self.firstName
         dictionary["lastName"] = self.lastName
         dictionary["fullName"] = self.fullName

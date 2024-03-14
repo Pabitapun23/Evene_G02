@@ -10,19 +10,19 @@ import FirebaseFirestore
 
 struct LoginScreen: View {
     
+    // env obj
     @EnvironmentObject var fireAuthHelper: FireAuthHelper
     @EnvironmentObject var fireDBHelper: FireDBHelper
-    
-//    var fireAuthHelper: FireAuthHelper
-//    var fireDBHelper: FireDBHelper
-    @Binding var rootScreen : RootView
     
     @State private var emailFromUI : String = ""
     @State private var passwordFromUI : String = ""
     @State private var rememberMe: Bool = false
-//    @Binding var isLoggedIn: Bool // Use binding to update the state
-    @State private var errorMessage: String? // Hold error message
-//    @State private var loggedInUserEmail: String? // Hold the logged-in user's email
+    @State private var errorMessage: String?
+    
+    // Use binding to update the state
+    @Binding var isLoginActive: Bool
+    @Binding var isSignUpActive: Bool
+    @Binding var isLoggedIn: Bool
     
     
     var body: some View {
@@ -65,80 +65,82 @@ struct LoginScreen: View {
             .foregroundColor(/*@START_MENU_TOKEN@*/.white/*@END_MENU_TOKEN@*/)
             .cornerRadius(/*@START_MENU_TOKEN@*/8.0/*@END_MENU_TOKEN@*/)
             
-//            NavigationLink(destination: HomeScreen(), isActive: $isLoggedIn) {
-//                EmptyView()
-//            }
-//            .isDetailLink(false)
-//            .hidden()
-            
             HStack {
                 Text("Don't have an account?")
                 
-                NavigationLink(destination: SignUpScreen(rootScreen: $rootScreen)) {
-                    Text("SignUp")
-                        .foregroundStyle(.green)
-                } // NavigationLink
+                Button(action: {
+                    isSignUpActive = true
+                    isLoginActive = false
+                }) {
+                    Text("Sign Up")
+                        .foregroundColor(.green)
+                } // Button
+                    
             } // HStack
             
             Spacer()
+            
         } // VStack
         .padding()
         .navigationBarTitleDisplayMode(.inline)
         .onAppear{
-            self.emailFromUI = UserDefaults.standard.string(forKey: "KEY_EMAIL") ?? ""
-            self.passwordFromUI = UserDefaults.standard.string(forKey: "KEY_PASSWORD") ?? ""
             
             // Retrieve rememberMe status from UserDefaults
-//            rememberMe = UserDefaults.standard.bool(forKey: "RememberMeStatus")
-//            // If rememberMe is true, retrieve the previously logged-in user's email and password
-//            if rememberMe {
-//                if let savedEmail = UserDefaults.standard.string(forKey: "KEY_EMAIL"),
-//                   let savedPassword = UserDefaults.standard.string(forKey: "KEY_PASSWORD") {
-//                    emailFromUI = savedEmail
-//                    passwordFromUI = savedPassword
-////                    loggedInUserEmail = savedEmail // Set loggedInUserEmail
-//                    
-//                    // Automatically log in the user if rememberMe is true
-//                    doLogin()
-//                }
-//            }
+            rememberMe = UserDefaults.standard.bool(forKey: "RememberMeStatus")
+            
+            // If rememberMe is true, retrieve the previously logged-in user's email and password
+            if rememberMe {
+                if let savedEmail = UserDefaults.standard.string(forKey: "KEY_EMAIL"),
+                   let savedPassword = UserDefaults.standard.string(forKey: "KEY_PASSWORD") {
+                    self.emailFromUI = savedEmail
+                    self.passwordFromUI = savedPassword
+                    
+                }
+            } else {
+                self.emailFromUI = ""
+                self.passwordFromUI = ""
+                self.rememberMe = false
+            }
         }
         
     } // body
     
     func doLogin() {
-        //validate the data
-        if self.emailFromUI.isEmpty {
-            errorMessage = "Email cannot be empty"
-            return
-        }
-        if self.passwordFromUI.isEmpty {
-            errorMessage = "Password cannot be empty"
-            return
-        }
         
-        if (!self.emailFromUI.isEmpty && !self.passwordFromUI.isEmpty){
-            
-            errorMessage = ""
-            
-            //validate credentials
-            self.fireAuthHelper.signIn(email: self.emailFromUI, password: self.passwordFromUI)
-            
-            //navigate to home screen
-            self.rootScreen = .Home
-            
-            print("Attempting to log in with email:", self.emailFromUI)
-        } else {
-            //trigger alert displaying errors
-            print(#function, "email and password cannot be empty")
-        }
-        
-    }
+        self.fireAuthHelper.signIn(email: emailFromUI, password: passwordFromUI) { error in
+            if let error = error {
+                // Handle login error
+                print("Error logging in:", error.localizedDescription)
+                print(#function, "Cannot logged into the account")
+            } else {
+                // Login successful show success msg
+                print("Login successful!")
+                
+                // navigate to next screen by changing the state
+                self.isLoggedIn = true
+                self.isLoginActive = false
+                self.isSignUpActive = false
+                
+                // For remember me
+                if self.rememberMe {
+                    // Save rememberMe status to UserDefaults
+                    UserDefaults.standard.set(self.rememberMe, forKey: "RememberMeStatus")
+                    
+                    // Save logged-in user's email and password to UserDefaults
+                    UserDefaults.standard.set(self.emailFromUI, forKey: "KEY_EMAIL")
+                    UserDefaults.standard.set(self.passwordFromUI, forKey: "KEY_PASSWORD")
+                } else {
+                    // If rememberMe is false, clear the saved user's email and password from UserDefaults
+                    UserDefaults.standard.removeObject(forKey: "KEY_EMAIL")
+                    UserDefaults.standard.removeObject(forKey: "KEY_PASSWORD")
+                }
+                                  
+            }
+                
+        } // fireAuthHelper.signIn()
+    } // func
 }
 
 #Preview {
-    // Pass a binding to isLoggedIn
-//    LoginScreen(isLoggedIn: .constant(false))
-    
-    LoginScreen(rootScreen: .constant(.Login))
+    LoginScreen(isLoginActive: .constant(true), isSignUpActive: .constant(false), isLoggedIn: .constant(false))
 }

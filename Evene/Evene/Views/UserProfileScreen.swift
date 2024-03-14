@@ -10,7 +10,9 @@ import SwiftUI
 struct UserProfileScreen: View {
     @EnvironmentObject var fireDBHelper : FireDBHelper
     @EnvironmentObject var fireAuthHelper : FireAuthHelper
-    @Binding var rootScreen : RootView
+//    @Binding var rootScreen : RootView
+    
+    @Binding var isLoggedIn: Bool
     
     var body: some View {
         NavigationStack {
@@ -24,7 +26,10 @@ struct UserProfileScreen: View {
                 
                 Button(action: {
                     self.fireAuthHelper.signOut()
-                    self.rootScreen = .Login
+//                    self.rootScreen = .Login
+                    
+                    isLoggedIn = false
+                    
                 }) {
                     Text("Sign Out")
                 }
@@ -40,5 +45,5 @@ struct UserProfileScreen: View {
 }
 
 #Preview {
-    UserProfileScreen(rootScreen: .constant(.Home))
+    UserProfileScreen(isLoggedIn: .constant(true))
 }

@@ -10,18 +10,18 @@ import SwiftUI
 struct MainView: View {
     @EnvironmentObject var fireDBHelper : FireDBHelper
     @EnvironmentObject var fireAuthHelper : FireAuthHelper
-    @Binding var rootScreen : RootView
+
+    @Binding var isLoggedIn: Bool
     
     var body: some View {
         
         // This shows all the views after authentication
         
-        // For now, we have tabview -> for home screeen, profile screen, history screen
-        VStack {
+        if isLoggedIn {
             TabView {
                 NavigationView {
                     HomeScreen()
-                } //NavigationView
+                }
                 .tabItem {
                     Image(systemName: "house.fill")
                     Text("Home")
@@ -53,17 +53,16 @@ struct MainView: View {
                 }
                 
                 NavigationView {
-                    UserProfileScreen(rootScreen: self.$rootScreen)
+                    UserProfileScreen(isLoggedIn: $isLoggedIn)
                 }
                 .tabItem {
                     Image(systemName: "person.fill")
                     Text("Profile")
                 }
             } // TabView
-        } // VStack
-        .onAppear() {
-            fireDBHelper.getAllUsersFromDB()
-        }
+                
+        } // isLoggedIn
+        
     } // body
 }
 
