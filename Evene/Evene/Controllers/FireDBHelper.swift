@@ -107,22 +107,33 @@ class FireDBHelper : ObservableObject {
                 completion(events, nil)
             }
         }
-    }
+    } // fetchEvents
     
 
     
     func deleteEvent(eventID: String, completion: @escaping (Error?) -> Void) {
-        let db = Firestore.firestore()
-        let loggedInUserEmail = UserDefaults.standard.string(forKey: "KEY_EMAIL") ?? ""
-        
-        db.collection(COLLECTION_USER).whereField("email", isEqualTo: loggedInUserEmail).getDocuments { (querySnapshot, error) in
-            if let error = error {
-                completion(error)
-                return
-            }
+            let db = Firestore.firestore()
+            let loggedInUserEmail = UserDefaults.standard.string(forKey: "KEY_EMAIL") ?? ""
             
-            guard let userDocument = querySnapshot?.documents.first else {
-                completion(NSError(domain: "App", code: 404, userInfo: [NSLocalizedDescriptionKey: "User not found"]))
+            db.collection(COLLECTION_USER).whereField("email", isEqualTo: loggedInUserEmail).getDocuments { (querySnapshot, error) in
+                if let error = error {
+                    completion(error)
+                    return
+                }
+                
+                guard let userDocument = querySnapshot?.documents.first else {
+                    completion(NSError(domain: "App", code: 404, userInfo: [NSLocalizedDescriptionKey: "User not found"]))
+                    return
+                }
+                
+                let userID = userDocument.documentID
+                db.collection(self.COLLECTION_USER).document(userID).collection(self.COLLECTION_Events).document(eventID).delete { error in
+                    completion(error)
+                }
+            }
+        } // func
+
+
 
     func fetchUpcomingEvent(forUser userEmail: String, completion: @escaping (Event?, Error?) -> Void) {
         let db = Firestore.firestore()
@@ -147,9 +158,6 @@ class FireDBHelper : ObservableObject {
             }
             
             let userID = userDocument.documentID
-
-            db.collection(self.COLLECTION_USER).document(userID).collection(self.COLLECTION_Events).document(eventID).delete { error in
-                completion(error)
             
             // Fetch upcoming event from the user's event subcollection
             let eventsRef = usersCollectionRef.document(userID).collection(self.COLLECTION_Events)
@@ -285,11 +293,10 @@ class FireDBHelper : ObservableObject {
                     print(#function, "Unable to retrieve data from firestore : \(String(describing: error))")
                     return
                 }
+                
                 self.userList.removeAll()
                 snapshot.documentChanges.forEach{ (docChange) in
-                    
                     do {
-                        
                         var user : User = try docChange.document.data(as: User.self)
                         user.id = docChange.document.documentID
                         
@@ -312,11 +319,12 @@ class FireDBHelper : ObservableObject {
                             if (matchedIndex != nil) {
                                 self.userList.remove(at: matchedIndex!)
                             }
-                        }
+                        } // switch
                         
                     } catch let err as NSError {
                         print(#function, "Unable to convert document into swift object : \(err)")
-                    }
+                    } // do-catch
+                    
                     
                 } // ForEach
             }) // addSnapshotListener
@@ -432,10 +440,10 @@ class FireDBHelper : ObservableObject {
     
     // func to remove friend from user's friendList
     func removeFriend(from userEmail: String, friendEmail: String, completion: @escaping (Bool) -> Void) {
-            let db = Firestore.firestore()
+        let db = Firestore.firestore()
         let userRef = db.collection(self.COLLECTION_USER).whereField("email", isEqualTo: userEmail)
         print("User reference \(userRef), \(userEmail), \(friendEmail)")
-            
+        
         userRef.getDocuments { (querySnapshot, error) in
             if let error = error {
                 print("test2")
@@ -445,9 +453,7 @@ class FireDBHelper : ObservableObject {
             } else {
                 print("test1")
                 
-                
-                
-                 print("_______________")
+                print("_______________")
                 guard let documents = querySnapshot?.documents else {
                     print("test3")
                     print("User document does not exist")
@@ -465,7 +471,7 @@ class FireDBHelper : ObservableObject {
                     
                     print("Before removal:")
                     print(updatedFriendList)
-
+                    
                     updatedFriendList.removeAll { friendData in
                         if let email = friendData["email"] as? String {
                             print("Comparing \(email) with \(friendEmail)")
@@ -473,8 +479,8 @@ class FireDBHelper : ObservableObject {
                         } else {
                             return false
                         }
-                    }
-
+                    } // updatedFriendList
+                    
                     print("After removal:")
                     print(updatedFriendList)
                     
@@ -488,11 +494,12 @@ class FireDBHelper : ObservableObject {
                             print("Friend removed successfully")
                             completion(true)
                         }
-                    }
-                }
-            }
-            }
+                    } // doc
+                } // document
+                
+            } // if-else
         }
+    } // func
     
     func uploadImage(_ image: UIImage, completion: @escaping (Result<URL, Error>) -> Void) {
         guard let imageData = image.jpegData(compressionQuality: 0.75) else {
@@ -515,7 +522,7 @@ class FireDBHelper : ObservableObject {
                 }
             }
         }
-    }
+    } // func
     
     func saveProfilePictureURL(_ url: URL, forUser userEmail: String) {
         let db = Firestore.firestore()
@@ -534,5 +541,6 @@ class FireDBHelper : ObservableObject {
                 }
             }
         }
-    }
+    } // func
+        
 }
