@@ -10,51 +10,43 @@ import SwiftUI
 struct EventListScreen: View {
 
     @ObservedObject var eventApiManager = EventAPIManager()
+    
+    @State private var searchText: String = ""
 
-    // TODO: use mapview or listview for filter event?
-    //    @State private var selectedCity = "Toronto"
-    //    let cities = ["Toronto", "Vancouver"]
+    private var filteredEvents: [Event] {
+        if searchText.isEmpty {
+            return eventApiManager.eventsList
+        } else {
+            return eventApiManager.eventsList.filter { $0.venue.city.lowercased().contains(searchText.lowercased()) }
+        }
+    }
 
     var body: some View {
 
         NavigationStack {
             VStack(spacing: 10) {
 
-//                TODO: Update Data?
-//                Button {
-//                    loadDataFromAPI()
-//                } label: {
-//                    Text("Get Data!")
-//                }
+                // Done: Search by city
+                HStack {
+                    Image(systemName: "magnifyingglass")
+                        .foregroundColor(.gray)
+                        .padding(.leading, 10)
+                    TextField("Search by city", text: $searchText)
+                        .padding(.horizontal, 10)
+                }
+                .frame(height: 50)
+                .background(Color(.systemGray6))
+                .cornerRadius(25)
 
-                // TODO: Search by city
-                RoundedRectangle(cornerRadius: 25)
-                    .fill(Color(.systemGray6))
-                    .frame(width: 200, height: 50)
-                    .overlay(
-                        HStack {
-                            Image(systemName: "magnifyingglass")
-                                .fontWeight(.bold)
-                            Spacer()
-//                            Picker("Please choose a city", selection: $selectedCity) {
-//                                ForEach(cities, id: \.self) {
-//                                    Text($0)
-//                                }
-//                            }
-//                                .accentColor(Color.yellow)
-                        }
-                        .padding(.leading, 20)
-                    )// end of search overlay
-
-                // list to display data
                 List {
-                    ForEach(self.eventApiManager.eventsList, id:\.id) { currentEvent in
+                    ForEach(self.filteredEvents, id: \.id) { currentEvent in
                         NavigationLink(destination: EventDetailsScreen(selectedEvent: currentEvent)) {
                             EventRowView(currentEvent: currentEvent)
                         }
                     }
-                    
-                } // List
+                }
+
+                
             } // VStack
 
             Spacer()
