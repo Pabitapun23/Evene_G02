@@ -21,13 +21,6 @@ struct HomeScreen: View {
                     Text("EventListScreen")
                 } // NavigationLink
                 
-//                // For EventDetailsScreen
-//                NavigationLink(destination: EventDetailsScreen()) {
-//                    // Here, there should be eventListTile
-//                    Text("EventDetailsScreen")
-//                } // NavigationLink
-                
-                
                 Spacer()
             } // VStack
             .padding()
