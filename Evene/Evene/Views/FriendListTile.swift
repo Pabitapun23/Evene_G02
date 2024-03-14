@@ -10,11 +10,11 @@ import SwiftUI
 struct FriendListTile: View {
     @EnvironmentObject var fireDBHelper : FireDBHelper
     
-    var currentUser: User
+    var currentFriend: User
     
     var body: some View {
         HStack(alignment: .top){
-            if let imageURL = currentUser.profilePic {
+            if let imageURL = currentFriend.profilePic {
                 AsyncImage(url: imageURL){ phase in
                     switch phase {
                     case .success(let image):
@@ -39,10 +39,10 @@ struct FriendListTile: View {
             } // if-else
             
             VStack(alignment: .leading){
-                Text(currentUser.fullName)
+                Text(currentFriend.fullName)
                     .font(.headline)
                     .fontWeight(.bold)
-                Text(currentUser.address)
+                Text(currentFriend.address)
                     .font(.subheadline)
             } // VStack
         } // HStack
@@ -51,5 +51,5 @@ struct FriendListTile: View {
 }
 
 #Preview {
-    FriendListTile(currentUser: User( firstName: "", lastName: "", fullName: "", email: "", password: "", phoneNumber: "", address: "", friendList: nil, eventList: nil))
+    FriendListTile(currentFriend: User( firstName: "", lastName: "", fullName: "", email: "", password: "", phoneNumber: "", address: "", friendList: nil, eventList: nil))
 }

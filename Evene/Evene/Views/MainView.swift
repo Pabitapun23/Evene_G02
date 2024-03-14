@@ -66,6 +66,6 @@ struct MainView: View {
     } // body
 }
 
-//#Preview {
-//    MainView(rootScreen: .constant(.Home))
-//}
+#Preview {
+    MainView(isLoggedIn: .constant(true))
+}
