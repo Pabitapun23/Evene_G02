@@ -61,7 +61,7 @@ struct EventListScreen: View {
         }
 
         .listStyle(.inset)
-        .navigationTitle("List of Events")
+        .navigationTitle("All Events")
         .padding()
         .onAppear {
             self.eventApiManager.loadDataFromAPI()
@@ -101,11 +101,11 @@ struct EventRowView: View {
                     VStack(alignment: .leading, spacing: 4) {
                         Text(currentEvent.eventName)
                             .font(.headline)
-                        Text(currentEvent.date)
-                            .font(.subheadline)
                         Text(currentEvent.type)
                             .font(.subheadline)
-                        Text("\(currentEvent.venue.name), \(currentEvent.venue.city)")
+                        Text(currentEvent.date)
+                            .font(.subheadline)
+                        Text(currentEvent.venue.city)
                             .font(.subheadline)
                     }
 
