@@ -13,6 +13,7 @@ struct MyFriendListScreen: View {
     @State private var loggedInUserEmail: String? 
     @State private var friendsList: [User] = [] // State variable to hold the friend list
     @State private var isEditing = false // Add state variable to track edit mode
+//    @State private var upcomingEvent : Event
     
     var body: some View {
         VStack {
@@ -35,13 +36,7 @@ struct MyFriendListScreen: View {
             // Fetch loggedInUserEmail on view appear
             loggedInUserEmail = UserDefaults.standard.string(forKey: "KEY_EMAIL")
             
-            print("=================")
-            print(loggedInUserEmail)
-            
             if let loggedInUserEmail = loggedInUserEmail {
-                
-                print("+++++++++++")
-                print(loggedInUserEmail)
                 fireDBHelper.getUserFromDB(email: loggedInUserEmail) { user in
                     if let friendList = user?.friendList {
                         print("test")
