@@ -71,19 +71,19 @@ class FireDBHelper : ObservableObject {
     }
 
     
-    func fetchEvents(forUser userEmail: String, completion: @escaping ([Event]?, Error?) -> Void) {
+    func fetchEvents(completion: @escaping ([Event]?, Error?) -> Void) {
         let db = Firestore.firestore()
-        let usersCollectionRef = db.collection("users")
+        let loggedInUserEmail = UserDefaults.standard.string(forKey: "KEY_EMAIL") ?? ""
+        let usersCollectionRef = db.collection(self.COLLECTION_USER)
 
         // Query the user based on email
-        usersCollectionRef.whereField("email", isEqualTo: userEmail).getDocuments { (querySnapshot, error) in
+        usersCollectionRef.whereField("email", isEqualTo: loggedInUserEmail).getDocuments { (querySnapshot, error) in
             if let error = error {
                 print("Error getting user documents: \(error)")
                 completion(nil, error)
                 return
             }
             
-            // Assuming there is only one user with this email
             guard let userDocument = querySnapshot?.documents.first else {
                 print("User not found")
                 completion(nil, NSError(domain: "App", code: 404, userInfo: [NSLocalizedDescriptionKey: "User not found"]))
@@ -109,6 +109,21 @@ class FireDBHelper : ObservableObject {
         }
     }
     
+
+    
+    func deleteEvent(eventID: String, completion: @escaping (Error?) -> Void) {
+        let db = Firestore.firestore()
+        let loggedInUserEmail = UserDefaults.standard.string(forKey: "KEY_EMAIL") ?? ""
+        
+        db.collection(COLLECTION_USER).whereField("email", isEqualTo: loggedInUserEmail).getDocuments { (querySnapshot, error) in
+            if let error = error {
+                completion(error)
+                return
+            }
+            
+            guard let userDocument = querySnapshot?.documents.first else {
+                completion(NSError(domain: "App", code: 404, userInfo: [NSLocalizedDescriptionKey: "User not found"]))
+
     func fetchUpcomingEvent(forUser userEmail: String, completion: @escaping (Event?, Error?) -> Void) {
         let db = Firestore.firestore()
         let usersCollectionRef = db.collection("users")
@@ -127,10 +142,14 @@ class FireDBHelper : ObservableObject {
             guard let userDocument = querySnapshot?.documents.first else {
                 print("User not found")
                 completion(nil, NSError(domain: "App", code: 404, userInfo: [NSLocalizedDescriptionKey: "User not found"]))
+
                 return
             }
             
             let userID = userDocument.documentID
+
+            db.collection(self.COLLECTION_USER).document(userID).collection(self.COLLECTION_Events).document(eventID).delete { error in
+                completion(error)
             
             // Fetch upcoming event from the user's event subcollection
             let eventsRef = usersCollectionRef.document(userID).collection(self.COLLECTION_Events)
@@ -156,6 +175,7 @@ class FireDBHelper : ObservableObject {
                     print("Failed to parse event data")
                     completion(nil, NSError(domain: "App", code: 500, userInfo: [NSLocalizedDescriptionKey: "Failed to parse event data"]))
                 }
+
             }
         }
     }
@@ -499,7 +519,6 @@ class FireDBHelper : ObservableObject {
     
     func saveProfilePictureURL(_ url: URL, forUser userEmail: String) {
         let db = Firestore.firestore()
-        // Assuming you find the user by their email. Adjust according to your actual user identification logic.
         db.collection(COLLECTION_USER).whereField("email", isEqualTo: userEmail).getDocuments { (querySnapshot, error) in
             guard let document = querySnapshot?.documents.first else {
                 print("User document not found.")
@@ -507,7 +526,7 @@ class FireDBHelper : ObservableObject {
             }
             let userID = document.documentID
             let userRef = db.collection(self.COLLECTION_USER).document(userID)
-            userRef.updateData(["profilePic": url.absoluteString]) { error in // Convert URL to String
+            userRef.updateData(["profilePic": url.absoluteString]) { error in
                 if let error = error {
                     print("Error updating document: \(error)")
                 } else {
