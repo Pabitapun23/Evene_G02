@@ -58,6 +58,7 @@
 		5A0388172B9E69C400894D86 /* EventListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A0388162B9E69C400894D86 /* EventListScreen.swift */; };
 		5A03881D2B9EA1FF00894D86 /* EventAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A03881C2B9EA1FF00894D86 /* EventAPIManager.swift */; };
 		5A03881F2B9EA3B600894D86 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A03881E2B9EA3B600894D86 /* Event.swift */; };
+		BADBE7DF2BA34CC0002E6BD0 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = BADBE7DE2BA34CC0002E6BD0 /* ImagePicker.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -86,6 +87,7 @@
 		5A0388162B9E69C400894D86 /* EventListScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventListScreen.swift; sourceTree = "<group>"; };
 		5A03881C2B9EA1FF00894D86 /* EventAPIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EventAPIManager.swift; path = Evene/Views/EventAPIManager.swift; sourceTree = SOURCE_ROOT; };
 		5A03881E2B9EA3B600894D86 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Event.swift; path = Evene/Views/Event.swift; sourceTree = SOURCE_ROOT; };
+		BADBE7DE2BA34CC0002E6BD0 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -201,6 +203,7 @@
 				50EB87442B9F836400BC48B6 /* FireDBHelper.swift */,
 				50EB878A2BA1600F00BC48B6 /* LocationHelper.swift */,
 				5A03881C2B9EA1FF00894D86 /* EventAPIManager.swift */,
+				BADBE7DE2BA34CC0002E6BD0 /* ImagePicker.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -310,6 +313,7 @@
 			files = (
 				50EB873D2B9F7B9C00BC48B6 /* User.swift in Sources */,
 				50EB87952BA2409400BC48B6 /* FriendProfileScreen.swift in Sources */,
+				BADBE7DF2BA34CC0002E6BD0 /* ImagePicker.swift in Sources */,
 				50EB86F32B9C335F00BC48B6 /* MyEventsScreen.swift in Sources */,
 				50EB86E92B9C310200BC48B6 /* UserProfileScreen.swift in Sources */,
 				50EB878B2BA1600F00BC48B6 /* LocationHelper.swift in Sources */,
@@ -468,6 +472,8 @@
 				DEVELOPMENT_TEAM = 827JZHP663;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -497,6 +503,8 @@
 				DEVELOPMENT_TEAM = 827JZHP663;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

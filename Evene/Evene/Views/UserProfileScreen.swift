@@ -18,6 +18,10 @@ struct UserProfileScreen: View {
     @State private var showAlert = false
     @State private var alertMessage = ""
     
+    @State private var showingImagePicker = false
+    @State private var inputImage: UIImage?
+    @State private var imageURL: URL?
+    
     @EnvironmentObject var fireDBHelper : FireDBHelper
     @EnvironmentObject var fireAuthHelper : FireAuthHelper
     
@@ -47,6 +51,13 @@ struct UserProfileScreen: View {
                         }
                     }
                     .padding(.top, 20)
+                    
+                    Button("Select Image") {
+                        selectImage()
+                    }
+                    .sheet(isPresented: $showingImagePicker, onDismiss: handleImageSelection) {
+                        ImagePicker(selectedImage: $inputImage)
+                    }
                     
                     VStack(alignment: .leading, spacing: 15) {
                         HStack {
@@ -117,6 +128,25 @@ struct UserProfileScreen: View {
         } // NavigationStack
     } // body
     
+    func selectImage() {
+        showingImagePicker = true
+    }
+
+    func handleImageSelection() {
+        guard let inputImage = inputImage else { return }
+        
+        self.fireDBHelper.uploadImage(inputImage) { result in
+            switch result {
+            case .success(let url):
+                print(#function, "successful!")
+                self.fireDBHelper.saveProfilePictureURL(url, forUser: user.email)
+                self.imageURL = url
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
     private func fetchCurrentUserProfile() {
             if let userEmail = UserDefaults.standard.string(forKey: "KEY_EMAIL") {
                 fireDBHelper.getUserFromDB(email: userEmail) { user in
@@ -126,6 +156,7 @@ struct UserProfileScreen: View {
                         self.lastName = user.lastName
                         self.phoneNumber = user.phoneNumber
                         self.address = user.address
+                        self.imageURL = user.profilePic
                     }
                 }
             }
@@ -137,24 +168,30 @@ struct UserProfileScreen: View {
             "firstName": firstName,
             "lastName": lastName,
             "phoneNumber": phoneNumber,
-            "address": address
+            "address": address,
+            "profilePic": imageURL?.absoluteString ?? "" // Use the string representation
         ]
         
         // Call the function to update user in Firestore
-        fireDBHelper.updateUserInDB(userDictToUpdate: userDictToUpdate) { error in
-            if let error = error {
-                print("Error updating user: \(error.localizedDescription)")
-                alertMessage = "Failed to update user info: \(error.localizedDescription)"
-                showAlert = true
-            } else {
-                print("User updated successfully")
-                alertMessage = "User info updated successfully!"
-                showAlert = true
-            }
-        }
+               fireDBHelper.updateUserInDB(userDictToUpdate: userDictToUpdate) { error in
+                   if let error = error {
+                       print("Error updating user: \(error.localizedDescription)")
+                       alertMessage = "Failed to update user info: \(error.localizedDescription)"
+                       showAlert = true
+                   } else {
+                       print("User updated successfully")
+                       alertMessage = "User info updated successfully!"
+                       showAlert = true
+                   }
+               }
     }
+
 }
 
 #Preview {
     UserProfileScreen(isLoggedIn: .constant(true))
 }
+
+
+
+
