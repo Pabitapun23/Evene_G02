@@ -10,9 +10,9 @@ import FirebaseFirestore
 
 struct SignUpScreen: View {
     
+    // env obj
     @EnvironmentObject var fireAuthHelper : FireAuthHelper
     @EnvironmentObject var fireDBHelper : FireDBHelper
-    @Binding var rootScreen : RootView
     
     @State private var firstName: String = ""
     @State private var lastName: String = ""
@@ -23,7 +23,9 @@ struct SignUpScreen: View {
     @State private var address: String = ""
     @State private var errorMsg: String = ""
     
-    @State private var isAccountCreated: Bool = false
+    // Binding var
+    @Binding var isLoginActive: Bool
+    @Binding var isSignUpActive: Bool
     
     var body: some View {
         
@@ -98,10 +100,14 @@ struct SignUpScreen: View {
             HStack {
                 Text("Already have an account?")
                 
-                NavigationLink(destination: LoginScreen(rootScreen: self.$rootScreen)) {
+                Button(action: {
+                    // navigating to loginScreen
+                    isLoginActive = true
+                }) {
                     Text("Login")
-                        .foregroundStyle(.green)
-                } // NavigationLink
+                        .foregroundColor(.green)
+                } // Button
+                
             } // HStack
             
             Spacer()
@@ -110,103 +116,29 @@ struct SignUpScreen: View {
         
     } // body
     
-    private func createAccount() {
-        // Reset error message
-        errorMsg = ""
+    func createAccount() {
+        let user = User(firstName: firstName, lastName: lastName, fullName: "\(firstName) \(lastName)", email: email, password: password, phoneNumber: phoneNumber, address: address, friendList: [], eventList: [])
+        
+        self.fireAuthHelper.signUp(user: user) { error in
+            if let error = error {
+                // Handle sign up error
+                print("Error signing up:", error.localizedDescription)
+                print(#function, "Cannot create an account")
+            } else {
+                // Sign up successful, dismiss the current view
+
+                print("Sign up successful!")
                 
-        // Form validation
-        guard !firstName.isEmpty else {
-            errorMsg = "First Name cannot be empty"
-            return
-        }
-        
-        guard !lastName.isEmpty else {
-            errorMsg = "Last Name cannot be empty"
-            return
-        }
-        
-        guard !email.isEmpty else {
-            errorMsg = "Email cannot be empty"
-            return
-        }
-        
-        guard !password.isEmpty else {
-            errorMsg = "Password cannot be empty"
-            return
-        }
-        
-        guard !confirmPassword.isEmpty else {
-            errorMsg = "Password cannot be empty"
-            return
-        }
-        
-        guard password == confirmPassword else {
-            errorMsg = "Passwords do not match"
-            return
-        }
-        
-        guard !phoneNumber.isEmpty else {
-            errorMsg = "Phone number cannot be empty"
-            return
-        }
-        
-        guard !address.isEmpty else {
-            errorMsg = "Address cannot be empty"
-            return
-        }
-        
-        //if all the data is validated, create account on FirebaseAuth
-        if !firstName.isEmpty && !lastName.isEmpty && !email.isEmpty && !password.isEmpty && !confirmPassword.isEmpty && !phoneNumber.isEmpty && !address.isEmpty {
-            // Perform sign up
-            self.fireAuthHelper.signUp(firstName: firstName, lastName: lastName, fullName: "\(firstName) \(lastName)", email: email, password: password, phoneNumber: phoneNumber, address: address)
-            
-            print("testing \(fireAuthHelper)")
-            
-            self.rootScreen = .Home
-            
-            print("success")
-            // add user to db
-            // user fullname
-            let name = "\(self.firstName) \(self.lastName)"
-            let newUser = User(firstName: self.firstName,
-                               lastName: self.lastName,
-                               fullName: name,
-                               email: self.email,
-                               password: self.password,
-                               phoneNumber: self.phoneNumber,
-                               address: self.address,
-                               profilePic: URL(string:"https://static.vecteezy.com/system/resources/previews/009/007/039/original/funny-cartoon-woman-face-cute-avatar-or-portrait-girl-with-orange-curly-hair-young-character-for-web-in-flat-style-print-for-sticker-emoji-icon-minimalistic-face-illustration-vector.jpg"),
-                               friendList: [],
-                               eventList: [])
-            self.fireDBHelper.addUserToDB(newUser: newUser)
-            
-            print("new user : \(newUser)")
-            
-            print("yesssssss")
-            
-//            isAccountCreated = true
-            
-            
-            
-            print("checking")
-            
-            // reset fields
-        } else {
-            print(#function, "Unable to create an account")
-            return
-        }
-        
-//        if isAccountCreated {
-//            //move to login screen
-//            self.rootScreen = .UserAddress
-//            print(#function, "Account created successfully")
-//        } else {
-//            print(#function, "sorry Unable to create an account")
-//        }
-        
+                // Navigate to login screen by changing state for login screen
+                isLoginActive = true
+                isSignUpActive = false
+            } // if-let-else
+    
+        } // fireAuthHelper.signUp(user: user)
     } // func
+
 }
 
 #Preview {
-    SignUpScreen(rootScreen: .constant(RootView.SignUp))
+    SignUpScreen(isLoginActive: .constant(false), isSignUpActive: .constant(true))
 }

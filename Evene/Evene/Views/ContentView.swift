@@ -11,35 +11,35 @@ struct ContentView: View {
     private let fireDBHelper = FireDBHelper.getInstance()
     var fireAuthHelper = FireAuthHelper()
     
-    @State private var root : RootView = .Login
+    @State private var isLoginActive = false
+    @State private var isSignUpActive = false
+    // Add binding for login status
+    @State private var isLoggedIn = false
     
     var body: some View {
         NavigationStack{
-            
-            switch root {
-            case .Login:
-                LoginScreen(rootScreen: self.$root)
-                    .environmentObject(self.fireAuthHelper)
-                    .environmentObject(self.fireDBHelper)
-
-            case .SignUp:
-                SignUpScreen(rootScreen: self.$root)
-                    .environmentObject(self.fireAuthHelper)
-                    .environmentObject(self.fireDBHelper)
+            if !isLoggedIn {
                 
-            case .UserAddress:
-                UserAddressScreen(rootScreen: self.$root)
-                    .environmentObject(self.fireAuthHelper)
-                    .environmentObject(self.fireDBHelper)
+                if !isLoginActive && !isSignUpActive {
+                    LoginScreen(isLoginActive: $isLoginActive, isSignUpActive: $isSignUpActive, isLoggedIn: $isLoggedIn)
+                        .environmentObject(fireAuthHelper)
+                        .environmentObject(fireDBHelper)
+                } else if isLoginActive {
+                    LoginScreen(isLoginActive: $isLoginActive, isSignUpActive: $isSignUpActive, isLoggedIn: $isLoggedIn)
+                        .environmentObject(fireAuthHelper)
+                        .environmentObject(fireDBHelper)
+                } else if isSignUpActive {
+                    SignUpScreen(isLoginActive: $isLoginActive, isSignUpActive: $isSignUpActive)
+                        .environmentObject(fireAuthHelper)
+                        .environmentObject(fireDBHelper)
+                }
                 
-            case .Home:
-                MainView(rootScreen: self.$root)
-                    .environmentObject(self.fireAuthHelper)
-                    .environmentObject(self.fireDBHelper)
-                    
-            
+            } else {
+                MainView(isLoggedIn: $isLoggedIn)
+                    .environmentObject(fireAuthHelper)
+                    .environmentObject(fireDBHelper)
             }
-         
+    
         }//NavigationStack
         
     } // body
