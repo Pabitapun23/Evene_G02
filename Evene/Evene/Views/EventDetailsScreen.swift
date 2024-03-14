@@ -17,6 +17,11 @@ struct EventDetailsScreen: View {
     
     @State private var coordinates: CLLocationCoordinate2D?
     @EnvironmentObject var locationHelper: LocationHelper
+  
+  
+    @EnvironmentObject var fireDBHelper : FireDBHelper
+    @EnvironmentObject var fireAuthHelper : FireAuthHelper
+    @Environment(\.dismiss) private var dismiss
 
     var body: some View {
         ScrollView {
@@ -113,6 +118,16 @@ struct EventDetailsScreen: View {
                 }
 
                 
+                Button(action: {
+                    // TODO: Add to My Events
+                    addNewEvent()
+                }) {
+                    Text("Add to My Events!")
+                }
+                .buttonStyle(.borderedProminent)
+                .padding()
+                
+                
             }
             .padding(.horizontal, 30)
         }
@@ -160,6 +175,7 @@ struct EventDetailsScreen: View {
                 // TODO: Add to favority
                 Button(action: {
                     // TODO: Add Event To User Favorite List
+                    
                 }, label: {
                     // TODO: If it's added, use "heart.fill"
                     Image("heart.filllet description: String?")
@@ -180,7 +196,14 @@ struct EventDetailsScreen: View {
             }
         }
         
+    }//body
+    
+    private func addNewEvent(){
+
+        self.fireDBHelper.insertEvent(newEvent: selectedEvent)
+            
     }
+    
 } // ActivityDetailsView
 
 
