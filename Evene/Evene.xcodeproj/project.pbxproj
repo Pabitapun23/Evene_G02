@@ -57,6 +57,7 @@
 		5A0388172B9E69C400894D86 /* EventListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A0388162B9E69C400894D86 /* EventListScreen.swift */; };
 		5A03881D2B9EA1FF00894D86 /* EventAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A03881C2B9EA1FF00894D86 /* EventAPIManager.swift */; };
 		5A03881F2B9EA3B600894D86 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A03881E2B9EA3B600894D86 /* Event.swift */; };
+		5AC234F92BA3C0FB0034B8DE /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC234F82BA3C0FB0034B8DE /* LocationManager.swift */; };
 		BADBE7DF2BA34CC0002E6BD0 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = BADBE7DE2BA34CC0002E6BD0 /* ImagePicker.swift */; };
 /* End PBXBuildFile section */
 
@@ -85,6 +86,8 @@
 		5A0388162B9E69C400894D86 /* EventListScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventListScreen.swift; sourceTree = "<group>"; };
 		5A03881C2B9EA1FF00894D86 /* EventAPIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EventAPIManager.swift; path = Evene/Views/EventAPIManager.swift; sourceTree = SOURCE_ROOT; };
 		5A03881E2B9EA3B600894D86 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Event.swift; path = Evene/Views/Event.swift; sourceTree = SOURCE_ROOT; };
+		5AC234F82BA3C0FB0034B8DE /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		5AC234FA2BA3C3210034B8DE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		BADBE7DE2BA34CC0002E6BD0 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -145,6 +148,7 @@
 		50EB86CE2B9C2A1C00BC48B6 /* Evene */ = {
 			isa = PBXGroup;
 			children = (
+				5AC234FA2BA3C3210034B8DE /* Info.plist */,
 				50EB86F62B9C3BD600BC48B6 /* GoogleService-Info.plist */,
 				50EB86DF2B9C2BBD00BC48B6 /* Controllers */,
 				50EB86DE2B9C2BB600BC48B6 /* Models */,
@@ -201,6 +205,7 @@
 				50EB878A2BA1600F00BC48B6 /* LocationHelper.swift */,
 				5A03881C2B9EA1FF00894D86 /* EventAPIManager.swift */,
 				BADBE7DE2BA34CC0002E6BD0 /* ImagePicker.swift */,
+				5AC234F82BA3C0FB0034B8DE /* LocationManager.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -319,6 +324,7 @@
 				50EB86D02B9C2A1C00BC48B6 /* EveneApp.swift in Sources */,
 				50EB86F12B9C335200BC48B6 /* MyFriendListScreen.swift in Sources */,
 				50EB87452B9F836400BC48B6 /* FireDBHelper.swift in Sources */,
+				5AC234F92BA3C0FB0034B8DE /* LocationManager.swift in Sources */,
 				5A03881F2B9EA3B600894D86 /* Event.swift in Sources */,
 				50EB86D22B9C2A1C00BC48B6 /* ContentView.swift in Sources */,
 				50EB86D02B9C2A1C00BC48B6 /* EveneApp.swift in Sources */,
@@ -468,6 +474,9 @@
 				DEVELOPMENT_TEAM = 827JZHP663;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Evene/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -499,6 +508,9 @@
 				DEVELOPMENT_TEAM = 827JZHP663;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Evene/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;

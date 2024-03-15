@@ -17,12 +17,11 @@ class EventAPIManager : ObservableObject{
         
         let latitude = lat ?? 45.5019
         let longitude = lon ?? -73.5674
-        
         print("latitude: \(latitude), longitude: \(longitude)")
         
         let websiteAddress = "https://api.seatgeek.com/2/events?lat=\(latitude)&lon=\(longitude)&client_id=\(clientId)"
-        
         print("websiteAddress: \(websiteAddress)")
+        
         
         guard let apiURL = URL(string: websiteAddress) else {
             print("ERROR: Cannot convert api address to an URL object")
@@ -43,6 +42,7 @@ class EventAPIManager : ObservableObject{
 
             if let jsonData = data {
                 print("data retreived")
+                print("websiteAddress: \(websiteAddress)")
                 
                 if let decodedResponse
                     = try? JSONDecoder().decode(EventsResponseObject.self, from:jsonData) {
@@ -50,9 +50,10 @@ class EventAPIManager : ObservableObject{
                     // if conversion successful, then output it to the console
                     DispatchQueue.main.async {
                         print(decodedResponse)
-                        let recipes = decodedResponse.events
+//                        let recipes = decodedResponse.events
                         
-                        self.eventsList = recipes
+//                        self.eventsList = recipes
+                        self.eventsList = decodedResponse.events
                         
                     }
                 }

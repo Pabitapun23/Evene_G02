@@ -11,8 +11,9 @@ struct EventListScreen: View {
 
     @ObservedObject var eventApiManager = EventAPIManager()
     @State private var searchText: String = ""
-//    @StateObject var locationManager = LocationManager()
+    @StateObject var locationManager = LocationManager()
     @State private var showNearbyEvents = false
+    @State private var currentLocation: String = ""
 
     private var filteredEvents: [Event] {
         if searchText.isEmpty {
@@ -22,10 +23,28 @@ struct EventListScreen: View {
         }
     }
 
+    var displayedEvents: [Event] {
+        showNearbyEvents ? filteredEvents : eventApiManager.eventsList
+    }
+    
     var body: some View {
 
         NavigationStack {
             VStack(spacing: 10) {
+                
+                Text(currentLocation)
+                    .onReceive(locationManager.$didUpdateLocation) { updated in
+                        if updated {
+                            if let latitude = locationManager.latitude, let longitude = locationManager.longitude {
+                                currentLocation = "Current location: (\(latitude), \(longitude))"
+//                                currentLocation = "Current location: (43.7872117124662, -79.41371468533447)"
+                                self.eventApiManager.loadDataFromAPI(lat: latitude, lon: longitude)
+                            } else {
+                                currentLocation = "Unable to retrieve device location"
+                            }
+                        }
+                    }
+            
                 HStack {
                     Image(systemName: "magnifyingglass")
                         .foregroundColor(.gray)
@@ -36,30 +55,44 @@ struct EventListScreen: View {
                 .frame(height: 50)
                 .background(Color(.systemGray6))
                 .cornerRadius(25)
-
-//                Button(action: {
-//                    showNearbyEvents.toggle()
-//                    if showNearbyEvents {
-//                        if let latitude = locationManager.latitude, let longitude = locationManager.longitude {
-//                            print("latitude: \(latitude), longitude: \(longitude)")
-//                            self.eventApiManager.loadDataFromAPI(lat: latitude, lon: longitude)
-//                        } else {
-//                            print("Unable to retrieve device location")
-//                        }
-//                    }
-//                }) {
-//                    Text("Show Nearby Events")
-//                }
-
+                
+                
                 List {
-//                    ForEach(showNearbyEvents ? self.filteredEvents : eventApiManager.eventsList, id: \.id)
-                    ForEach(self.filteredEvents, id: \.id) { currentEvent in
+                    ForEach(displayedEvents, id: \.id) { currentEvent in
                         NavigationLink(destination: EventDetailsScreen(selectedEvent: currentEvent)) {
                             EventRowView(currentEvent: currentEvent)
                         }
                     }
                 }
-            } // VStack
+//
+//                Button(action: {
+//                                    showNearbyEvents.toggle()
+//                                    if showNearbyEvents {
+//                                        if let latitude = locationManager.latitude, let longitude = locationManager.longitude {
+//                                            currentLocation = "latitude: \(latitude), longitude: \(longitude)"
+//                                        } else {
+//                                            currentLocation = "Unable to retrieve device location"
+//                                        }
+//                                    } else {
+//                                        currentLocation = ""
+//                                    }
+//                                }) {
+//                                    Text(showNearbyEvents ? "Show All Events" : "Show Nearby Events")
+//                                }
+//                                
+//                                if showNearbyEvents {
+//                                    Text(currentLocation)
+//                                        .padding()
+//                                }
+//                            
+//                                List {
+//                                    ForEach(displayedEvents, id: \.id) { currentEvent in
+//                                        NavigationLink(destination: EventDetailsScreen(selectedEvent: currentEvent)) {
+//                                            EventRowView(currentEvent: currentEvent)
+//                                        }
+//                                    }
+//                                }
+                            } // VStack
 
             Spacer()
         }
