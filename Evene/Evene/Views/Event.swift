@@ -13,23 +13,25 @@ struct Event: Codable{
     let date: String
     let venue: Venue
     let performers: [Performers]
-//    let stats: Stats
     
     let description: String?
     let url: String?
     let type: String
     
+    let stats: Stats
+    
     enum CodingKeys:String, CodingKey {
         case id
         case type
         case eventName = "title"
-//        case stats
         case venue
         case performers
         case date = "datetime_local"
         
         case description
         case url
+        
+        case stats
     }
 }
 
@@ -79,13 +81,13 @@ struct Performers: Codable {
 }
 
 struct Stats: Codable {
-    let listingCount: Int
-    let averagePrice: Int
-    let lowestPrice: Int
-    let highestPrice: Int
-    let visibleListingCount: Int
-    let ticketCount: Int
-
+    let listingCount: Int?
+    let averagePrice: Int?
+    let lowestPrice: Int?
+    let highestPrice: Int?
+    let visibleListingCount: Int?
+    let ticketCount: Int?
+    
     enum CodingKeys: String, CodingKey {
         case listingCount = "listing_count"
         case averagePrice = "average_price"
@@ -109,7 +111,7 @@ extension Event {
         dictionary["eventName"] = self.eventName
         dictionary["date"] = self.date
         dictionary["venue"] = self.venue.toDictionary()
-//        dictionary["stats"] = self.stats.toDictionary()
+        dictionary["stats"] = self.stats.toDictionary()
         dictionary["performers"] = self.performers.map { $0.toDictionary() }
 
         return dictionary
@@ -137,13 +139,12 @@ extension Performers {
 extension Stats {
     func toDictionary() -> [String: Any] {
         return [
-            "listingCount": self.listingCount,
-            "averagePrice": self.averagePrice,
-            "lowestPrice": self.lowestPrice,
-            "highestPrice": self.highestPrice,
-            "visibleListingCount": self.visibleListingCount,
-            "ticketCount": self.ticketCount
-
+            "listingCount": self.listingCount ?? 0,
+            "averagePrice": self.averagePrice ?? 0,
+            "lowestPrice": self.lowestPrice ?? 0,
+            "highestPrice": self.highestPrice ?? 0,
+            "visibleListingCount": self.visibleListingCount ?? 0,
+            "ticketCount": self.ticketCount ?? 0
         ]
     }
 }

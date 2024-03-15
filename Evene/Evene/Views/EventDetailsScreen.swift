@@ -51,6 +51,7 @@ struct EventDetailsScreen: View {
                 Text("Date: \(selectedEvent.date)")
                 Text("Location: \(selectedEvent.venue.address), \(selectedEvent.venue.city)")
                         
+                
                 // DONE: MapView
                 if let coordinates = coordinates {
                     MyMap(coordinates: coordinates)
@@ -74,22 +75,19 @@ struct EventDetailsScreen: View {
                     .frame(height: 1)
                     .overlay(Color(hue: 1.0, saturation: 0.0, brightness: 0.781))
                 
-                // TODO: Event Price
+                // DONE: Event Price
                 HStack {
                     VStack(alignment: .leading, spacing: 5) {
                         Text("Price")
                             .font(.title2)
                             .fontWeight(.bold)
-                        Text("Average Price: $647")
-                        Text("Lowest Price: $429")
-                        Text("Highest Price: $1488")
-                        Text("Ticket Count: 32")
                         
-//                        Text("Average Price: $\(selectedEvent.stats.averagePrice)")
-//                        Text("Lowest Price: $\(selectedEvent.stats.lowestPrice)")
-//                        Text("Highest Price: $\(selectedEvent.stats.highestPrice)")
-//                        Text("Visible Listing Count: $\(selectedEvent.stats.visibleListingCount)")
-//                        Text("Ticket Count: $\(selectedEvent.stats.ticketCount)")
+                        Text("Average Price: \(selectedEvent.stats.averagePrice != nil ? "$\(selectedEvent.stats.averagePrice!)" : "Unavailable")")
+                        Text("Lowest Price: \(selectedEvent.stats.lowestPrice != nil ? "$\(selectedEvent.stats.lowestPrice!)" : "Unavailable")")
+                        Text("Highest Price: \(selectedEvent.stats.highestPrice != nil ? "$\(selectedEvent.stats.highestPrice!)" : "Unavailable")")
+                        Text("Visible Listing Count: \(selectedEvent.stats.visibleListingCount != nil ? "$\(selectedEvent.stats.visibleListingCount!)" : "Unavailable")")
+                        Text("Ticket Count: \(selectedEvent.stats.ticketCount != nil ? "$\(selectedEvent.stats.ticketCount!)" : "Unavailable")")
+
                     }
                 } // HStack
                 
@@ -98,7 +96,7 @@ struct EventDetailsScreen: View {
                     
                     // DONE: Purchase Ticket
                     Button(action: {
-                        if let purchaseURL = URL(string: selectedEvent.venue.externalPurchaseLink ?? "") {
+                        if let purchaseURL = URL(string: selectedEvent.venue.externalPurchaseLink ) {
                             UIApplication.shared.open(purchaseURL)
                         }
                     }) {
@@ -124,10 +122,7 @@ struct EventDetailsScreen: View {
                     .foregroundColor(/*@START_MENU_TOKEN@*/.white/*@END_MENU_TOKEN@*/)
                     .cornerRadius(/*@START_MENU_TOKEN@*/8.0/*@END_MENU_TOKEN@*/)
                     
-
                 } // HStack
-                .padding()
-                
                 
             }
             .padding(.horizontal, 30)
@@ -156,13 +151,15 @@ struct EventDetailsScreen: View {
             
             ToolbarItemGroup(placement: .topBarTrailing) {
                 
-                ShareLink(item: "\(selectedEvent.eventName)",
-                          subject: Text("Check out this Activity!"),
-//                          message: Average Price: $\(selectedEvent.stats.average_price)")
-                          preview: SharePreview(
-                            "\(selectedEvent.eventName)",
-                            image: Image("\(selectedEvent.performers[0].image)")
-                        )
+                ShareLink(
+                    item: """
+                    Check out this Event: \(selectedEvent.eventName)
+                    Type: \(selectedEvent.type)
+                    Hosted By: \(selectedEvent.venue.name)
+                    Date: \(selectedEvent.date)
+                    Location: \(selectedEvent.venue.address), \(selectedEvent.venue.city)
+                    Purchase Tickets: \(selectedEvent.venue.externalPurchaseLink)
+                    """
                 ) {
                     Image(systemName: "square.and.arrow.up")
                         .font(.system(size: 13, weight: .heavy))
@@ -172,20 +169,7 @@ struct EventDetailsScreen: View {
                         .clipShape(Circle())
                         .shadow(color: .gray, radius: 2, x: 0, y: 2)
                 }
-                
-                // TODO: Add to favority
-                Button(action: {
-                    // TODO: Add Event To User Favorite List
-                }, label: {
-                    // TODO: If it's added, use "heart.fill"
-                    Image("heart.filllet description: String?")
-                        .font(.system(size: 14, weight: .bold))
-                        .padding(8)
-                        .background(Color.pink)
-                        .foregroundColor(.white)
-                        .clipShape(Circle())
-                        .shadow(color: .gray, radius: 2, x: 0, y: 2)
-                }) // Button
+
                 
             } // ToolbarItemGroup
             
