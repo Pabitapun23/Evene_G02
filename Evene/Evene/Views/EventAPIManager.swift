@@ -11,14 +11,18 @@ class EventAPIManager : ObservableObject{
     
     @Published var eventsList : [Event] = []
     var clientId: String = "NDAzMTI4NDd8MTcwOTk2MTU3Ni40Nzc1Mzk4"
-    var lat: Double = 45.5019
-    var lon: Double = -73.5674
-    
-    func loadDataFromAPI() {
+
+    func loadDataFromAPI(lat: Double? = nil, lon: Double? = nil) {
         print("Getting data from API")
         
-        let websiteAddress:String
-            = "https://api.seatgeek.com/2/events?lat=\(lat)&lon=\(lon)&client_id=\(clientId)"
+        let latitude = lat ?? 45.5019
+        let longitude = lon ?? -73.5674
+        
+        print("latitude: \(latitude), longitude: \(longitude)")
+        
+        let websiteAddress = "https://api.seatgeek.com/2/events?lat=\(latitude)&lon=\(longitude)&client_id=\(clientId)"
+        
+        print("websiteAddress: \(websiteAddress)")
         
         guard let apiURL = URL(string: websiteAddress) else {
             print("ERROR: Cannot convert api address to an URL object")
@@ -53,7 +57,8 @@ class EventAPIManager : ObservableObject{
                     }
                 }
                 else {
-                    print("ERROR: Error converting data to JSON")
+//                    print("ERROR: Error converting data to JSON")
+                    print("")
                 }
             }
             else {
