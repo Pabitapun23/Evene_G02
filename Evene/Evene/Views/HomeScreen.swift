@@ -17,7 +17,3 @@ struct HomeScreen: View {
 #Preview {
     HomeScreen()
 }
-
-
-
-
