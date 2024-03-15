@@ -2,7 +2,7 @@
 //  EventListScreen.swift
 //  Evene
 //
-//  Created by Alfie Pun on 2024-03-09.
+//  Created by Alfie on 2024-03-09.
 //
 
 import SwiftUI

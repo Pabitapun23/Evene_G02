@@ -42,7 +42,7 @@ struct EventDetailsScreen: View {
                     .frame(height: 1)
                     .overlay(Color(hue: 1.0, saturation: 0.0, brightness: 0.781))
                 
-                // TODO: Event Host
+                // DONE: Event Host
                 Text("Description")
                     .font(.title2)
                     .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
@@ -51,17 +51,7 @@ struct EventDetailsScreen: View {
                 Text("Date: \(selectedEvent.date)")
                 Text("Location: \(selectedEvent.venue.address), \(selectedEvent.venue.city)")
                         
-//                        // TODO: Call Telephone
-//                        Button {
-//                            if let url = URL(string: "tel://\(selectedEvent.tel)") {
-//                                openURL(url)
-//                            }
-//                        } label: {
-//                            Label("\(selectedEvent.tel)", systemImage: "phone.circle")
-//                        }
-
-                
-                // Done: MapView
+                // DONE: MapView
                 if let coordinates = coordinates {
                     MyMap(coordinates: coordinates)
                         .frame(height: 300)
@@ -73,7 +63,7 @@ struct EventDetailsScreen: View {
                     .frame(height: 1)
                     .overlay(Color(hue: 1.0, saturation: 0.0, brightness: 0.781))
                 
-                // TODO: Performer Name And Photo
+                // DONE: Performer Name
                 Text("Performer")
                     .font(.title2)
                     .fontWeight(.bold)
@@ -103,15 +93,10 @@ struct EventDetailsScreen: View {
                     }
                 } // HStack
                 
-
-                
-
-                
-                
                 
                 HStack {
                     
-                    // TODO: Purchase Ticket
+                    // DONE: Purchase Ticket
                     Button(action: {
                         if let purchaseURL = URL(string: selectedEvent.venue.externalPurchaseLink ?? "") {
                             UIApplication.shared.open(purchaseURL)
@@ -127,8 +112,8 @@ struct EventDetailsScreen: View {
                     
                     Spacer()
                     
+                    // DONE:Add to My Events
                     Button(action: {
-                        // TODO: Add to My Events
                         addNewEvent()
                     }) {
                         Text("Add to My Events!")
