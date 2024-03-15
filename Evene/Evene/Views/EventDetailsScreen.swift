@@ -51,6 +51,16 @@ struct EventDetailsScreen: View {
                 Text("Date: \(selectedEvent.date)")
                 Text("Location: \(selectedEvent.venue.address), \(selectedEvent.venue.city)")
                         
+//                        // TODO: Call Telephone
+//                        Button {
+//                            if let url = URL(string: "tel://\(selectedEvent.tel)") {
+//                                openURL(url)
+//                            }
+//                        } label: {
+//                            Label("\(selectedEvent.tel)", systemImage: "phone.circle")
+//                        }
+
+                
                 // Done: MapView
                 if let coordinates = coordinates {
                     MyMap(coordinates: coordinates)
@@ -63,7 +73,7 @@ struct EventDetailsScreen: View {
                     .frame(height: 1)
                     .overlay(Color(hue: 1.0, saturation: 0.0, brightness: 0.781))
                 
-                // DONE: Performer Name
+                // TODO: Performer Name And Photo
                 Text("Performer")
                     .font(.title2)
                     .fontWeight(.bold)
@@ -74,7 +84,7 @@ struct EventDetailsScreen: View {
                     .frame(height: 1)
                     .overlay(Color(hue: 1.0, saturation: 0.0, brightness: 0.781))
                 
-                // DONE: Event Price
+                // TODO: Event Price
                 HStack {
                     VStack(alignment: .leading, spacing: 5) {
                         Text("Price")
@@ -163,6 +173,7 @@ struct EventDetailsScreen: View {
                 
                 ShareLink(item: "\(selectedEvent.eventName)",
                           subject: Text("Check out this Activity!"),
+//                          message: Average Price: $\(selectedEvent.stats.average_price)")
                           preview: SharePreview(
                             "\(selectedEvent.eventName)",
                             image: Image("\(selectedEvent.performers[0].image)")
@@ -177,9 +188,11 @@ struct EventDetailsScreen: View {
                         .shadow(color: .gray, radius: 2, x: 0, y: 2)
                 }
                 
-                // DONE: Add to favority
+                // TODO: Add to favority
                 Button(action: {
+                    // TODO: Add Event To User Favorite List
                 }, label: {
+                    // TODO: If it's added, use "heart.fill"
                     Image("heart.filllet description: String?")
                         .font(.system(size: 14, weight: .bold))
                         .padding(8)
