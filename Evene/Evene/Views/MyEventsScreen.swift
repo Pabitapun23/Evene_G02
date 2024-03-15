@@ -39,9 +39,7 @@ struct MyEventsScreen: View {
                     }
                 }
             }
-            .padding()
             .navigationTitle("My Events")
-            .navigationBarTitleDisplayMode(.inline)
         } // NavigationStack
         
     } // body

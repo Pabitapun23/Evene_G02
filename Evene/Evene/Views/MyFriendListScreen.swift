@@ -19,6 +19,7 @@ struct MyFriendListScreen: View {
         VStack {
             Text("My Friend List")
                 .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+                .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
          
             List {
                 ForEach(friendsList, id: \.email) { currentFriend in
@@ -32,6 +33,7 @@ struct MyFriendListScreen: View {
             
             Spacer()
         } // VStack
+//        .navigationTitle("My Friend List")
         .onAppear() {
             // Fetch loggedInUserEmail on view appear
             loggedInUserEmail = UserDefaults.standard.string(forKey: "KEY_EMAIL")
@@ -51,7 +53,6 @@ struct MyFriendListScreen: View {
                 print("Logged-in user email is nil.")
             }
         } // .onAppear
-        
         
         
     } // body
