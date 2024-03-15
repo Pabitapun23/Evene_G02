@@ -41,19 +41,19 @@ struct UserProfileScreen: View {
                             } placeholder: {
                                 ProgressView()
                             }
-                            .frame(width: 100, height: 100)
+                            .frame(width: 150, height: 150)
                             .clipShape(Circle())
                         } else {
                             Image(systemName: "person.crop.circle.fill")
                                 .resizable()
-                                .frame(width: 100, height: 100)
+                                .frame(width: 150, height: 150)
                                 .foregroundColor(.gray)
                                 
                         }
-                    }
+                    } // ZStack
                     .padding(.top, 20)
                     
-                    Button("Select Image") {
+                    Button("Upload Image") {
                         selectImage()
                     }
                     .sheet(isPresented: $showingImagePicker, onDismiss: handleImageSelection) {
@@ -61,28 +61,28 @@ struct UserProfileScreen: View {
                     }
                     
                     VStack(alignment: .leading, spacing: 15) {
-                        HStack {
+                        VStack(alignment: .leading) {
                             Text("First Name:")
                                 .bold()
                             TextField("", text: $firstName)
                                 .textFieldStyle(.roundedBorder)
                         }
                         
-                        HStack {
+                        VStack(alignment: .leading) {
                             Text("Last Name:")
                                 .bold()
                             TextField("", text: $lastName)
                                 .textFieldStyle(.roundedBorder)
                         }
                         
-                        HStack {
+                        VStack(alignment: .leading) {
                             Text("Phone Number:")
                                 .bold()
                             TextField("Phone Number", text: $phoneNumber)
                                 .textFieldStyle(.roundedBorder)
                         }
                         
-                        HStack {
+                        VStack(alignment: .leading) {
                             Text("Address:")
                                 .bold()
                             TextField("Address", text: $address)
@@ -90,6 +90,8 @@ struct UserProfileScreen: View {
                         }
                     }//VStack
                     .padding(.horizontal)
+                    .autocorrectionDisabled(true)
+                    .textInputAutocapitalization(.never)
                   
                     HStack {
                         Button {
@@ -105,6 +107,8 @@ struct UserProfileScreen: View {
                     } .padding(.top, 20.0)
                     
                 }//VStack
+                .padding()
+                
             }//ScrollView
             
             .navigationTitle("Profile")
@@ -135,7 +139,7 @@ struct UserProfileScreen: View {
             }
             
             .onAppear(perform: fetchCurrentUserProfile)
-        } // NavigationStack
+        }// NavigationStack
     } // body
     
     func selectImage() {
