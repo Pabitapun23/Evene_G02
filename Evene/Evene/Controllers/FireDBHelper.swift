@@ -133,13 +133,71 @@ class FireDBHelper : ObservableObject {
             }
         } // func
 
-
-
-    func fetchUpcomingEvent(forUser userEmail: String, completion: @escaping (Event?, Error?) -> Void) {
+    func fetchUpcomingEvents(forUser userEmail: String, completion: @escaping ([Event]?, Error?) -> Void) {
         let db = Firestore.firestore()
         let usersCollectionRef = db.collection("users")
-        print("------")
-        print(userEmail)
+        
+        // Query the user based on email
+        usersCollectionRef.whereField("email", isEqualTo: userEmail).getDocuments { (querySnapshot, error) in
+            if let error = error {
+                print("Error getting user documents: \(error)")
+                completion(nil, error)
+                return
+            }
+            
+            // Assuming there is only one user with this email
+            guard let userDocument = querySnapshot?.documents.first else {
+                print("User not found")
+                completion(nil, NSError(domain: "App", code: 404, userInfo: [NSLocalizedDescriptionKey: "User not found"]))
+                return
+            }
+            
+            let userID = userDocument.documentID
+            
+            // Fetch upcoming events from the user's event subcollection
+            let eventsRef = usersCollectionRef.document(userID).collection(self.COLLECTION_Events)
+            let now = Date()
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+            let nowString = dateFormatter.string(from: now)
+            
+            eventsRef.whereField("datetime_local", isGreaterThanOrEqualTo: nowString).order(by: "datetime_local").getDocuments { (eventSnapshot, error) in
+                if let error = error {
+                    print("Error fetching upcoming events: \(error)")
+                    completion(nil, error)
+                    return
+                }
+                
+                let events = eventSnapshot?.documents.compactMap { document -> Event? in
+                    try? document.data(as: Event.self)
+                }
+                
+                completion(events, nil)
+            }
+        }
+    }
+
+
+    func fetchFriendsAttendingEvent(forUser userEmail: String, completion: @escaping (Event?, Error?) -> Void) {
+        let db = Firestore.firestore()
+        let usersCollectionRef = db.collection(self.COLLECTION_USER)
+        let loggedInUserEmail = UserDefaults.standard.string(forKey: "KEY_EMAIL") ?? ""
+
+        // Query the user based on email
+        usersCollectionRef.whereField("email", isEqualTo: loggedInUserEmail).getDocuments { (querySnapshot, error) in
+            if let error = error {
+                print("Error getting user documents: \(error)")
+                completion(nil, error)
+                return
+            }
+            
+            guard let loggedInUserDocument = querySnapshot?.documents.first else {
+                print("User not found")
+                completion(nil, NSError(domain: "App", code: 404, userInfo: [NSLocalizedDescriptionKey: "User not found"]))
+                return
+            }
+        }
+        
 
         // Query the user based on email
         usersCollectionRef.whereField("email", isEqualTo: userEmail).getDocuments { (querySnapshot, error) in
@@ -161,30 +219,35 @@ class FireDBHelper : ObservableObject {
             
             // Fetch upcoming event from the user's event subcollection
             let eventsRef = usersCollectionRef.document(userID).collection(self.COLLECTION_Events)
-            let now = Timestamp(date: Date())
+            let now = Date()
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+                    let nowString = dateFormatter.string(from: now)
             print("######")
-            print(now)
-            eventsRef.whereField("datetime_local", isGreaterThanOrEqualTo: now).order(by: "datetime_local").limit(to: 1).getDocuments { (eventSnapshot, error) in
-                if let error = error {
-                    print("Error fetching upcoming event: \(error)")
-                    completion(nil, error)
-                    return
-                }
-                
-                guard let document = eventSnapshot?.documents.first else {
-                    // No upcoming events found
-                    completion(nil, nil)
-                    return
-                }
-                
-                if let event = try? document.data(as: Event.self) {
-                    completion(event, nil)
-                } else {
-                    print("Failed to parse event data")
-                    completion(nil, NSError(domain: "App", code: 500, userInfo: [NSLocalizedDescriptionKey: "Failed to parse event data"]))
-                }
-
-            }
+            print(nowString)
+            eventsRef.whereField("datetime_local", isGreaterThanOrEqualTo: nowString).order(by: "datetime_local").limit(to: 1).getDocuments { (eventSnapshot, error) in
+                        if let error = error {
+                            print("Error fetching upcoming event: \(error)")
+                            completion(nil, error)
+                            return
+                        }
+                        
+                        guard let document = eventSnapshot?.documents.first else {
+                            // No upcoming events found
+                            completion(nil, nil)
+                            return
+                        }
+                        
+                        do {
+                            // Decode Firestore document into Event model
+                            let event = try document.data(as: Event.self)
+                            completion(event, nil)
+                        } catch {
+                            print("Failed to parse event data: \(error)")
+                            completion(nil, error)
+                        }
+                    }
+            
         }
     }
 

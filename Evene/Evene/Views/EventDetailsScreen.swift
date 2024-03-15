@@ -106,7 +106,7 @@ struct EventDetailsScreen: View {
 
                 // TODO: Purchase Ticket
                 Button(action: {
-                    if let purchaseURL = URL(string: selectedEvent.venue.externalPurchaseLink) {
+                    if let purchaseURL = URL(string: selectedEvent.venue.externalPurchaseLink ?? "") {
                         UIApplication.shared.open(purchaseURL)
                     }
                 }) {

@@ -41,6 +41,7 @@ struct Venue: Codable {
     let country: String
     let externalPurchaseLink: String
     let location: Location
+
     
     enum CodingKeys: String, CodingKey {
         case address
