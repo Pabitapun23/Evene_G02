@@ -11,7 +11,7 @@ struct EventListScreen: View {
 
     @ObservedObject var eventApiManager = EventAPIManager()
     @State private var searchText: String = ""
-    @StateObject var locationManager = LocationManager()
+//    @StateObject var locationManager = LocationManager()
     @State private var showNearbyEvents = false
 
     private var filteredEvents: [Event] {
@@ -52,7 +52,8 @@ struct EventListScreen: View {
 //                }
 
                 List {
-                    ForEach(showNearbyEvents ? self.filteredEvents : eventApiManager.eventsList, id: \.id) { currentEvent in
+//                    ForEach(showNearbyEvents ? self.filteredEvents : eventApiManager.eventsList, id: \.id)
+                    ForEach(self.filteredEvents, id: \.id) { currentEvent in
                         NavigationLink(destination: EventDetailsScreen(selectedEvent: currentEvent)) {
                             EventRowView(currentEvent: currentEvent)
                         }
