@@ -32,7 +32,7 @@ struct UserProfileScreen: View {
             
             ScrollView {
                 
-                VStack(spacing: 50) {
+                VStack(spacing: 15) {
                     //Profile Picture Placeholder
                     ZStack {
                         if let profilePic = user.profilePic, let url = URL(string: profilePic.absoluteString) {
@@ -48,6 +48,7 @@ struct UserProfileScreen: View {
                                 .resizable()
                                 .frame(width: 100, height: 100)
                                 .foregroundColor(.gray)
+                                
                         }
                     }
                     .padding(.top, 20)
@@ -89,12 +90,19 @@ struct UserProfileScreen: View {
                         }
                     }//VStack
                     .padding(.horizontal)
-                    
-                    Button("Save Changes") {
-                        updateUserProfile()
-                    }
-                    .buttonStyle(.borderedProminent)
-                    .padding()
+                  
+                    HStack {
+                        Button {
+                            updateUserProfile()
+                        } label: {
+                            Text("Save Changes")
+                        }
+                        .padding(.horizontal, 20.0)
+                        .padding(.vertical, 13.0)
+                        .background(Color.green)
+                        .foregroundColor(/*@START_MENU_TOKEN@*/.white/*@END_MENU_TOKEN@*/)
+                        .cornerRadius(/*@START_MENU_TOKEN@*/8.0/*@END_MENU_TOKEN@*/)
+                    } .padding(.top, 20.0)
                     
                 }//VStack
             }//ScrollView
@@ -107,6 +115,7 @@ struct UserProfileScreen: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                         NavigationLink(destination: MyFriendListScreen()) {
                             Image(systemName: "person.2.fill")
+                                .foregroundColor(.green)
                         }
                 }
                 
@@ -116,6 +125,7 @@ struct UserProfileScreen: View {
                         isLoggedIn = false
                     }) {
                         Image(systemName: "power")
+                            .foregroundColor(.green)
                     }
                 }
             }

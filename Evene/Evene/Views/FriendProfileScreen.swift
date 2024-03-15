@@ -58,10 +58,6 @@ struct FriendProfileScreen: View {
                     
                     Text("I am attending \(totalEvent) events!")
                     
-//                    self.fireDBHelper.fetchEvents(forUser: selectedUser) {
-//                        
-//                    }
-                    
                     if isUserFriend {
                         Button {
                             removeFriend()
@@ -108,7 +104,7 @@ struct FriendProfileScreen: View {
             Text(upcomingEvent?.venue.address ?? "")
             
             Text("Friends who are also attending...")
-                .font(.title2)
+                .font(.title3)
                 .fontWeight(.bold)
                 .padding(.top, 20.0)
                 .foregroundColor(.green)
