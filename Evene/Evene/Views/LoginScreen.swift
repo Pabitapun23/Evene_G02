@@ -27,81 +27,87 @@ struct LoginScreen: View {
     
     var body: some View {
         
-        VStack {
-            Text("Login Screen")
-                .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
-            
-            TextField("Enter your email", text: $emailFromUI)
-                .padding(.horizontal)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .autocorrectionDisabled(true)
-                .textInputAutocapitalization(.never)
-                .keyboardType(.emailAddress)
-            
-            SecureField("Enter your password", text: $passwordFromUI)
-                .padding(.horizontal)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .autocorrectionDisabled(true)
-                .textInputAutocapitalization(.never)
-                .keyboardType(.default)
-            
-            Toggle("Remember Me", isOn: $rememberMe)
-                .padding(.horizontal)
-            
-            if let errorMessage = errorMessage {
-                Text(errorMessage)
-                    .foregroundColor(.red)
-                    .padding()
-            }
-            
-            Button {
-                doLogin()
-            } label: {
+        NavigationView {
+            VStack {
                 Text("Login")
-            }
-            .padding(.horizontal, 20.0)
-            .padding(.vertical, 13.0)
-            .background(Color.green)
-            .foregroundColor(/*@START_MENU_TOKEN@*/.white/*@END_MENU_TOKEN@*/)
-            .cornerRadius(/*@START_MENU_TOKEN@*/8.0/*@END_MENU_TOKEN@*/)
-            
-            HStack {
-                Text("Don't have an account?")
+                    .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+                    .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                 
-                Button(action: {
-                    isSignUpActive = true
-                    isLoginActive = false
-                }) {
-                    Text("Sign Up")
-                        .foregroundColor(.green)
-                } // Button
-                    
-            } // HStack
-            
-            Spacer()
-            
-        } // VStack
-        .padding()
-        .navigationBarTitleDisplayMode(.inline)
-        .onAppear{
-            
-            // Retrieve rememberMe status from UserDefaults
-            rememberMe = UserDefaults.standard.bool(forKey: "RememberMeStatus")
-            
-            // If rememberMe is true, retrieve the previously logged-in user's email and password
-            if rememberMe {
-                if let savedEmail = UserDefaults.standard.string(forKey: "KEY_EMAIL"),
-                   let savedPassword = UserDefaults.standard.string(forKey: "KEY_PASSWORD") {
-                    self.emailFromUI = savedEmail
-                    self.passwordFromUI = savedPassword
-                    
+                Image("evene")
+                    .resizable()
+                    .frame(width: 300, height: 300)
+                
+                TextField("Enter your email", text: $emailFromUI)
+                    .padding(.horizontal)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .autocorrectionDisabled(true)
+                    .textInputAutocapitalization(.never)
+                    .keyboardType(.emailAddress)
+                
+                SecureField("Enter your password", text: $passwordFromUI)
+                    .padding(.horizontal)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .autocorrectionDisabled(true)
+                    .textInputAutocapitalization(.never)
+                    .keyboardType(.default)
+                
+                Toggle("Remember Me", isOn: $rememberMe)
+                    .padding(.horizontal)
+                
+                if let errorMessage = errorMessage {
+                    Text(errorMessage)
+                        .foregroundColor(.red)
+                        .padding()
                 }
-            } else {
-                self.emailFromUI = ""
-                self.passwordFromUI = ""
-                self.rememberMe = false
+                
+                Button {
+                    doLogin()
+                } label: {
+                    Text("Login")
+                }
+                .padding(.horizontal, 20.0)
+                .padding(.vertical, 13.0)
+                .background(Color.green)
+                .foregroundColor(/*@START_MENU_TOKEN@*/.white/*@END_MENU_TOKEN@*/)
+                .cornerRadius(/*@START_MENU_TOKEN@*/8.0/*@END_MENU_TOKEN@*/)
+                
+                HStack {
+                    Text("Don't have an account?")
+                    
+                    Button(action: {
+                        isSignUpActive = true
+                        isLoginActive = false
+                    }) {
+                        Text("Sign Up")
+                            .foregroundColor(.green)
+                    } // Button
+                        
+                } // HStack
+                
+                Spacer()
+                
+            } // VStack
+            .padding()
+            .onAppear{
+                
+                // Retrieve rememberMe status from UserDefaults
+                rememberMe = UserDefaults.standard.bool(forKey: "RememberMeStatus")
+                
+                // If rememberMe is true, retrieve the previously logged-in user's email and password
+                if rememberMe {
+                    if let savedEmail = UserDefaults.standard.string(forKey: "KEY_EMAIL"),
+                       let savedPassword = UserDefaults.standard.string(forKey: "KEY_PASSWORD") {
+                        self.emailFromUI = savedEmail
+                        self.passwordFromUI = savedPassword
+                        
+                    }
+                } else {
+                    self.emailFromUI = ""
+                    self.passwordFromUI = ""
+
+                }
             }
-        }
+        } // NavigationView
         
     } // body
     
@@ -150,9 +156,10 @@ struct LoginScreen: View {
                         UserDefaults.standard.set(self.emailFromUI, forKey: "KEY_EMAIL")
                         UserDefaults.standard.set(self.passwordFromUI, forKey: "KEY_PASSWORD")
                     } else {
-                        // If rememberMe is false, clear the saved user's email and password from UserDefaults
-                        UserDefaults.standard.removeObject(forKey: "KEY_EMAIL")
-                        UserDefaults.standard.removeObject(forKey: "KEY_PASSWORD")
+                        
+                        // Save rememberMe status to UserDefaults
+                        UserDefaults.standard.set(self.rememberMe, forKey: "RememberMeStatus")
+            
                     }
                                       
                 }

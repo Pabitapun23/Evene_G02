@@ -29,9 +29,10 @@ struct SignUpScreen: View {
     
     var body: some View {
         
-        VStack {
-            Text("Sign Up Screen")
+        VStack(spacing: 15) {
+            Text("Sign Up")
                 .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+                .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
             
             TextField("First name", text: $firstName)
                 .padding(.horizontal)

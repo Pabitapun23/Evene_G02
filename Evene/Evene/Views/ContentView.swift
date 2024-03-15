@@ -17,30 +17,27 @@ struct ContentView: View {
     @State private var isLoggedIn = false
     
     var body: some View {
-        NavigationStack{
-            if !isLoggedIn {
-                
-                if !isLoginActive && !isSignUpActive {
-                    LoginScreen(isLoginActive: $isLoginActive, isSignUpActive: $isSignUpActive, isLoggedIn: $isLoggedIn)
-                        .environmentObject(fireAuthHelper)
-                        .environmentObject(fireDBHelper)
-                } else if isLoginActive {
-                    LoginScreen(isLoginActive: $isLoginActive, isSignUpActive: $isSignUpActive, isLoggedIn: $isLoggedIn)
-                        .environmentObject(fireAuthHelper)
-                        .environmentObject(fireDBHelper)
-                } else if isSignUpActive {
-                    SignUpScreen(isLoginActive: $isLoginActive, isSignUpActive: $isSignUpActive)
-                        .environmentObject(fireAuthHelper)
-                        .environmentObject(fireDBHelper)
-                }
-                
-            } else {
-                MainView(isLoggedIn: $isLoggedIn)
+        if !isLoggedIn {
+            
+            if !isLoginActive && !isSignUpActive {
+                LoginScreen(isLoginActive: $isLoginActive, isSignUpActive: $isSignUpActive, isLoggedIn: $isLoggedIn)
+                    .environmentObject(fireAuthHelper)
+                    .environmentObject(fireDBHelper)
+            } else if isLoginActive {
+                LoginScreen(isLoginActive: $isLoginActive, isSignUpActive: $isSignUpActive, isLoggedIn: $isLoggedIn)
+                    .environmentObject(fireAuthHelper)
+                    .environmentObject(fireDBHelper)
+            } else if isSignUpActive {
+                SignUpScreen(isLoginActive: $isLoginActive, isSignUpActive: $isSignUpActive)
                     .environmentObject(fireAuthHelper)
                     .environmentObject(fireDBHelper)
             }
-    
-        }//NavigationStack
+            
+        } else {
+            MainView(isLoggedIn: $isLoggedIn)
+                .environmentObject(fireAuthHelper)
+                .environmentObject(fireDBHelper)
+        }
         
     } // body
 }
