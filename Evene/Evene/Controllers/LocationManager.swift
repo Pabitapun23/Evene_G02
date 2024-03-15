@@ -51,10 +51,9 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
   
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return }
-        // 將位置信息設置到相應的屬性中
         self.latitude = location.coordinate.latitude
         self.longitude = location.coordinate.longitude
-        self.didUpdateLocation = true // 當位置更新時，將 didUpdateLocation 設置為 true
+        self.didUpdateLocation = true
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
