@@ -35,21 +35,19 @@ struct LoginScreen: View {
                 
                 Image("evene")
                     .resizable()
-                    .frame(width: 300, height: 300)
+                    .frame(width: 250, height: 250)
                 
-                TextField("Enter your email", text: $emailFromUI)
-                    .padding(.horizontal)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .autocorrectionDisabled(true)
-                    .textInputAutocapitalization(.never)
-                    .keyboardType(.emailAddress)
-                
-                SecureField("Enter your password", text: $passwordFromUI)
-                    .padding(.horizontal)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .autocorrectionDisabled(true)
-                    .textInputAutocapitalization(.never)
-                    .keyboardType(.default)
+                VStack(spacing: 15) {
+                    TextField("Enter your email", text: $emailFromUI)
+                        .keyboardType(.emailAddress)
+                    
+                    SecureField("Enter your password", text: $passwordFromUI)
+                        .keyboardType(.default)
+                } // VStack
+                .padding(.horizontal)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .autocorrectionDisabled(true)
+                .textInputAutocapitalization(.never)
                 
                 Toggle("Remember Me", isOn: $rememberMe)
                     .padding(.horizontal)

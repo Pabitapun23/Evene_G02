@@ -29,56 +29,41 @@ struct SignUpScreen: View {
     
     var body: some View {
         
-        VStack(spacing: 15) {
+        VStack {
             Text("Sign Up")
                 .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
                 .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                .padding()
             
-            TextField("First name", text: $firstName)
-                .padding(.horizontal)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .autocorrectionDisabled(true)
-                .textInputAutocapitalization(.never)
+            Text("Create an account to find amazing events!")
+                .font(.headline)
+                .foregroundStyle(.gray)
+                .italic()
+                .padding(.bottom, 15.0)
             
-            TextField("Last name", text: $lastName)
-                .padding(.horizontal)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .autocorrectionDisabled(true)
-                .textInputAutocapitalization(.never)
-            
-            TextField("Email", text: $email)
-                .padding(.horizontal)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .autocorrectionDisabled(true)
-                .textInputAutocapitalization(.never)
-                .keyboardType(.emailAddress)
-            
-            SecureField("Password", text: $password)
-                .padding(.horizontal)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .autocorrectionDisabled(true)
-                .textInputAutocapitalization(.never)
-                .keyboardType(.default)
-            
-            SecureField("Confirm password", text: $confirmPassword)
-                .padding(.horizontal)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .autocorrectionDisabled(true)
-                .textInputAutocapitalization(.never)
-                .keyboardType(.default)
+            VStack(spacing: 15) {
+                TextField("First name", text: $firstName)
+                    
+                TextField("Last name", text: $lastName)
+                
+                TextField("Email", text: $email)
+                    .keyboardType(.emailAddress)
+                
+                SecureField("Password", text: $password)
+                    .keyboardType(.default)
+                
+                SecureField("Confirm password", text: $confirmPassword)
+                    .keyboardType(.default)
 
-            TextField("Phone number", text: $phoneNumber)
-                .padding(.horizontal)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .autocorrectionDisabled(true)
-                .textInputAutocapitalization(.never)
-                .keyboardType(.phonePad)
-            
-            TextField("Address", text: $address)
-                .padding(.horizontal)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .autocorrectionDisabled(true)
-                .textInputAutocapitalization(.never)
+                TextField("Phone number", text: $phoneNumber)
+                    .keyboardType(.phonePad)
+                
+                TextField("Address", text: $address)
+            } // VStack
+            .padding(.horizontal)
+            .textFieldStyle(RoundedBorderTextFieldStyle())
+            .autocorrectionDisabled(true)
+            .textInputAutocapitalization(.never)
             
             Text(errorMsg)
                 .foregroundStyle(.red)
