@@ -39,7 +39,7 @@ struct Venue: Codable {
     let name: String
     
     let country: String
-    let externalPurchaseLink: String
+    let externalPurchaseLink: String?
     
     enum CodingKeys: String, CodingKey {
         case address
