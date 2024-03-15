@@ -57,7 +57,7 @@ class EventAPIManager : ObservableObject{
                     }
                 }
                 else {
-//                    print("ERROR: Error converting data to JSON")
+                    print("ERROR: Error converting data to JSON")
                     print("")
                 }
             }
