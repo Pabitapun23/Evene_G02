@@ -150,6 +150,17 @@ class LocationHelper: NSObject, ObservableObject, CLLocationManagerDelegate{
         })
     }
     
+    func convertAddressToCoordinates(address: String, completion: @escaping (CLLocationCoordinate2D?) -> Void) {
+        geoCoder.geocodeAddressString(address) { placemarks, error in
+            guard let placemark = placemarks?.first, let location = placemark.location else {
+                print("Error converting address to coordinates: \(error?.localizedDescription ?? "Unknown error")")
+                completion(nil)
+                return
+            }
+            completion(location.coordinate)
+        }
+    }
+
     
     
     
