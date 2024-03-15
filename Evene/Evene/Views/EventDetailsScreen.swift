@@ -108,7 +108,7 @@ struct EventDetailsScreen: View {
             
             Button(action: {
                 addNewEvent()
-                alertMessage = "Event added successfully!"
+                alertMessage = "Event added successfully"
                 showAlert = true
                 addToEventBtnDisabled = true
             }) {
