@@ -94,27 +94,43 @@ struct EventDetailsScreen: View {
                 } // HStack
                 
 
-                // TODO: Purchase Ticket
-                Button(action: {
-                    if let purchaseURL = URL(string: selectedEvent.venue.externalPurchaseLink ?? "") {
-                        UIApplication.shared.open(purchaseURL)
-                    }
-                }) {
-                    Text("Purchase Ticket!")
-                        .foregroundColor(.white)
-                        .padding()
-                        .background(Color.blue)
-                        .cornerRadius(10)
-                }
+                
 
                 
-                Button(action: {
-                    // TODO: Add to My Events
-                    addNewEvent()
-                }) {
-                    Text("Add to My Events!")
-                }
-                .buttonStyle(.borderedProminent)
+                
+                
+                HStack {
+                    
+                    // TODO: Purchase Ticket
+                    Button(action: {
+                        if let purchaseURL = URL(string: selectedEvent.venue.externalPurchaseLink ?? "") {
+                            UIApplication.shared.open(purchaseURL)
+                        }
+                    }) {
+                        Text("Purchase Ticket!")
+                            .padding(.horizontal, 20.0)
+                            .padding(.vertical, 13.0)
+                            .background(Color.green)
+                            .foregroundColor(/*@START_MENU_TOKEN@*/.white/*@END_MENU_TOKEN@*/)
+                            .cornerRadius(/*@START_MENU_TOKEN@*/8.0/*@END_MENU_TOKEN@*/)
+                    }
+                    
+                    Spacer()
+                    
+                    Button(action: {
+                        // TODO: Add to My Events
+                        addNewEvent()
+                    }) {
+                        Text("Add to My Events!")
+                    }
+                    .padding(.horizontal, 20.0)
+                    .padding(.vertical, 13.0)
+                    .background(Color.green)
+                    .foregroundColor(/*@START_MENU_TOKEN@*/.white/*@END_MENU_TOKEN@*/)
+                    .cornerRadius(/*@START_MENU_TOKEN@*/8.0/*@END_MENU_TOKEN@*/)
+                    
+
+                } // HStack
                 .padding()
                 
                 

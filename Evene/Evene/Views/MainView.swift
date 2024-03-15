@@ -45,14 +45,6 @@ struct MainView: View {
                 }
                 
                 NavigationView {
-                    BookmarkedEventsScreen()
-                }
-                .tabItem {
-                    Image(systemName: "bookmark.circle")
-                    Text("Bookmarks")
-                }
-                
-                NavigationView {
                     UserProfileScreen(isLoggedIn: $isLoggedIn)
                 }
                 .tabItem {
