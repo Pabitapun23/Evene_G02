@@ -11,12 +11,17 @@ struct FriendProfileScreen: View {
     //    let selectedUserIndex : Int
     let selectedUser : User
     
+    @State private var eventsList : [Event] = []
+    @State private var upcomingEvent : Event?
+    @State private var totalEvent : Int = 0
+    
     @EnvironmentObject var fireDBHelper : FireDBHelper
     @State private var loggedInUserEmail: String? // Define state for loggedInUserEmail
     
     @State private var isUserFriend: Bool = false
     
     @State private var friendsList: [User] = []
+    @State private var friendsAttendingUpcomingEvent: [User] = []
     
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -51,7 +56,11 @@ struct FriendProfileScreen: View {
                         .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
                         .fontWeight(.bold)
                     
-                    Text("I am attending 10 events!")
+                    Text("I am attending \(totalEvent) events!")
+                    
+//                    self.fireDBHelper.fetchEvents(forUser: selectedUser) {
+//                        
+//                    }
                     
                     if isUserFriend {
                         Button {
@@ -86,7 +95,57 @@ struct FriendProfileScreen: View {
                 .font(.title2)
                 .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                 .padding(.top, 30)
-            Text("Edmonton Stingers vs Montreal Alliance \nJune 25, 4:00 PM, Olympic Stadium, Montreal")
+            Text(upcomingEvent?.eventName ?? "")
+            if let event = upcomingEvent {
+                            // Format the date
+                            let formattedDate = formatEventDate(event.date)
+                            
+                            // Use the formatted date in a Text view
+                            Text(formattedDate)
+                        } else {
+                            Text("No upcoming event")
+                        }
+            Text(upcomingEvent?.venue.address ?? "")
+            
+            Text("Friends who are also attending...")
+                .font(.title2)
+                .fontWeight(.bold)
+                .padding(.top, 20.0)
+                .foregroundColor(.green)
+            
+            List {
+                ForEach(friendsAttendingUpcomingEvent, id: \.email) { friend in
+                   VStack(alignment: .leading){
+                        if let imageURL = friend.profilePic {
+                            AsyncImage(url: imageURL){ phase in
+                                switch phase {
+                                case .success(let image):
+                                    image
+                                        .resizable()
+                                        .frame(width: 100, height: 100)
+                                        .clipShape(
+                                            RoundedRectangle(cornerRadius: 10)
+                                        )
+                                default:
+                                    Image(systemName: "photo")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 100, height: 100)
+                                } // switch
+                            } // AsyncImage
+                        } else {
+                            Image(systemName: "photo")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 100, height: 100)
+                        } // if-else
+                        
+                        Text(friend.fullName)
+                            .font(.headline)
+                            .fontWeight(.bold)
+                    }
+                } // ForEach
+            } // List
             
             Spacer()
             
@@ -97,8 +156,6 @@ struct FriendProfileScreen: View {
         .onAppear {
             // Fetch loggedInUserEmail on view appear
             loggedInUserEmail = UserDefaults.standard.string(forKey: "KEY_EMAIL")
-            print("-------")
-            print(selectedUser.email)
             if let loggedInUserEmail = loggedInUserEmail {
                 fireDBHelper.getUserFromDB(email: loggedInUserEmail) { user in
                     if var friendList = user?.friendList {
@@ -107,14 +164,45 @@ struct FriendProfileScreen: View {
                         }
                     }
                 }
+                
+                fireDBHelper.fetchUpcomingEvents(forUser: selectedUser.email) { (events, error) in
+                    if let error = error {
+                        // Handle error
+                        print("Error fetching events: \(error)")
+                    } else if let events = events {
+                        totalEvent = events.count
+                        upcomingEvent = events.first
+                        getFriendsAttendingEvent()
+                        
+                    } else {
+                        // This block shouldn't be executed, as either events or error should have a value
+                        print("Unexpected result: both events and error are nil")
+                    }
+                }
+                
             } else {
                 print("Logged-in user email is nil.")
             }
             print("Logged-in user email: \(loggedInUserEmail ?? "nil")")
             
         }
+//        .onChange(of: friendsAttendingUpcomingEvent) { _ in
+//                        // Refresh the view when friendsAttendingUpcomingEvent is updated
+//                    }
         
     } // body
+    
+    func formatEventDate(_ dateString: String) -> String {
+           let dateFormatter = DateFormatter()
+           dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+
+           if let date = dateFormatter.date(from: dateString) {
+               dateFormatter.dateFormat = "MMM dd, yyyy , hh:mm a"
+               return dateFormatter.string(from: date)
+           } else {
+               return "Invalid date"
+           }
+       }
     
     // add friend to my friendlist
     func addFriend() {
@@ -156,7 +244,7 @@ struct FriendProfileScreen: View {
         
     } // func
     
-    func removeFriend() {
+    private func removeFriend() {
         print("Removing friend...")
         print("================")
         print(isUserFriend)
@@ -228,8 +316,54 @@ struct FriendProfileScreen: View {
         }
     }
     
-}
+    private func getFriendsAttendingEvent()
+    {
+        let eventID = upcomingEvent?.id
+        guard let loggedInUserEmail = loggedInUserEmail else {
+            print("Logged-in user email is nil")
+            return
+        }
+        print(loggedInUserEmail)
+        self.fireDBHelper.getUserFromDB(email: loggedInUserEmail) { user in
+            guard var user = user else {
+                print("User not found")
+                return
+            }
 
-#Preview {
-    FriendProfileScreen(selectedUser: User( firstName: "NA", lastName: "NA", fullName: "NA", email: "", password: "", phoneNumber: "", address: "", profilePic: nil, friendList: nil, eventList: nil))
+            if let friendList = user.friendList {
+                        for friend in friendList {
+                            if (friend.email == selectedUser.email) {
+                                continue
+                            }
+                            
+                            fireDBHelper.fetchUpcomingEvents(forUser: friend.email) { (events, error) in
+                                if let error = error {
+                                    // Handle error
+                                    print("Error fetching events: \(error)")
+                                } else if let events = events {
+                                    // Events successfully fetched, handle events array
+                                    for event in events {// Do whatever you need with each event
+                                        if (event.id == eventID)  {
+                                            friendsAttendingUpcomingEvent.append(friend)
+                                        }
+                                    }
+                                } else {
+                                    // This block shouldn't be executed, as either events or error should have a value
+                                    print("Unexpected result: both events and error are nil")
+                                }
+                            }
+                        }
+                    } else {
+                        print("No friends found for the user")
+                    }
+        }
+        
+    }
+    
+    
+    
 }
+//
+//#Preview {
+//    FriendProfileScreen(selectedUser: User( firstName: "NA", lastName: "NA", fullName: "NA", email: "", password: "", phoneNumber: "", address: "", profilePic: nil, friendList: nil, eventList: nil))
+//}

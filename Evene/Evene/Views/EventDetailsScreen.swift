@@ -17,6 +17,11 @@ struct EventDetailsScreen: View {
     
     @State private var coordinates: CLLocationCoordinate2D?
     @EnvironmentObject var locationHelper: LocationHelper
+  
+  
+    @EnvironmentObject var fireDBHelper : FireDBHelper
+    @EnvironmentObject var fireAuthHelper : FireAuthHelper
+    @Environment(\.dismiss) private var dismiss
 
     var body: some View {
         ScrollView {
@@ -91,7 +96,7 @@ struct EventDetailsScreen: View {
 
                 // TODO: Purchase Ticket
                 Button(action: {
-                    if let purchaseURL = URL(string: selectedEvent.venue.externalPurchaseLink) {
+                    if let purchaseURL = URL(string: selectedEvent.venue.externalPurchaseLink ?? "") {
                         UIApplication.shared.open(purchaseURL)
                     }
                 }) {
@@ -102,6 +107,16 @@ struct EventDetailsScreen: View {
                         .cornerRadius(10)
                 }
 
+                
+                Button(action: {
+                    // TODO: Add to My Events
+                    addNewEvent()
+                }) {
+                    Text("Add to My Events!")
+                }
+                .buttonStyle(.borderedProminent)
+                .padding()
+                
                 
             }
             .padding(.horizontal, 30)
@@ -167,7 +182,14 @@ struct EventDetailsScreen: View {
             }
         }
         
+    }//body
+    
+    private func addNewEvent(){
+
+        self.fireDBHelper.insertEvent(newEvent: selectedEvent)
+            
     }
+    
 } // ActivityDetailsView
 
 
