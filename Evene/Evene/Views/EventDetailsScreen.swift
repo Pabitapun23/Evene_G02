@@ -11,6 +11,10 @@ import MapKit
 struct EventDetailsScreen: View {
     
     let selectedEvent : Event
+    @State private var showAlert = false
+    @State private var alertMessage = ""
+    @State private var addToEventBtnDisabled : Bool = false
+    @State private var userEvents: [Event] = []
     
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.openURL) private var openURL
@@ -37,7 +41,7 @@ struct EventDetailsScreen: View {
                 
                 Text("Name: \(selectedEvent.eventName)")
                 Text("Type: \(selectedEvent.type)")
-                    
+                
                 Divider()
                     .frame(height: 1)
                     .overlay(Color(hue: 1.0, saturation: 0.0, brightness: 0.781))
@@ -46,20 +50,10 @@ struct EventDetailsScreen: View {
                 Text("Description")
                     .font(.title2)
                     .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-
+                
                 Text("Host By: \(selectedEvent.venue.name)")
                 Text("Date: \(selectedEvent.date)")
                 Text("Location: \(selectedEvent.venue.address), \(selectedEvent.venue.city)")
-                        
-//                        // TODO: Call Telephone
-//                        Button {
-//                            if let url = URL(string: "tel://\(selectedEvent.tel)") {
-//                                openURL(url)
-//                            }
-//                        } label: {
-//                            Label("\(selectedEvent.tel)", systemImage: "phone.circle")
-//                        }
-
                 
                 // Done: MapView
                 if let coordinates = coordinates {
@@ -94,42 +88,38 @@ struct EventDetailsScreen: View {
                         Text("Lowest Price: $429")
                         Text("Highest Price: $1488")
                         Text("Ticket Count: 32")
-                        
-//                        Text("Average Price: $\(selectedEvent.stats.averagePrice)")
-//                        Text("Lowest Price: $\(selectedEvent.stats.lowestPrice)")
-//                        Text("Highest Price: $\(selectedEvent.stats.highestPrice)")
-//                        Text("Visible Listing Count: $\(selectedEvent.stats.visibleListingCount)")
-//                        Text("Ticket Count: $\(selectedEvent.stats.ticketCount)")
                     }
                 } // HStack
-                
-
-                // TODO: Purchase Ticket
-                Button(action: {
-                    if let purchaseURL = URL(string: selectedEvent.venue.externalPurchaseLink) {
-                        UIApplication.shared.open(purchaseURL)
-                    }
-                }) {
-                    Text("Purchase Ticket!")
-                        .foregroundColor(.white)
-                        .padding()
-                        .background(Color.blue)
-                        .cornerRadius(10)
-                }
-
-                
-                Button(action: {
-                    // TODO: Add to My Events
-                    addNewEvent()
-                }) {
-                    Text("Add to My Events!")
-                }
-                .buttonStyle(.borderedProminent)
-                .padding()
-                
-                
-            }
+            }//VStack
             .padding(.horizontal, 30)
+            
+            Button(action: {
+                if let purchaseURL = URL(string: selectedEvent.venue.externalPurchaseLink) {
+                    UIApplication.shared.open(purchaseURL)
+                }
+            }) {
+                Text("Purchase Ticket!")
+            }
+            .padding(.horizontal, 20.0)
+            .padding(.vertical, 13.0)
+            .background(Color.green)
+            .foregroundColor(/*@START_MENU_TOKEN@*/.white/*@END_MENU_TOKEN@*/)
+            .cornerRadius(/*@START_MENU_TOKEN@*/8.0/*@END_MENU_TOKEN@*/)
+            
+            Button(action: {
+                addNewEvent()
+                alertMessage = "Event added successfully!"
+                showAlert = true
+                addToEventBtnDisabled = true
+            }) {
+                Text("Add to My Events")
+            }
+            .padding(.horizontal, 20.0)
+            .padding(.vertical, 13.0)
+            .background(Color.green)
+            .foregroundColor(/*@START_MENU_TOKEN@*/.white/*@END_MENU_TOKEN@*/)
+            .cornerRadius(/*@START_MENU_TOKEN@*/8.0/*@END_MENU_TOKEN@*/)
+            .disabled(self.addToEventBtnDisabled)
         }
         
         .edgesIgnoringSafeArea(.top)
@@ -146,18 +136,16 @@ struct EventDetailsScreen: View {
                     Image(systemName: "chevron.backward")
                         .font(.system(size: 15, weight: .bold))
                         .padding(10)
-                        .background(Color.pink)
-                        .foregroundColor(.white)
+                        .background(Color.green)
+                        .foregroundColor(/*@START_MENU_TOKEN@*/.white/*@END_MENU_TOKEN@*/)
                         .clipShape(Circle())
                         .shadow(color: .gray, radius: 2, x: 0, y: 2)
                 })
             } // ToolbarItemGroup
             
             ToolbarItemGroup(placement: .topBarTrailing) {
-                
                 ShareLink(item: "\(selectedEvent.eventName)",
                           subject: Text("Check out this Activity!"),
-//                          message: Average Price: $\(selectedEvent.stats.average_price)")
                           preview: SharePreview(
                             "\(selectedEvent.eventName)",
                             image: Image("\(selectedEvent.performers[0].image)")
@@ -166,29 +154,16 @@ struct EventDetailsScreen: View {
                     Image(systemName: "square.and.arrow.up")
                         .font(.system(size: 13, weight: .heavy))
                         .padding(8)
-                        .background(Color.pink)
-                        .foregroundColor(.white)
+                        .background(Color.green)
+                        .foregroundColor(/*@START_MENU_TOKEN@*/.white/*@END_MENU_TOKEN@*/)
                         .clipShape(Circle())
                         .shadow(color: .gray, radius: 2, x: 0, y: 2)
                 }
-                
-                // TODO: Add to favority
-                Button(action: {
-                    // TODO: Add Event To User Favorite List
-                    
-                }, label: {
-                    // TODO: If it's added, use "heart.fill"
-                    Image("heart.filllet description: String?")
-                        .font(.system(size: 14, weight: .bold))
-                        .padding(8)
-                        .background(Color.pink)
-                        .foregroundColor(.white)
-                        .clipShape(Circle())
-                        .shadow(color: .gray, radius: 2, x: 0, y: 2)
-                }) // Button
-                
             } // ToolbarItemGroup
             
+        }
+        .alert(isPresented: $showAlert) {
+            Alert(title: Text("Update Status"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
         }
         .onAppear {
             locationHelper.convertAddressToCoordinates(address: selectedEvent.venue.address) { coordinates in
@@ -199,9 +174,7 @@ struct EventDetailsScreen: View {
     }//body
     
     private func addNewEvent(){
-
         self.fireDBHelper.insertEvent(newEvent: selectedEvent)
-            
     }
     
 } // ActivityDetailsView
