@@ -10,9 +10,8 @@ import SwiftUI
 struct EventListScreen: View {
 
     @ObservedObject var eventApiManager = EventAPIManager()
+    
     @State private var searchText: String = ""
-    @StateObject var locationManager = LocationManager()
-    @State private var showNearbyEvents = false
 
     private var filteredEvents: [Event] {
         if searchText.isEmpty {
@@ -26,6 +25,8 @@ struct EventListScreen: View {
 
         NavigationStack {
             VStack(spacing: 10) {
+
+                // Done: Search by city
                 HStack {
                     Image(systemName: "magnifyingglass")
                         .foregroundColor(.gray)
@@ -37,31 +38,20 @@ struct EventListScreen: View {
                 .background(Color(.systemGray6))
                 .cornerRadius(25)
 
-//                Button(action: {
-//                    showNearbyEvents.toggle()
-//                    if showNearbyEvents {
-//                        if let latitude = locationManager.latitude, let longitude = locationManager.longitude {
-//                            print("latitude: \(latitude), longitude: \(longitude)")
-//                            self.eventApiManager.loadDataFromAPI(lat: latitude, lon: longitude)
-//                        } else {
-//                            print("Unable to retrieve device location")
-//                        }
-//                    }
-//                }) {
-//                    Text("Show Nearby Events")
-//                }
-
                 List {
-                    ForEach(showNearbyEvents ? self.filteredEvents : eventApiManager.eventsList, id: \.id) { currentEvent in
+                    ForEach(self.filteredEvents, id: \.id) { currentEvent in
                         NavigationLink(destination: EventDetailsScreen(selectedEvent: currentEvent)) {
                             EventRowView(currentEvent: currentEvent)
                         }
                     }
                 }
+
+                
             } // VStack
 
             Spacer()
         }
+
         .listStyle(.inset)
         .navigationTitle("All Events")
         .padding()
@@ -69,7 +59,7 @@ struct EventListScreen: View {
             self.eventApiManager.loadDataFromAPI()
         }
     }   // end body
-}
+} // end ContentView struct
 
 
 struct EventRowView: View {
