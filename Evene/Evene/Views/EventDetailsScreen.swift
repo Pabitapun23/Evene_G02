@@ -28,7 +28,7 @@ struct EventDetailsScreen: View {
             
             HeaderPhotoView(photo: selectedEvent.performers[0].image)
             
-            VStack(alignment: .leading, spacing: 25) {
+            VStack(alignment: .leading, spacing: 15) {
                 
                 // DONE: Event Name
                 Text("Event")
@@ -94,19 +94,21 @@ struct EventDetailsScreen: View {
                 
                 HStack {
                     
+                    Spacer()
+                    
                     // DONE: Purchase Ticket
                     Button(action: {
                         if let purchaseURL = URL(string: selectedEvent.venue.externalPurchaseLink ) {
                             UIApplication.shared.open(purchaseURL)
                         }
                     }) {
-                        Text("Purchase Ticket!")
+                        Text("Purchase Ticket")
                             .padding(.horizontal, 20.0)
                             .padding(.vertical, 13.0)
                             .background(Color.green)
                             .foregroundColor(/*@START_MENU_TOKEN@*/.white/*@END_MENU_TOKEN@*/)
                             .cornerRadius(/*@START_MENU_TOKEN@*/8.0/*@END_MENU_TOKEN@*/)
-                    }
+                    } // Button
                     
                     Spacer()
                     
@@ -114,19 +116,22 @@ struct EventDetailsScreen: View {
                     Button(action: {
                         addNewEvent()
                     }) {
-                        Text("Add to My Events!")
-                    }
+                        Text("Attending")
+                    } // Button
                     .padding(.horizontal, 20.0)
                     .padding(.vertical, 13.0)
                     .background(Color.green)
                     .foregroundColor(/*@START_MENU_TOKEN@*/.white/*@END_MENU_TOKEN@*/)
                     .cornerRadius(/*@START_MENU_TOKEN@*/8.0/*@END_MENU_TOKEN@*/)
                     
+                    Spacer()
+                    
                 } // HStack
+                .padding(.vertical, 20.0)
                 
-            }
-            .padding(.horizontal, 30)
-        }
+            } // VStack
+            .padding(.horizontal, 10)
+        } // ScrollView
         
         .edgesIgnoringSafeArea(.top)
         .navigationBarBackButtonHidden(true)
@@ -178,7 +183,7 @@ struct EventDetailsScreen: View {
             locationHelper.convertAddressToCoordinates(address: selectedEvent.venue.address) { coordinates in
                 self.coordinates = coordinates
             }
-        }
+        } // .onAppear
         
     }//body
     
