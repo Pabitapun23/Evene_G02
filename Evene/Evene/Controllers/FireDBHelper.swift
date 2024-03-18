@@ -132,6 +132,7 @@ class FireDBHelper : ObservableObject {
                 }
             }
         } // func
+    
 
     func fetchUpcomingEvents(forUser userEmail: String, completion: @escaping ([Event]?, Error?) -> Void) {
         let db = Firestore.firestore()
