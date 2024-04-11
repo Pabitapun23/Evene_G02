@@ -2,7 +2,7 @@
 
 > Evene Mobile Application: iOS app that provides a comprehensive set of features to help users discover, plan, and engage with local activities and events.
 <hr>
-The Explore City iOS mobile application provides users with a list of activities they can search, filter, and view details about. Users can purchase tickets, share activities with friends, call the activity's contact number, and add or remove activities from their favorites list. The app also has a page to view the user's purchased ticket history and details. Additionally, the app includes a user profile screen where users can log out of their account.
+The Explore City iOS mobile application provides users with a list of event venues they can search and view details about, such as addresses on maps and descriptions. Users can book tickets by visiting a third-party website, share events with friends, and add or remove events from their event list. All data are stored in the Firestore database. The app also features a page to view the user's history of attended events and their details. Additionally, the app includes a user profile screen where users can upload their profile picture, update their profile, navigate to their friends list, and log out of their accounts. Moreover, users can search for, add, and remove friends from their friend list, and view the friend list and its details.
 
 
 ## Project Demo
@@ -26,13 +26,15 @@ I used the following technologies to build this Mobile App.
 
 ## Features
 This Mobile Application has the following features:
-* Searching System: Users can browse a list of activities and search them by name.
-* Favourite System: Users can add or remove activities from their favorites list.
-* Ticket Purchasing System: Users can purchase tickets for the activities.
-* Activity Sharing System: Users can share activity details with friends through other apps.
-* Contact sharing System: Users can call the activity's contact number directly from the app.
-* Authentication system (login/logout): Users can log in and log out of their account.
-* CRUD for ticket purchasing : Create, Read, Update and Delete datas for ticket purchasing.
-* Activity details: Users can view detailed information about each activity.
-* Purchased ticket history: Users can view a list of tickets they have purchased and their details.
+* Searching System: Users can browse a list of Events and search them by city name.
+* Ticket Booking System: Users can book tickets for the events by clicking the button on the event details screen that navigates them to the event's official page where they can buy tickets.
+* Events Sharing System: Users can share event details with friends through other apps.
+* Authentication system (login/signup/rememberMe/logout): Users can create a new account, log in, and log out of their account. And, do remember me for later logins.
+* CRUD for User Profile: Create, Read, Update, and Delete data for the user's profile info.
+* Event details: Users can view detailed information about each activity.
+* Map: Users can get the address of the event venue on the map.
+* RESTful API: The event venue data are retrieved from an API.
+* Events Attending history: Users can view a list of events they are attending and their details.
+* Friends system: Users can search for new friends, and add and remove them from their friends. Also, they can view their friend list and its details which they can delete.
+
 
