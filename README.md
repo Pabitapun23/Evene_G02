@@ -1,4 +1,4 @@
-# Evene_G02
+# Evene
 
 > Evene Mobile Application: iOS app that provides a comprehensive set of features to help users discover, plan, and engage with local activities and events.
 <hr>
@@ -18,6 +18,7 @@ The Explore City iOS mobile application provides users with a list of activities
 ## Technologies
 I used the following technologies to build this Mobile App.
 * Programming Language: Swift
+* Database: Firebase Firestore
 * Data Persistence: Environment Objects, Observed Objects, Observable object 
 * Architecture: MVC (Model-View-Controller)
 * IDE: Xcode
@@ -26,7 +27,6 @@ I used the following technologies to build this Mobile App.
 ## Features
 This Mobile Application has the following features:
 * Searching System: Users can browse a list of activities and search them by name.
-* Filtering System: Users can browse a list of activities filter them by city name.
 * Favourite System: Users can add or remove activities from their favorites list.
 * Ticket Purchasing System: Users can purchase tickets for the activities.
 * Activity Sharing System: Users can share activity details with friends through other apps.
