@@ -6,7 +6,7 @@ The Explore City iOS mobile application provides users with a list of activities
 
 
 ## Project Demo
-<img src="https://github.com/Pabitapun23/Evene_G02/blob/main/Evene/Evene/ezgif.com-animated-gif-maker.gif" alt="GIF of Evene Mobile App" height="700" width="650">
+<img src="https://github.com/Pabitapun23/Evene_G02/blob/main/Evene/Evene/ezgif.com-animated-gif-maker.gif" alt="GIF of Evene Mobile App" height="700" width="680">
 
 
 ## Team Members
