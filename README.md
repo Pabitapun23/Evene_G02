@@ -1,6 +1,6 @@
 # Evene
 
-> Evene Mobile Application: iOS app that provides a comprehensive set of features to help users discover, plan, and engage with local activities and events.
+>Explore City iOS App: A feature-rich mobile platform offering users a seamless experience to explore, engage into local events. Integrated with Firestore database for efficient data management, while event details are dynamically retrieved from APIs. Also, users can find, add and remove friends.
 <hr>
 The Explore City iOS mobile application provides users with a list of event venues they can search and view details about, such as addresses on maps and descriptions. Users can book tickets by visiting a third-party website, share events with friends, and add or remove events from their event list. All data are stored in the Firestore database. The app also features a page to view the user's history of attended events and their details. Additionally, the app includes a user profile screen where users can upload their profile picture, update their profile, navigate to their friends list, and log out of their accounts. Moreover, users can search for, add, and remove friends from their friend list, and view the friend list and its details.
 
